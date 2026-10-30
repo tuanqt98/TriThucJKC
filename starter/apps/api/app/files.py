@@ -19,7 +19,7 @@ from PIL import Image
 from pypdf import PdfReader, PdfWriter
 from app.config import settings
 from app.db import database
-from app.permissions import current_user, fail, READ_ACL, acl_params, approval_scopes
+from app.permissions import current_user, fail, READ_ACL, acl_params
 
 router = APIRouter(prefix="/api/v1", tags=["Files"])
 Image.MAX_IMAGE_PIXELS = 20_000_000
@@ -143,7 +143,7 @@ def normalize(data, name, mime):
 
 def version_access(conn, user, id):
     row = conn.execute(
-        """SELECT v.id,v.status,c.creator_id,c.owner_department_id,c.kind,
+        """SELECT v.id,v.content_id,v.status,c.creator_id,c.owner_department_id,c.kind,
         c.current_published_version_id,"""
         + READ_ACL
         + """ AS acl
@@ -158,9 +158,8 @@ def version_access(conn, user, id):
     assigned = conn.execute("SELECT assigned_user_id FROM approvals WHERE version_id=%s", (id,)).fetchone()
     reviewer = (
         row["status"] == "PENDING"
-        and row["kind"] == "ARTICLE"
         and row["acl"]
-        and row["owner_department_id"] in approval_scopes(user)
+        and conn.execute("SELECT jkc_review(%s) AS allowed", (row["content_id"],)).fetchone()["allowed"]
         and assigned
         and (assigned["assigned_user_id"] is None or assigned["assigned_user_id"] == user["id"])
     )

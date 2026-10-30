@@ -35,7 +35,7 @@ class AssignInput(AcknowledgeInput):
 @router.get("/my/reading", response_model=list[ReadingTask])
 def my_reading(user=Depends(current_user), conn=Depends(database)):
     return conn.execute(
-        """SELECT a.id,c.id AS content_id,c.title,v.id AS version_id,v.version_number,a.due_at,k.acknowledged_at,
+        """SELECT a.id,c.id AS content_id,coalesce(v.title,c.title) AS title,v.id AS version_id,v.version_number,a.due_at,k.acknowledged_at,
         (c.current_published_version_id=v.id) AS is_current
         FROM reading_assignments a JOIN content_versions v ON v.id=a.version_id JOIN contents c ON c.id=v.content_id
         LEFT JOIN reading_acks k ON k.assignment_id=a.id WHERE a.user_id=%(user)s AND c.kind='DOCUMENT'

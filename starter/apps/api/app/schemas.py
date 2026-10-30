@@ -98,6 +98,7 @@ class DashboardView(BaseModel):
 
 
 class LearningView(BaseModel):
+    status: str
     id: UUID
     title: str
     version_number: int

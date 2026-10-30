@@ -19,7 +19,7 @@ from app.schemas import (
 from app.integrations.odoo import NoOpOdooAdapter
 
 router = APIRouter(prefix="/api/v1", tags=["Knowledge"])
-SELECT = """SELECT c.id,c.code,c.kind,c.title,c.owner_department_id,d.name AS department_name,
+SELECT = """SELECT c.id,c.code,c.kind,coalesce(v.title,c.title) AS title,c.owner_department_id,d.name AS department_name,
     v.id AS version_id,v.version_number,v.body,v.status,v.created_at
     FROM contents c JOIN content_versions v ON v.id=c.current_published_version_id
     LEFT JOIN departments d ON d.id=c.owner_department_id"""
@@ -35,8 +35,8 @@ def listing(conn, user, kind=None, q="", page=1, size=12, process_id=None):
         "limit": size,
         "offset": (page - 1) * size,
     }
-    where = BASE + " AND (%(kind)s::text IS NULL OR c.kind=%(kind)s) AND c.title ILIKE %(query)s"
-    where += " AND (%(process)s::uuid IS NULL OR EXISTS (SELECT 1 FROM content_processes cp WHERE cp.content_id=c.id AND cp.process_id=%(process)s))"
+    where = BASE + " AND (%(kind)s::text IS NULL OR c.kind=%(kind)s) AND coalesce(v.title,c.title) ILIKE %(query)s"
+    where += " AND (%(process)s::uuid IS NULL OR v.process_id=%(process)s OR (v.process_id IS NULL AND EXISTS (SELECT 1 FROM content_processes cp WHERE cp.content_id=c.id AND cp.process_id=%(process)s)))"
     items = conn.execute(
         SELECT + " WHERE " + where + " ORDER BY v.created_at DESC,c.id LIMIT %(limit)s OFFSET %(offset)s", params
     ).fetchall()
@@ -122,7 +122,7 @@ def incident(id: uuid.UUID, user=Depends(current_user), conn=Depends(database)):
 @router.get("/my/learning", response_model=list[LearningView], tags=["Learning"])
 def learning(user=Depends(current_user), conn=Depends(database)):
     return conn.execute(
-        """SELECT a.id,c.title,v.version_number,a.due_at,a.completed_at,
+        """SELECT a.id,c.title,v.version_number,a.due_at,a.completed_at,jkc_training_status(a.id) AS status,
         (SELECT count(*) FROM lesson_progress p WHERE p.assignment_id=a.id) AS completed_lessons,
         (SELECT count(*) FROM lessons l WHERE l.course_version_id=v.id) AS total_lessons
         FROM course_assignments a JOIN course_versions v ON v.id=a.course_version_id
@@ -137,7 +137,7 @@ def approvals(user=Depends(current_user), conn=Depends(database)):
     if not scopes:
         fail(403, "FORBIDDEN", "Chỉ trưởng bộ phận được phân công có quyền duyệt.")
     return conn.execute(
-        """SELECT a.id,c.title,u.full_name AS author,v.version_number,a.status,a.requested_at,v.body
+        """SELECT a.id,coalesce(v.title,c.title) AS title,u.full_name AS author,v.version_number,a.status,a.requested_at,v.body
         FROM approvals a JOIN content_versions v ON v.id=a.version_id JOIN contents c ON c.id=v.content_id
         JOIN users u ON u.id=c.creator_id WHERE a.assigned_department_id=ANY(%(scopes)s::uuid[])
         AND (a.assigned_user_id IS NULL OR a.assigned_user_id=%(user)s)

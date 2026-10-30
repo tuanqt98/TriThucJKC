@@ -55,6 +55,17 @@ def provision(conn, username, password):
         "jkc_submit_quiz(uuid,jsonb,text)",
         "jkc_ack_reading(uuid,uuid,text)",
         "jkc_lock_assignment(uuid)",
+        "jkc_hr(uuid,boolean)",
+        "jkc_content_workflow(text,jsonb,text)",
+        "jkc_content_workspace()",
+        "jkc_workspace_people()",
+        "jkc_reading_manage(text,jsonb,text)",
+        "jkc_incident_read(uuid)",
+        "jkc_incident_workflow(text,jsonb,text)",
+        "jkc_course_workspace()",
+        "jkc_course_workflow(text,jsonb,text)",
+        "jkc_training_status(uuid)",
+        "jkc_training_progress()",
     ]:
         conn.execute(sql.SQL("REVOKE ALL ON FUNCTION {} FROM PUBLIC").format(sql.SQL(signature)))
         conn.execute(sql.SQL("GRANT EXECUTE ON FUNCTION {} TO {}").format(sql.SQL(signature), sql.Identifier(username)))
