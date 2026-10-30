@@ -1,5 +1,7 @@
 import { test, expect } from "@playwright/test";
 const password = process.env.UI_DEMO_PASSWORD;
+const evidenceRoot =
+  process.env.UI_EVIDENCE_DIR || "../../../docs/reports/sprint01/regression";
 test.beforeEach(async ({ page }) => {
   if (!password) throw new Error("Đặt UI_DEMO_PASSWORD khớp demo seed.");
   await page.goto("/login");
@@ -26,7 +28,7 @@ test("8 màn hình, dữ liệu thật và responsive", async ({ page }, testInf
     await expect(page.locator("h1")).toBeVisible();
     await expect(page.locator('.error[role="alert"]')).toHaveCount(0);
     await page.screenshot({
-      path: `../../../docs/reports/ui-${route === "/" ? "dashboard" : route.slice(1).replaceAll("/", "-")}-${testInfo.project.name}.png`,
+      path: `${evidenceRoot}/ui-${route === "/" ? "dashboard" : route.slice(1).replaceAll("/", "-")}-${testInfo.project.name}.png`,
       fullPage: true,
     });
     expect(
@@ -64,7 +66,7 @@ test("8 màn hình, dữ liệu thật và responsive", async ({ page }, testInf
   await page.goto("/");
   await expect(page.locator(".stat").first()).toContainText("1");
   await page.screenshot({
-    path: `../../../docs/reports/dashboard-${testInfo.project.name}.png`,
+    path: `${evidenceRoot}/dashboard-${testInfo.project.name}.png`,
     fullPage: true,
   });
   expect(errors).toEqual([]);
@@ -116,7 +118,7 @@ test("trưởng bộ phận xem trước và duyệt", async ({ page }, testInfo
     "Dữ liệu minh họa",
   );
   await page.screenshot({
-    path: `../../../docs/reports/ui-approvals-${testInfo.project.name}.png`,
+    path: `${evidenceRoot}/ui-approvals-${testInfo.project.name}.png`,
     fullPage: true,
   });
   await page.getByRole("button", { name: "Phê duyệt phiên bản này" }).click();

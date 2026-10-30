@@ -1,0 +1,9 @@
+ARG API_IMAGE=jkc-s01-api:staging
+FROM ${API_IMAGE}
+USER root
+COPY requirements-dev.lock.txt ./
+RUN pip install --no-cache-dir -r requirements-dev.lock.txt
+COPY tests ./tests
+COPY pyproject.toml ./
+USER jkc
+CMD ["pytest", "-q", "-o", "cache_dir=/tmp/pytest-cache"]

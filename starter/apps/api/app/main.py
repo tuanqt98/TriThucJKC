@@ -7,6 +7,9 @@ from psycopg import OperationalError
 from psycopg.errors import UndefinedTable
 from app.auth import router as auth_router
 from app.content import router as content_router
+from app.files import router as file_router, ClamAVScanner
+from app.reading import router as reading_router
+from app.learning import router as learning_router
 from app.config import settings
 from app.db import database
 from app.schemas import ErrorResponse, Health
@@ -15,18 +18,30 @@ from app.schemas import ErrorResponse, Health
 def create_app():
     app = FastAPI(
         title="Tri Thức JKC API",
-        version="0.2.0",
-        description="Sprint 0: chỉ các endpoint đã triển khai. Nội dung seed là DEMO.",
+        version="0.3.0",
+        description="Sprint 0.1: chỉ các endpoint đã triển khai. Nội dung seed là DEMO.",
         openapi_url="/api/v1/openapi.json",
         docs_url="/api/v1/docs",
         redoc_url=None,
-        responses={s: {"model": ErrorResponse} for s in [400, 401, 403, 404, 409, 422, 429, 503]},
+        responses={s: {"model": ErrorResponse} for s in [400, 401, 403, 404, 409, 413, 422, 429, 503]},
     )
 
     @app.middleware("http")
     async def boundary(request: Request, call_next):
         request.state.request_id = str(uuid.uuid4())
-        if request.method not in ("GET", "HEAD", "OPTIONS") and request.headers.get("origin") != settings().app_origin:
+        length = request.headers.get("content-length", "0")
+        if not length.isdigit() or int(length) > settings().max_upload_bytes + 65536:
+            response = JSONResponse(
+                status_code=413,
+                content={
+                    "error": {
+                        "code": "FILE_TOO_LARGE",
+                        "message": "Yêu cầu vượt giới hạn dung lượng.",
+                        "requestId": request.state.request_id,
+                    }
+                },
+            )
+        elif request.method not in ("GET", "HEAD", "OPTIONS") and request.headers.get("origin") != settings().app_origin:
             response = JSONResponse(
                 status_code=403,
                 content={"error": {"code": "FORBIDDEN", "message": "Origin không hợp lệ.", "requestId": request.state.request_id}},
@@ -71,12 +86,30 @@ def create_app():
     @app.get("/api/v1/health/ready", response_model=Health, tags=["System"])
     def ready(conn=Depends(database)):
         row = conn.execute("SELECT version_num FROM alembic_version").fetchone()
-        if not row or row["version_num"] != "002":
+        if not row or row["version_num"] != "003":
             raise HTTPException(503, {"code": "NOT_READY", "message": "Database chưa được migration."})
+        if settings().require_runtime_role:
+            role = conn.execute(
+                "SELECT r.rolsuper,r.rolbypassrls,EXISTS(SELECT 1 FROM pg_class c WHERE c.relnamespace='public'::regnamespace AND c.relowner=r.oid) AS owns FROM pg_roles r WHERE r.rolname=current_user"
+            ).fetchone()
+            if role["rolsuper"] or role["rolbypassrls"] or role["owns"]:
+                raise HTTPException(503, {"code": "UNSAFE_DB_ROLE", "message": "API không được chạy bằng DB owner/superuser."})
+        if settings().require_file_storage:
+            import tempfile
+
+            try:
+                with tempfile.TemporaryFile(dir=settings().file_storage_path) as stream:
+                    stream.write(b"health")
+            except OSError:
+                raise HTTPException(503, {"code": "STORAGE_NOT_READY", "message": "Kho tệp riêng tư chưa sẵn sàng."})
+            ClamAVScanner().status()
         return {"status": "ready"}
 
     app.include_router(auth_router)
     app.include_router(content_router)
+    app.include_router(file_router)
+    app.include_router(reading_router)
+    app.include_router(learning_router)
     # Explicit cookie security in generated contract (dependencies perform actual checks).
     original = app.openapi
 

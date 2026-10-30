@@ -41,6 +41,7 @@ def login(data: LoginInput, request: Request, response: Response, conn=Depends(d
             conn.execute("UPDATE login_limits SET failures=failures+1 WHERE key=%s", (key,))
         conn.commit()
         fail(401, "UNAUTHENTICATED", "Tài khoản hoặc mật khẩu không đúng.")
+    conn.execute("SELECT set_config('jkc.user_id',%s,true)", (str(user["id"]),))
     conn.execute("UPDATE login_limits SET failures=0 WHERE key=%s", (digest("user:" + username),))
     token = secrets.token_urlsafe(48)
     conn.execute(
@@ -105,6 +106,7 @@ def reset(data: ResetInput, request: Request, conn=Depends(database)):
     )
     conn.execute("UPDATE password_resets SET used_at=now() WHERE user_id=%s AND used_at IS NULL", (row["user_id"],))
     conn.execute("UPDATE sessions SET revoked_at=now() WHERE user_id=%s", (row["user_id"],))
+    conn.execute("SELECT set_config('jkc.user_id',%s,true)", (str(row["user_id"]),))
     audit(conn, request, row["user_id"], "PASSWORD_RESET")
     return {"message": "Đã đặt lại mật khẩu. Vui lòng đăng nhập."}
 

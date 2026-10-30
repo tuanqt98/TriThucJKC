@@ -1,0 +1,15 @@
+{
+  "migration": "upgrade → downgrade base → upgrade OK",
+  "restore": "isolated pg_dump/pg_restore OK",
+  "counts": {
+    "users": 15,
+    "contents": 12,
+    "content_versions": 13,
+    "audit_logs": 75,
+    "production_processes": 5,
+    "approvals": 3,
+    "sessions": 43
+  },
+  "source": "test database only",
+  "postgres": "pg_dump (PostgreSQL) 16.13 (Homebrew)"
+}

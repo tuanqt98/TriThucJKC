@@ -27,6 +27,7 @@ openapi-schema-validator==0.6.3
 openapi-spec-validator==0.7.2
 packaging==26.3
 pathable==0.4.4
+pillow==11.3.0
 pluggy==1.6.0
 psycopg==3.2.13
 psycopg-binary==3.2.13
@@ -35,8 +36,10 @@ pydantic==2.13.5
 pydantic-settings==2.11.0
 pydantic_core==2.46.5
 Pygments==2.21.0
+pypdf==6.21.4
 pytest==8.4.2
 python-dotenv==1.2.1
+python-multipart==0.0.20
 PyYAML==6.0.3
 referencing==0.36.2
 requests==2.32.5

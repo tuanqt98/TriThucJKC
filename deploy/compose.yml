@@ -1,30 +1,42 @@
 name: jkc-knowledge
 x-api: &api
-  image: jkc-api:sprint0
+  image: ${API_IMAGE:-jkc-s01-api:staging}
   build: ../starter/apps/api
-  environment: &api-env
-    DATABASE_URL: postgresql://jkc:${DB_PASSWORD:?Set URL-safe DB_PASSWORD}@db:5432/jkc
-    APP_ORIGIN: https://${APP_HOST:-trithuc.jkc.internal}
+  environment: &owner-env
+    DATABASE_URL: postgresql://jkc_owner:${DB_PASSWORD:?Set URL-safe DB_PASSWORD}@db:5432/jkc
+    DB_RUNTIME_USER: jkc_runtime
+    DB_RUNTIME_PASSWORD: ${DB_RUNTIME_PASSWORD:?Set a different URL-safe runtime password}
+    APP_ORIGIN: ${APP_ORIGIN:-https://trithuc.jkc.internal}
     APP_ENV: staging
     COOKIE_SECURE: "true"
+    FILE_STORAGE_PATH: /data/uploads
+    CLAMAV_HOST: clamav
   networks: [backend]
 services:
   proxy:
     image: caddy:2.10.2
     restart: unless-stopped
     ports:
-      - "${BIND_ADDRESS:-127.0.0.1}:80:80"
-      - "${BIND_ADDRESS:-127.0.0.1}:443:443"
+      - "${BIND_ADDRESS:-127.0.0.1}:${HTTP_PORT:-80}:80"
+      - "${BIND_ADDRESS:-127.0.0.1}:${HTTPS_PORT:-443}:443"
     environment:
       APP_HOST: ${APP_HOST:-trithuc.jkc.internal}
+      HTTPS_PORT: ${HTTPS_PORT:-443}
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
       - caddy_data:/data
+      - caddy_config:/config
     depends_on:
       web: {condition: service_healthy}
       api: {condition: service_healthy}
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O /dev/null http://127.0.0.1:8081/healthz"]
+      interval: 10s
+      timeout: 3s
+      retries: 10
     networks: [edge, backend]
   web:
+    image: ${WEB_IMAGE:-jkc-s01-web:staging}
     build:
       context: ../starter/apps/web
       args:
@@ -34,66 +46,152 @@ services:
       HOSTNAME: 0.0.0.0
       INTERNAL_API_URL: http://api:8000
     expose: ["3000"]
+    read_only: true
+    tmpfs: [/tmp]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
     healthcheck:
       test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/login').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
       interval: 10s
       timeout: 5s
-      retries: 10
+      retries: 15
     networks: [backend]
   migrate:
     <<: *api
-    command: ["alembic", "upgrade", "head"]
+    command: ["sh", "-ec", "alembic upgrade head && python -m app.provision_runtime"]
     depends_on:
       db: {condition: service_healthy}
+  storage-init:
+    image: ${API_IMAGE:-jkc-s01-api:staging}
+    build: ../starter/apps/api
+    user: root
+    environment: {}
+    command: ["sh", "-ec", "mkdir -p /data/uploads && chown 10001:10001 /data/uploads && chmod 700 /data/uploads"]
+    volumes: ["uploads:/data/uploads"]
+    network_mode: none
   api:
     <<: *api
     restart: unless-stopped
+    environment:
+      DATABASE_URL: postgresql://jkc_runtime:${DB_RUNTIME_PASSWORD:?Set DB_RUNTIME_PASSWORD}@db:5432/jkc
+      APP_ORIGIN: ${APP_ORIGIN:-https://trithuc.jkc.internal}
+      APP_ENV: staging
+      COOKIE_SECURE: "true"
+      REQUIRE_RUNTIME_ROLE: "true"
+      REQUIRE_FILE_STORAGE: "true"
+      FILE_STORAGE_PATH: /data/uploads
+      CLAMAV_HOST: clamav
     expose: ["8000"]
+    volumes: ["uploads:/data/uploads"]
+    read_only: true
+    tmpfs: [/tmp]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
     depends_on:
       migrate: {condition: service_completed_successfully}
+      storage-init: {condition: service_completed_successfully}
+      clamav: {condition: service_healthy}
     healthcheck:
-      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/v1/health/ready')"]
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/v1/health/ready',timeout=5)"]
       interval: 10s
-      timeout: 5s
-      retries: 10
+      timeout: 8s
+      retries: 15
   db:
-    image: postgres:17.6
+    image: postgres:17.11-alpine3.23
     restart: unless-stopped
     environment:
       POSTGRES_DB: jkc
-      POSTGRES_USER: jkc
-      POSTGRES_PASSWORD: ${DB_PASSWORD:?Set URL-safe DB_PASSWORD}
-    volumes:
-      - pg_data:/var/lib/postgresql/data
+      POSTGRES_USER: jkc_owner
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD}
+    volumes: ["pg_data:/var/lib/postgresql/data"]
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U jkc -d jkc"]
+      test: ["CMD-SHELL", "pg_isready -U jkc_owner -d jkc"]
       interval: 5s
       timeout: 3s
       retries: 15
+    networks: [backend]
+  clamav:
+    image: ${CLAMAV_IMAGE:-clamav/clamav:stable}
+    platform: linux/amd64
+    restart: unless-stopped
+    environment:
+      CLAMAV_NO_FRESHCLAMD: "true"
+    volumes: ["clamav_data:/var/lib/clamav"]
+    healthcheck:
+      test: ["CMD", "clamdcheck.sh"]
+      interval: 10s
+      start_period: 180s
+      timeout: 5s
+      retries: 30
     networks: [backend]
   seed:
     <<: *api
     profiles: [demo]
     environment:
-      <<: *api-env
+      <<: *owner-env
       APP_ENV: development
       DEMO_PASSWORD: ${DEMO_PASSWORD:-}
     command: ["python", "-m", "app.seed"]
     depends_on:
       migrate: {condition: service_completed_successfully}
   backup:
-    image: postgres:17.6
+    image: postgres:17.11-alpine3.23
     profiles: [ops]
     environment:
-      PGPASSWORD: ${DB_PASSWORD:?Set URL-safe DB_PASSWORD}
-    volumes: ["./backups:/backups"]
-    command: ["sh", "-ec", "umask 077; pg_dump -h db -U jkc -Fc jkc > /backups/jkc.manual.dump"]
+      PGHOST: db
+      PGDATABASE: jkc
+      PGUSER: jkc_owner
+      PGPASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD}
+      BACKUP_SET: ${BACKUP_SET:-manual}
+    volumes:
+      - ${BACKUP_ROOT:-./backups}:/backups
+      - uploads:/uploads:ro
+      - ./backup.sh:/ops/backup.sh:ro
+    command: ["sh", "/ops/backup.sh"]
+    depends_on:
+      db: {condition: service_healthy}
+    networks: [backend]
+  test:
+    image: jkc-s01-api-tests:staging
+    profiles: [test]
+    build:
+      context: ../starter/apps/api
+      dockerfile: Dockerfile.test
+      args:
+        API_IMAGE: ${API_IMAGE:-jkc-s01-api:staging}
+    environment:
+      TEST_DATABASE_URL: postgresql://jkc_owner:${DB_PASSWORD:?Set DB_PASSWORD}@db:5432/${TEST_DATABASE_NAME:-jkc_test_s01}
+      DATABASE_URL: postgresql://jkc_owner:${DB_PASSWORD:?Set DB_PASSWORD}@db:5432/${TEST_DATABASE_NAME:-jkc_test_s01}
+      APP_ENV: test
+      APP_ORIGIN: http://localhost:3000
+      COOKIE_SECURE: "false"
+    depends_on:
+      db: {condition: service_healthy}
+    networks: [backend]
+  restore:
+    image: postgres:17.11-alpine3.23
+    profiles: [ops]
+    environment:
+      PGHOST: db
+      PGDATABASE: jkc
+      PGUSER: jkc_owner
+      PGPASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD}
+      DB_RUNTIME_PASSWORD: ${DB_RUNTIME_PASSWORD:?Set DB_RUNTIME_PASSWORD}
+      BACKUP_SET: ${BACKUP_SET:-manual}
+    volumes:
+      - ${BACKUP_ROOT:-./backups}:/backups:ro
+      - uploads:/uploads
+      - ./restore.sh:/ops/restore.sh:ro
+    command: ["sh", "/ops/restore.sh"]
     depends_on:
       db: {condition: service_healthy}
     networks: [backend]
 volumes:
   pg_data:
   caddy_data:
+  caddy_config:
+  uploads:
+  clamav_data:
 networks:
   edge: {}
   backend:

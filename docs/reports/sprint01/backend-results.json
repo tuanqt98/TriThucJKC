@@ -1,0 +1,8 @@
+{
+  "result": "PASS",
+  "tests": 34,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "runtime": "Python 3.12 / PostgreSQL 17.11 Docker; owner fixtures + restricted runtime connections"
+}

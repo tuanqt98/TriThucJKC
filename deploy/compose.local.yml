@@ -1,13 +1,15 @@
-# docker compose -f compose.yml -f compose.local.yml up -d --build
+# HTTP local only. For HTTPS use compose.yml and dedicated ports, never disable TLS in staging.
 services:
   proxy:
     ports: !override
-      - "127.0.0.1:8080:80"
+      - "127.0.0.1:${LOCAL_HTTP_PORT:-8080}:80"
     volumes:
       - ./Caddyfile.local:/etc/caddy/Caddyfile:ro
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O /dev/null http://127.0.0.1/healthz"]
   api:
     environment:
-      APP_ORIGIN: http://localhost:8080
+      APP_ORIGIN: http://localhost:${LOCAL_HTTP_PORT:-8080}
       COOKIE_SECURE: "false"
       APP_ENV: development
   migrate:

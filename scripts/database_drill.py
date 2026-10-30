@@ -1,5 +1,6 @@
 """Isolated test-only migration rollback + backup/restore drill. Requires PostgreSQL CLI."""
 
+import argparse
 import json
 import os
 import subprocess
@@ -11,6 +12,9 @@ from urllib.parse import urlsplit, urlunsplit
 import psycopg
 from psycopg import sql
 
+parser = argparse.ArgumentParser()
+parser.add_argument("--output", default="docs/reports/database-drill.json")
+args = parser.parse_args()
 source = os.environ["TEST_DATABASE_URL"]
 url = urlsplit(source)
 assert url.path.startswith("/jkc_test"), "Refuse: source database must start jkc_test"
@@ -40,7 +44,7 @@ try:
     with psycopg.connect(target) as conn:
         assert (
             conn.execute("SELECT version_num FROM alembic_version").fetchone()[0]
-            == "002"
+            == "003"
         )
     # Fresh target for restore; no shared application database is dropped.
     with psycopg.connect(admin, autocommit=True) as conn:
@@ -80,7 +84,7 @@ try:
             ["pg_dump", "--version"], text=True
         ).strip(),
     }
-    (root / "docs/reports/database-drill.json").write_text(
+    (root / args.output).write_text(
         json.dumps(output, ensure_ascii=False, indent=2) + "\n"
     )
     print(json.dumps(output, ensure_ascii=False))

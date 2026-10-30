@@ -18,6 +18,7 @@ def current_user(request: Request, conn=Depends(database)):
     ).fetchone()
     if not row:
         fail(401, "UNAUTHENTICATED", "Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.")
+    conn.execute("SELECT set_config('jkc.user_id',%s,true)", (str(row["id"]),))
     if request.method not in ("GET", "HEAD", "OPTIONS"):
         if not hmac.compare_digest(request.headers.get("x-csrf-token", ""), csrf_for(token)):
             fail(403, "FORBIDDEN", "Mã CSRF không hợp lệ.")

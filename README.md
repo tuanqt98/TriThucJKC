@@ -1,38 +1,67 @@
-# TriThucJKC — Tri Thức JKC, nền tảng Sprint 0
+# TriThucJKC — Tri Thức JKC
 
-Ứng dụng kiểm thử nội bộ, chưa nghiệm thu production. Đã có Next.js responsive, FastAPI kết nối PostgreSQL, session/RBAC cơ bản, migration, seed DEMO và tests. Ba module Nội quy, Sự cố/Tri thức, Đào tạo được giữ nguyên. Chi tiết nghiệm thu và P0 còn thiếu: [báo cáo Sprint 0](docs/reports/SPRINT0_IMPLEMENTATION.md).
+Cổng tri thức nội bộ JKC, đang ở Sprint 0.1 với dữ liệu DEMO. Giữ ba module Nội quy, Sự cố/Tri thức và Đào tạo. **Chưa nghiệm thu để dùng nhân viên thật hoặc production.** [Kết quả Sprint 0.1 và Go/No-Go](docs/reports/sprint01/REPORT.md), [checklist UAT](docs/UAT_SPRINT01.md), [báo cáo Sprint 0](docs/reports/SPRINT0_IMPLEMENTATION.md).
 
-## Chạy bằng Compose local
+Đã có auth/session/CSRF/RBAC, layout desktop/mobile, Dashboard và thư viện theo ACL; lưu nháp/gửi/duyệt ARTICLE; PostgreSQL migration + runtime role/RLS; file private được ClamAV quét; xác nhận đọc theo phiên bản; bài học, quiz chấm server và lịch sử. Odoo chỉ là no-op adapter, chưa giả định version/gói quyền.
 
-Cần Docker Compose v2.24.4+ (override ports). Chỉ bind loopback; không expose API, database hay cổng quản trị.
+## Chạy staging HTTPS cô lập
+
+Cần Docker Compose 2.24.4+, RAM đủ cho ClamAV và Node build. Trên máy đang có ứng dụng khác, chọn project/port riêng, ví dụ 18080/18443; không dùng volume/database cũ mà chưa có backup và đối chiếu schema.
 
 ```sh
 cp deploy/.env.example deploy/.env
-# Điền DB_PASSWORD và DEMO_PASSWORD riêng, URL-safe, tối thiểu 12 ký tự.
-# Gợi ý sinh: python3 -c 'import secrets; print(secrets.token_urlsafe(36))'
-docker compose --env-file deploy/.env -f deploy/compose.yml -f deploy/compose.local.yml up -d --build
-docker compose --env-file deploy/.env -f deploy/compose.yml -f deploy/compose.local.yml --profile demo run --rm seed
-./scripts/healthcheck.sh http://localhost:8080
+# Điền DB_PASSWORD và DB_RUNTIME_PASSWORD KHÁC NHAU (URL-safe, >=20 ký tự).
+# Điền DEMO_PASSWORD >=12 ký tự. Gợi ý sinh: python3 -c 'import secrets; print(secrets.token_urlsafe(36))'
+# Với demo trên máy cá nhân: APP_HOST=localhost, APP_ORIGIN=https://localhost:18443,
+# HTTP_PORT=18080, HTTPS_PORT=18443; giữ BIND_ADDRESS=127.0.0.1.
+docker compose --project-name jkc-staging --env-file deploy/.env -f deploy/compose.yml up -d --build
+docker compose --project-name jkc-staging --env-file deploy/.env -f deploy/compose.yml --profile demo run --rm seed
 ```
 
-Mở http://localhost:8080/login. Seed tạo `employee`, `head`, `other`, `admin` với mật khẩu do bạn đặt qua `DEMO_PASSWORD`. Seed chỉ chạy development/test, idempotent và không thay mật khẩu đã tồn tại. Không sử dụng những tài khoản này cho môi trường thật.
+Seed tạo `employee`, `head`, `other`, `admin`, mật khẩu từ DEMO_PASSWORD. Chỉ chạy development/test; service seed đặt development rõ ràng, không tự seed mỗi lần API khởi động. Seed idempotent, không đổi mật khẩu đã có, không dùng tài khoản này cho nhân viên thật.
+
+DB/API/scanner không publish cổng. Chỉ Caddy bind loopback, admin API Caddy bị tắt. Migrate dùng `jkc_owner`, API chỉ dùng `jkc_runtime` không owner/superuser/BYPASSRLS. Readiness kiểm tra migration 003, runtime role, storage có thể ghi và chữ ký ClamAV không quá 7 ngày. API/web chạy non-root, read-only root filesystem.
+
+Lấy **public CA certificate**, không xuất private key:
+
+```sh
+mkdir -p .local
+docker cp jkc-staging-proxy-1:/data/caddy/pki/authorities/local/root.crt .local/staging-ca.crt
+JKC_CA_CERT=.local/staging-ca.crt ./scripts/healthcheck.sh https://localhost:18443
+```
+
+Trình duyệt/điện thoại cần tin CA đúng theo IT; không hướng dẫn người dùng bỏ qua cảnh báo TLS. Không expose staging ra internet. DNS/VPN, trust CA trên điện thoại thật và firewall là gate IT chưa ký. APP_ORIGIN phải đúng Origin của browser: bỏ `:443` khi dùng cổng chuẩn, giữ port khi dùng 18443.
+
+Nếu Docker engine không truy cập registry nhưng host được phép tải Docker Hub, có công cụ nạp image chính thức qua TLS và kiểm tra SHA-256 từng layer:
+
+```sh
+python3 -m venv .venv
+.venv/bin/pip install -r starter/apps/api/requirements-dev.lock.txt
+.venv/bin/python scripts/staging/pull_image.py caddy:2.10.2
+.venv/bin/python scripts/staging/pull_image.py python:3.12-slim
+.venv/bin/python scripts/staging/pull_image.py node:22-alpine
+.venv/bin/python scripts/staging/pull_image.py clamav/clamav:stable --architecture amd64
+# Staging kiểm thử dùng ClamAV amd64/emulation trên Apple Silicon; chưa chứng minh capacity host JKC.
+```
+
+ClamAV base staging dùng chữ ký trong image. Upload/readiness fail-closed nếu daemon lỗi hoặc chữ ký quá 7 ngày. [Runbook](docs/STAGING_RUNBOOK.md) mô tả cập nhật chữ ký, pin image và backup. Cần IT chốt mirror/egress trước shared pilot.
 
 ## Chạy source local
 
-Cần Node 22+, Python 3.12 khuyến nghị (đã kiểm thử thêm Python 3.9), PostgreSQL 16/17; tạo database riêng trước. Dùng URL-safe password hoặc percent-encode ký tự đặc biệt trong DATABASE_URL.
+Node 22+, Python 3.12, PostgreSQL 16/17. Local không thay thế nghiệm thu full Compose. Tạo DB riêng trước; không dùng mật khẩu Odoo.
 
 ```sh
 python3 -m venv .venv
 .venv/bin/pip install -r starter/apps/api/requirements-dev.lock.txt
 cp starter/apps/api/.env.example starter/apps/api/.env
-# Sửa DATABASE_URL, DEMO_PASSWORD, APP_ORIGIN theo máy dev.
+# Sửa DATABASE_URL, APP_ORIGIN, DEMO_PASSWORD; chỉ local HTTP mới COOKIE_SECURE=false.
 cd starter/apps/api
 ../../../.venv/bin/alembic upgrade head
 ../../../.venv/bin/python -m app.seed
 ../../../.venv/bin/uvicorn app.main:app --host 127.0.0.1 --port 8000
 ```
 
-Trong terminal khác:
+Terminal khác:
 
 ```sh
 cd starter/apps/web
@@ -40,33 +69,21 @@ npm ci
 npm run dev -- --hostname 127.0.0.1
 ```
 
-Mặc định web http://localhost:3000, API qua Next rewrite cùng origin `/api/v1`. Nếu cổng 3000 bận, đổi cổng web và `APP_ORIGIN` tương ứng rồi khởi động lại API. `INTERNAL_API_URL` cần đặt **trước build** nếu API không ở http://127.0.0.1:8000; Docker build đã đặt http://api:8000. Cookie chỉ bật `COOKIE_SECURE=false` ở local HTTP. Staging HTTPS phải true.
+Mặc định web http://localhost:3000; API qua same-origin `/api/v1`. Đổi cổng thì đổi APP_ORIGIN và restart API. INTERNAL_API_URL cần đặt trước web build nếu backend không ở 127.0.0.1:8000. Source local mặc định dùng DB URL bạn cấp; để kiểm chứng RLS cần provision runtime role theo runbook. Đừng dùng owner connection cho shared staging.
 
-Source vẫn ở `starter/apps` để giữ đường dẫn baseline; tên thư mục không có nghĩa auth/UI còn là stub. Không tự tạo Git history trong thư mục bàn giao chưa có `.git`.
+## Quyền và chức năng
 
-## Quyền và workflow
+- Nhân viên: nội dung đã duyệt theo COMPANY/DEPARTMENT/CROSS_DEPARTMENT ACL; RESTRICTED hiện chỉ tác giả. TECH_ADMIN không có bypass quyền nội dung hay duyệt chuyên môn.
+- Trưởng bộ phận: duyệt ARTICLE trong scope, không tự duyệt, kiểm tra expectedVersion và trạng thái; transaction + row lock + audit. Quyền ban hành nội quy công ty vẫn chưa được JKC xác nhận.
+- Tạo user: POST `/api/v1/users` từ TECH_ADMIN, buộc đổi password. Đổi/reset thu hồi mọi session. Reset CLI phải chạy bằng owner/operator connection riêng: `python -m app.manage reset-password TEN_DANG_NHAP`, hạn 15 phút/dùng một lần; chuyển mã qua kênh an toàn. Runtime API không có quyền cấp reset token qua giao diện.
+- POST yêu cầu Origin và X-CSRF-Token từ login/me (login/reset công khai chỉ cần Origin); cookie HttpOnly/SameSite=Lax/Secure trên HTTPS, token ngẫu nhiên lưu hash, không localStorage. Login limiter tại PostgreSQL; IP sau proxy vẫn dùng chung nên cần policy trusted proxy trước triển khai rộng.
+- File: lưu nháp rồi upload PNG/JPEG/PDF tĩnh <=10 MB. Kiểm tra loại/cấu trúc, tái mã hóa ảnh, từ chối PDF chủ động/mã hóa, quét ClamAV trước/sau chuẩn hóa. Chỉ CLEAN và đúng ACL phiên bản mới download; kiểm checksum, không public storage URL. Không nhận video/Office/SVG/HTML trong phạm vi này.
+- Nội quy: `/my/reading`, giao đọc theo version trong scope trưởng bộ phận, ACK lấy user từ session, sai/stale version bị 409, gửi lại idempotent; lịch sử cũ không ghi đè. Chưa có UI giao nhiệm vụ/ban hành phiên bản mới; chỉ dùng API/seed DEMO đã được kiểm thử.
+- Đào tạo: mở khóa được giao, hoàn thành bài học, làm quiz tối đa số lần đã cấu hình. Server/DB chấm từ đáp án được bảo vệ, kiểm tra đúng tập câu hỏi/lựa chọn, không nhận score từ client. Lịch sử cố định theo course_version, số lần và ngưỡng đạt tại lúc nộp. Giao khóa/authoring hiện qua seed/operator, chưa có UI quản trị LMS.
 
-- Nhân viên: nội dung APPROVED trong COMPANY, DEPARTMENT của mình, CROSS_DEPARTMENT có ACL, RESTRICTED do chính mình tạo. Draft chưa công khai.
-- Trưởng bộ phận: duyệt ARTICLE đúng scope bộ phận, không tự duyệt, có kiểm tra phiên bản/trạng thái, khóa hàng trong transaction, audit và approval event.
-- TECH_ADMIN: tạo tài khoản và xem trạng thái adapter. Không tự có quyền đọc bí mật, duyệt chuyên môn hoặc ban hành nội quy.
-- Tài khoản tạo mới buộc đổi mật khẩu. Đổi/reset mật khẩu thu hồi mọi session và reset token còn sống. Session chỉ lưu SHA-256 của token ngẫu nhiên; mật khẩu Argon2id.
-- Mọi POST yêu cầu `Origin` bằng APP_ORIGIN. POST đã đăng nhập cần `X-CSRF-Token` lấy từ `/auth/me` hoặc login. Không lưu session ở localStorage. Cookie HttpOnly, SameSite=Lax, path=/api, Secure theo môi trường, hạn 8 giờ.
-- Login limit tại PostgreSQL: 5 lần sai/tài khoản, 20 lần sai/IP trong cửa sổ 15 phút. API không tin X-Forwarded-For; sau reverse proxy IP dùng chung là giới hạn bảo thủ cần hiệu chỉnh cho staging.
-- Chỉ duyệt ARTICLE; quyền ban hành DOCUMENT toàn công ty chưa được xác nhận. Upload/download không được phục vụ, không có public storage.
+## Kiểm thử
 
-Tạo tài khoản: `POST /api/v1/users` từ session TECH_ADMIN, xem schema tại `/api/v1/docs`. Chưa có UI quản lý người dùng/gán vai trò; cần quy trình quản trị được JKC chốt.
-
-Reset thủ công: người có quyền vận hành server xác minh danh tính qua kênh độc lập rồi chạy trong thư mục API:
-
-```sh
-../../../.venv/bin/python -m app.manage reset-password TEN_DANG_NHAP
-```
-
-CLI hiển thị mã một lần; chuyển qua kênh an toàn, không ghi log/chat/commit. Nhân viên mở `/reset`, nhập mã (hạn 15 phút, dùng một lần) và mật khẩu mới. Chưa có SMTP hay self-service yêu cầu reset công khai.
-
-## Kiểm thử và contract
-
-Dùng database riêng **bắt đầu bằng `jkc_test`**, không dùng DB demo/staging. Các test ghi dữ liệu thử và mặc định không xóa audit để giữ tính bất biến.
+Luôn dùng database **tên bắt đầu jkc_test**, không dùng dữ liệu thật. Tests giữ version/audit và archive nội dung tổng hợp để có thể chạy lại. Chi tiết bằng chứng có trong báo cáo Sprint 0.1.
 
 ```sh
 export TEST_DATABASE_URL='postgresql://USER:PASSWORD@127.0.0.1:5432/jkc_test_local'
@@ -77,40 +94,26 @@ cd ../../..
 .venv/bin/ruff check starter/apps/api scripts
 .venv/bin/ruff format --check starter/apps/api scripts
 PYTHONPATH=starter/apps/api .venv/bin/python scripts/export_openapi.py --check
-TEST_DATABASE_URL="$TEST_DATABASE_URL" .venv/bin/python scripts/database_drill.py
+.venv/bin/python scripts/database_drill.py
 cd starter/apps/web
 npm run lint
 npm run typecheck
 npm run build
-npx playwright install chromium
-# API và production web phải đang chạy, ví dụ Origin http://localhost:3100.
-UI_BASE_URL=http://localhost:3100 UI_DEMO_PASSWORD='<mật khẩu seed riêng>' npm run test:ui
 ```
 
-UI tests ghi nháp, gửi và duyệt bài DEMO, chỉ chạy trên DB demo/test dùng riêng. Không chạy vào staging có dữ liệu thật. CI đã được khai báo trong `.github/workflows/ci.yml`; chưa chạy GitHub Actions vì thư mục này chưa có Git/remote.
-
-`api/openapi.yaml` sinh từ code và validate OpenAPI 3.1. Sửa API rồi chạy script export không có `--check` để cập nhật. `api/openapi.backlog.yaml` là draft cũ, **không phải endpoint đã hỗ trợ**. Contract dùng đường dẫn đầy đủ `/api/v1/...`. API chỉ expose response schema, không trả password hash/đáp án quiz.
-
-## Migration và backup
-
-Baseline `database/001_initial.sql` giữ nguyên. Bản sao đóng băng ở `starter/apps/api/alembic/versions/001_initial.sql`; migration 002 bổ sung guard/version/audit, index, throttling và reset token. Compose migrate chạy xong trước API, readiness kiểm tra revision head.
-
-Với database mới: `alembic upgrade head`. Rollback trên DB thử nghiệm có thể `alembic downgrade base`; thao tác này **xóa toàn bộ bảng ứng dụng**. Với DB đã chạy baseline trước đây: sao lưu, đối chiếu đầy đủ schema 001 rồi mới cân nhắc `alembic stamp 001` và upgrade; không tự stamp DB chưa xác minh. Không dùng đồng thời init SQL và Alembic.
-
-`database_drill.py` yêu cầu PostgreSQL CLI cùng major hoặc mới hơn server. Tự tạo DB tạm, thử upgrade/downgrade/upgrade, dump và restore vào DB rỗng, so sánh số dòng rồi xóa DB tạm. Bằng chứng nằm trong `docs/reports/database-drill.json`; đây là diễn tập dữ liệu test, chưa phải backup/restore staging thật.
-
-Backup thủ công staging:
+UAT HTTPS tái lập (chỉ DEMO, tạo account tổng hợp mới mỗi lần):
 
 ```sh
-mkdir -p deploy/backups
-chmod 700 deploy/backups
-docker compose --env-file deploy/.env -f deploy/compose.yml --profile ops run --rm backup
+.venv/bin/python scripts/staging/uat.py --project jkc-staging --env-file deploy/.env --ca .local/staging-ca.crt
+.venv/bin/python scripts/staging/collect_evidence.py --project jkc-staging --env-file deploy/.env
 ```
 
-Chép backup tới thiết bị lưu độc lập; cần lịch tự động, kiểm tra restore, RPO/RTO, mã hóa và backup tệp trước production. File dump chứa dữ liệu nhạy cảm, không commit.
+Runner kiểm tra CA bằng Python HTTPS thật và ClamAV/EICAR, rồi chạy 8 Playwright regression/UAT desktop/mobile. Chromium dùng ignoreHTTPSErrors **chỉ cho CA test cục bộ**; không đồng nghĩa trust CA trên thiết bị thật đã nghiệm thu. Script đọc secret vào process, không in/ghi vào báo cáo. `.local` và browser traces/cache bị Git ignore. EICAR là chuỗi kiểm tra antivirus vô hại, không phải mã độc thực thi.
 
-## Staging và giới hạn
+`api/openapi.yaml` sinh từ code; draft cũ ở `api/openapi.backlog.yaml` không phải contract đã hỗ trợ. CI có backend PG16/17 và full Compose/HTTPS/AV/UAT/restore; mới kiểm tra actionlint cục bộ, chưa chạy phiên bản workflow này trên GitHub.
 
-`deploy/compose.yml` dùng Caddy TLS internal; cấu hình DNS/APP_HOST, thiết bị tin CA và firewall nội bộ/VPN trước khi đổi BIND_ADDRESS khỏi loopback. Không public quản trị ra internet. Chưa được coi là production-ready: cần tách DB owner/migrator/runtime role, RLS defense in depth, least privilege, TLS/backup thực địa, kiểm thử tải/bảo mật, quản lý secret, file scan/storage, giám sát và UAT.
+## Backup/restore và giới hạn
 
-Odoo chỉ có Protocol + NoOpOdooAdapter (`probe`, `fetch_employees`, `fetch_departments`). Chưa xác định phiên bản/gói quyền; không gọi API Odoo hay lấy mật khẩu ERP.
+[Runbook staging](docs/STAGING_RUNBOOK.md) có quy trình dừng ghi, dump DB + private files, SHA-256, restore sang **project/volume rỗng**, kiểm fingerprint và app. Không restore đè. Baseline SQL và migrations 001/002 giữ nguyên; thay đổi Sprint 0.1 ở 003. Rollback có thể làm mất snapshot lịch sử quiz nên ưu tiên restore backup khi đã có dữ liệu cần giữ.
+
+Còn P0 ở exit gate: PO/key users UAT thực địa, IT DNS/VPN/trust CA, lịch backup và bản sao độc lập/retention/RPO-RTO, cập nhật chữ ký/pin release image, policy ban hành/cấp quyền và phạm vi Sprint 1. Không dùng dữ liệu nhân viên thật, không production. Các workflow request-changes/reject, sửa draft sau reload, incident occurrences, notifications/Q&A/reports vẫn ở backlog; không quảng bá là đã có.

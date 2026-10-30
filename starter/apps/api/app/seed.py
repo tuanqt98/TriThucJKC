@@ -84,13 +84,14 @@ def seed():
             (uid("course"), "DEMO-COURSE", "DEMO · Làm quen Tri Thức JKC", uid("PRODUCTION"), uid("head")),
         )
         conn.execute(
-            "INSERT INTO course_versions(id,course_id,version_number,status) VALUES (%s,%s,1,'APPROVED') ON CONFLICT DO NOTHING",
+            "INSERT INTO course_versions(id,course_id,version_number,status) VALUES (%s,%s,1,'DRAFT') ON CONFLICT DO NOTHING",
             (uid("coursev1"), uid("course")),
         )
         conn.execute(
             "INSERT INTO lessons(id,course_version_id,title,body,order_no) VALUES (%s,%s,%s,%s,1) ON CONFLICT DO NOTHING",
             (uid("lesson"), uid("coursev1"), "DEMO · Tra cứu và chia sẻ", Jsonb({"text": "Nội dung minh họa."})),
         )
+        conn.execute("UPDATE course_versions SET status='APPROVED' WHERE id=%s AND status='DRAFT'", (uid("coursev1"),))
         conn.execute(
             "INSERT INTO course_assignments(id,course_version_id,user_id) VALUES (%s,%s,%s) ON CONFLICT DO NOTHING",
             (uid("assignment"), uid("coursev1"), uid("employee")),
@@ -99,6 +100,9 @@ def seed():
             "INSERT INTO incidents(id,code,title,process_id,reporter_id,severity,symptoms) VALUES (%s,'DEMO-INCIDENT','DEMO · Hồ sơ sự cố để thực hành tra cứu',%s,%s,'LOW','Tình huống giả lập; không phải hướng dẫn xử lý máy.') ON CONFLICT DO NOTHING",
             (uid("incident"), uid("OFFSET"), uid("employee")),
         )
+        from app.seed_sprint01 import seed_sprint01
+
+        seed_sprint01(conn)
         conn.execute(
             "INSERT INTO audit_logs(action,entity_type) SELECT 'DEMO_SEEDED','system' WHERE NOT EXISTS (SELECT 1 FROM audit_logs WHERE action='DEMO_SEEDED')"
         )

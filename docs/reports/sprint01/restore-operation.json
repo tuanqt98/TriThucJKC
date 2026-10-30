@@ -1,0 +1,6 @@
+{
+  "action": "restore",
+  "project": "jkc-s01-restore",
+  "backup_set": "sprint01-drill",
+  "result": "completed; verify health and compare data before acceptance"
+}

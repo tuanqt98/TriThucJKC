@@ -1,4 +1,11 @@
+{
+    admin off
+}
 :80 {
+    request_body {
+        max_size 11MB
+    }
+    respond /healthz "ok" 200
     handle /api/* {
         reverse_proxy api:8000
     }

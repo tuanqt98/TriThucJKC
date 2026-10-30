@@ -71,7 +71,9 @@ export async function api<T>(
     credentials: "same-origin",
     cache: "no-store",
     headers: {
-      "Content-Type": "application/json",
+      ...(options.body instanceof FormData
+        ? {}
+        : { "Content-Type": "application/json" }),
       ...(csrf ? { "X-CSRF-Token": csrf } : {}),
       ...options.headers,
     },

@@ -1,0 +1,8 @@
+# Optional: IT approves egress/mirror first. No inbound port is published.
+services:
+  clamav:
+    environment:
+      CLAMAV_NO_FRESHCLAMD: "false"
+    networks: [backend, signature_updates]
+networks:
+  signature_updates: {}

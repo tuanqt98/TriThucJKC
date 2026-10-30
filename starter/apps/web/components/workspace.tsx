@@ -13,6 +13,7 @@ import {
   type Approval,
 } from "./api";
 import { Icon } from "./icon";
+import { AttachmentsPanel, ReadingPanel, CoursePlayer } from "./sprint01";
 
 const navigation = [
   ["/", "Trang chủ", "home"],
@@ -667,9 +668,24 @@ export function Workspace({
                       <aside className="panel">
                         <h2>Thông tin phiên bản</h2>
                         <p>Nội dung DEMO để kiểm thử.</p>
+                        {user && (
+                          <>
+                            {detail.kind === "DOCUMENT" && (
+                              <ReadingPanel
+                                user={user}
+                                contentId={detail.id}
+                                versionId={detail.version_id}
+                              />
+                            )}
+                            <AttachmentsPanel
+                              user={user}
+                              versionId={detail.version_id}
+                            />
+                          </>
+                        )}
                         <p className="subtle">
-                          Xác nhận đã đọc, lịch sử phiên bản và tải tệp chưa
-                          triển khai trong Sprint 0.
+                          Lịch sử xác nhận được giữ riêng theo phiên bản được
+                          giao.
                         </p>
                       </aside>
                     </div>
@@ -704,17 +720,18 @@ export function Workspace({
                               aria-label={`Tiến độ ${c.title}`}
                             />
                           </div>
-                          <span className="subtle">
-                            Xem bài học & kiểm tra:
-                            <br />
-                            chưa triển khai
-                          </span>
+                          <Link className="button" href={`/learning/${c.id}`}>
+                            Mở khóa học
+                          </Link>
                         </article>
                       ))
                     ) : (
                       <Empty message="Bạn chưa được giao khóa học." />
                     )}
                   </>
+                )}
+                {path.startsWith("/learning/") && user && (
+                  <CoursePlayer user={user} assignmentId={path.split("/")[2]} />
                 )}
                 {path === "/approvals" && (
                   <>
@@ -849,6 +866,7 @@ export function Workspace({
 
 function DraftForm({ user }: { user: User }) {
   const [id, setId] = useState<string | null>(null);
+  const [versionId, setVersionId] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
@@ -879,7 +897,7 @@ function DraftForm({ user }: { user: User }) {
     ])
       body[key] = String(form.get(key) || "");
     try {
-      const result = await api<{ id: string }>(
+      const result = await api<{ id: string; version_id: string }>(
         "/articles",
         {
           method: "POST",
@@ -888,6 +906,7 @@ function DraftForm({ user }: { user: User }) {
         user.csrf_token,
       );
       setId(result.id);
+      setVersionId(result.version_id);
       setDirty(false);
       setMessage("Đã lưu bản nháp. Bạn có thể gửi trưởng bộ phận phê duyệt.");
     } catch (e) {
@@ -958,10 +977,14 @@ function DraftForm({ user }: { user: User }) {
             ))}
           </div>
         </fieldset>
-        <p className="subtle">
-          Đính kèm ảnh/tệp: chưa triển khai. Không nhập thông số chưa được kiểm
-          chứng.
-        </p>
+        {versionId && !sent && (
+          <AttachmentsPanel user={user} versionId={versionId} canUpload />
+        )}
+        {!versionId && (
+          <p className="subtle">
+            Lưu bản nháp trước để đính kèm ảnh/PDF và quét mã độc.
+          </p>
+        )}
         {error && (
           <p role="alert" className="error">
             {error}

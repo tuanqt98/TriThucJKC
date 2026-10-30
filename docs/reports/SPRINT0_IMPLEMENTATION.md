@@ -1,5 +1,7 @@
 # Sprint 0 — kết quả triển khai 30/10/2026
 
+Báo cáo lịch sử Sprint 0. Các P0 kỹ thuật đã được tiếp tục trong [Sprint 0.1](sprint01/REPORT.md); giữ các kết quả ban đầu để đối chiếu.
+
 Nền tảng đã được code và chạy thử với PostgreSQL thật. Sprint 0 **chưa đóng exit gate**, chưa production-ready. Không có phiên bản Odoo nào được giả định.
 
 ## Giai đoạn 0A — Audit trước khi sửa

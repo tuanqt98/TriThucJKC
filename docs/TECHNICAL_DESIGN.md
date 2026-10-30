@@ -137,3 +137,7 @@ S1 (2 tuần): auth/users/RBAC/categories/layout; S2: documents/versions/article
 - Next.js App Router: https://nextjs.org/docs/app
 - FastAPI OpenAPI: https://fastapi.tiangolo.com/tutorial/metadata/
 - Odoo 19 JSON-2: https://www.odoo.com/documentation/19.0/developer/reference/external_api.html
+
+## 14. Cập nhật Sprint 0.1 (không thay baseline/PO sign-off)
+
+Những mô tả starter/draft ở trên là baseline ban đầu. Source hiện có thêm auth/RBAC, runtime role/RLS, file private+ClamAV, ACK theo phiên bản, quiz/history và full Compose HTTPS được kiểm thử bằng DEMO. Xem [ADR bổ sung](ADR_SPRINT01.md), [runbook](STAGING_RUNBOOK.md), [UAT](UAT_SPRINT01.md) và [báo cáo có bằng chứng](reports/sprint01/REPORT.md). Exit gate vẫn mở; không suy ra đã nghiệm thu production hoặc xác nhận Odoo.
