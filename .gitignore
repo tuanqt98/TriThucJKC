@@ -13,3 +13,4 @@ playwright-report/
 test-results/
 deploy/backups/
 .local/
+.DS_Store

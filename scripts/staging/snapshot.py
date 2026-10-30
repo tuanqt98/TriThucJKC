@@ -62,7 +62,9 @@ else:
         )
     run("up", "-d", "--no-build", "--pull", "never", "db", "storage-init")
     run("--profile", "ops", "run", "--rm", "restore")
-    run("up", "-d", "--no-build", "--pull", "never")
+    # Caddy creates the local CA during startup. A running container alone does
+    # not guarantee the CA or HTTPS listener exists for the following drill.
+    run("up", "-d", "--no-build", "--pull", "never", "--wait", "--wait-timeout", "240")
 output = {
     "action": args.action,
     "project": args.project,
