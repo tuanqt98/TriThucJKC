@@ -1,0 +1,100 @@
+name: jkc-knowledge
+x-api: &api
+  image: jkc-api:sprint0
+  build: ../starter/apps/api
+  environment: &api-env
+    DATABASE_URL: postgresql://jkc:${DB_PASSWORD:?Set URL-safe DB_PASSWORD}@db:5432/jkc
+    APP_ORIGIN: https://${APP_HOST:-trithuc.jkc.internal}
+    APP_ENV: staging
+    COOKIE_SECURE: "true"
+  networks: [backend]
+services:
+  proxy:
+    image: caddy:2.10.2
+    restart: unless-stopped
+    ports:
+      - "${BIND_ADDRESS:-127.0.0.1}:80:80"
+      - "${BIND_ADDRESS:-127.0.0.1}:443:443"
+    environment:
+      APP_HOST: ${APP_HOST:-trithuc.jkc.internal}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+    depends_on:
+      web: {condition: service_healthy}
+      api: {condition: service_healthy}
+    networks: [edge, backend]
+  web:
+    build:
+      context: ../starter/apps/web
+      args:
+        INTERNAL_API_URL: http://api:8000
+    restart: unless-stopped
+    environment:
+      HOSTNAME: 0.0.0.0
+      INTERNAL_API_URL: http://api:8000
+    expose: ["3000"]
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/login').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks: [backend]
+  migrate:
+    <<: *api
+    command: ["alembic", "upgrade", "head"]
+    depends_on:
+      db: {condition: service_healthy}
+  api:
+    <<: *api
+    restart: unless-stopped
+    expose: ["8000"]
+    depends_on:
+      migrate: {condition: service_completed_successfully}
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/v1/health/ready')"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+  db:
+    image: postgres:17.6
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: jkc
+      POSTGRES_USER: jkc
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?Set URL-safe DB_PASSWORD}
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U jkc -d jkc"]
+      interval: 5s
+      timeout: 3s
+      retries: 15
+    networks: [backend]
+  seed:
+    <<: *api
+    profiles: [demo]
+    environment:
+      <<: *api-env
+      APP_ENV: development
+      DEMO_PASSWORD: ${DEMO_PASSWORD:-}
+    command: ["python", "-m", "app.seed"]
+    depends_on:
+      migrate: {condition: service_completed_successfully}
+  backup:
+    image: postgres:17.6
+    profiles: [ops]
+    environment:
+      PGPASSWORD: ${DB_PASSWORD:?Set URL-safe DB_PASSWORD}
+    volumes: ["./backups:/backups"]
+    command: ["sh", "-ec", "umask 077; pg_dump -h db -U jkc -Fc jkc > /backups/jkc.manual.dump"]
+    depends_on:
+      db: {condition: service_healthy}
+    networks: [backend]
+volumes:
+  pg_data:
+  caddy_data:
+networks:
+  edge: {}
+  backend:
+    internal: true

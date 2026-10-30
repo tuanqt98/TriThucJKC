@@ -1,0 +1,15 @@
+# docker compose -f compose.yml -f compose.local.yml up -d --build
+services:
+  proxy:
+    ports: !override
+      - "127.0.0.1:8080:80"
+    volumes:
+      - ./Caddyfile.local:/etc/caddy/Caddyfile:ro
+  api:
+    environment:
+      APP_ORIGIN: http://localhost:8080
+      COOKIE_SECURE: "false"
+      APP_ENV: development
+  migrate:
+    environment:
+      APP_ENV: development

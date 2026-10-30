@@ -1,0 +1,103 @@
+name: Sprint 0 checks
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  foundation:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: jkc
+          POSTGRES_PASSWORD: ci-test-only
+          POSTGRES_DB: jkc_test_ci
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U jkc -d jkc_test_ci"
+          --health-interval 5s --health-timeout 5s --health-retries 15
+    env:
+      DATABASE_URL: postgresql://jkc:ci-test-only@127.0.0.1:5432/jkc_test_ci
+      TEST_DATABASE_URL: postgresql://jkc:ci-test-only@127.0.0.1:5432/jkc_test_ci
+      COOKIE_SECURE: "false"
+      APP_ENV: test
+      DEMO_PASSWORD: test-only-password-123
+      UI_DEMO_PASSWORD: test-only-password-123
+      APP_ORIGIN: http://localhost:3100
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: starter/apps/web/package-lock.json
+      - run: |
+          python -m venv .venv
+          .venv/bin/pip install -r starter/apps/api/requirements-dev.lock.txt
+          .venv/bin/ruff check starter/apps/api scripts
+          .venv/bin/ruff format --check starter/apps/api scripts
+      - run: PYTHONPATH=starter/apps/api .venv/bin/python scripts/export_openapi.py --check
+      - working-directory: starter/apps/api
+        env:
+          APP_ORIGIN: http://localhost:3000
+        run: |
+          ../../../.venv/bin/alembic upgrade head
+          ../../../.venv/bin/pytest -q
+      - run: .venv/bin/python scripts/database_drill.py
+      - working-directory: starter/apps/web
+        run: |
+          npm ci
+          npm run lint
+          npm run typecheck
+          npm run build
+          npx playwright install --with-deps chromium
+      - run: |
+          cd starter/apps/api
+          ../../../.venv/bin/python -m app.seed
+          ../../../.venv/bin/uvicorn app.main:app --host 127.0.0.1 --port 8000 > /tmp/jkc-api.log 2>&1 &
+      - working-directory: starter/apps/web
+        run: |
+          npm run start -- --hostname 127.0.0.1 --port 3100 > /tmp/jkc-web.log 2>&1 &
+          for _ in $(seq 1 30); do
+            if curl --fail --silent http://localhost:3100/login >/dev/null && curl --fail --silent http://localhost:8000/api/v1/health/ready >/dev/null; then break; fi
+            sleep 1
+          done
+          npm run test:ui
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: sprint0-evidence
+          path: |
+            starter/apps/web/playwright-report
+            docs/reports/*.png
+            docs/reports/database-drill.json
+      - run: DB_PASSWORD=config-test-only docker compose -f deploy/compose.yml -f deploy/compose.local.yml config --quiet
+  postgres17:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: jkc
+          POSTGRES_PASSWORD: ci-test-only
+          POSTGRES_DB: jkc_test_ci17
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U jkc -d jkc_test_ci17"
+          --health-interval 5s --health-timeout 5s --health-retries 15
+    env:
+      DATABASE_URL: postgresql://jkc:ci-test-only@127.0.0.1:5432/jkc_test_ci17
+      TEST_DATABASE_URL: postgresql://jkc:ci-test-only@127.0.0.1:5432/jkc_test_ci17
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r starter/apps/api/requirements-dev.lock.txt
+      - working-directory: starter/apps/api
+        run: |
+          alembic upgrade head
+          pytest -q

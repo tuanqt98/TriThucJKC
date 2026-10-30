@@ -1,0 +1,75 @@
+# Danh mục file source/cấu hình/báo cáo sau Sprint 0
+
+Workspace không có Git nên không có diff lịch sử; danh sách dưới đây gồm file mới/cập nhật và baseline giữ lại. Baseline giữ nguyên: database/001_initial.sql (ngoài danh sách), api/openapi.backlog.yaml là bản sao draft ban đầu. AGENTS, START_HERE và TECHNICAL_DESIGN không sửa.
+
+- `.github/workflows/ci.yml`
+- `api/openapi.backlog.yaml`
+- `api/openapi.yaml`
+- `deploy/.env.example`
+- `deploy/Caddyfile`
+- `deploy/Caddyfile.local`
+- `deploy/compose.local.yml`
+- `deploy/compose.yml`
+- `docs/reports/SPRINT0_AUDIT.md`
+- `docs/reports/SPRINT0_IMPLEMENTATION.md`
+- `docs/reports/database-drill.json`
+- `scripts/database_drill.py`
+- `scripts/export_openapi.py`
+- `scripts/healthcheck.sh`
+- `starter/apps/api/.dockerignore`
+- `starter/apps/api/.env.example`
+- `starter/apps/api/Dockerfile`
+- `starter/apps/api/alembic.ini`
+- `starter/apps/api/alembic/env.py`
+- `starter/apps/api/alembic/versions/001_baseline.py`
+- `starter/apps/api/alembic/versions/001_initial.sql`
+- `starter/apps/api/alembic/versions/002_security.py`
+- `starter/apps/api/app/auth.py`
+- `starter/apps/api/app/config.py`
+- `starter/apps/api/app/content.py`
+- `starter/apps/api/app/db.py`
+- `starter/apps/api/app/integrations/odoo.py`
+- `starter/apps/api/app/main.py`
+- `starter/apps/api/app/manage.py`
+- `starter/apps/api/app/permissions.py`
+- `starter/apps/api/app/schemas.py`
+- `starter/apps/api/app/security.py`
+- `starter/apps/api/app/seed.py`
+- `starter/apps/api/pyproject.toml`
+- `starter/apps/api/requirements-dev.lock.txt`
+- `starter/apps/api/requirements-dev.txt`
+- `starter/apps/api/requirements.lock.txt`
+- `starter/apps/api/requirements.txt`
+- `starter/apps/api/tests/conftest.py`
+- `starter/apps/api/tests/test_security.py`
+- `starter/apps/web/.dockerignore`
+- `starter/apps/web/Dockerfile`
+- `starter/apps/web/app/account/page.tsx`
+- `starter/apps/web/app/approvals/page.tsx`
+- `starter/apps/web/app/documents/[id]/page.tsx`
+- `starter/apps/web/app/documents/page.tsx`
+- `starter/apps/web/app/globals.css`
+- `starter/apps/web/app/incidents/[id]/page.tsx`
+- `starter/apps/web/app/incidents/page.tsx`
+- `starter/apps/web/app/knowledge/[id]/page.tsx`
+- `starter/apps/web/app/knowledge/new/page.tsx`
+- `starter/apps/web/app/knowledge/page.tsx`
+- `starter/apps/web/app/layout.tsx`
+- `starter/apps/web/app/learning/page.tsx`
+- `starter/apps/web/app/login/page.tsx`
+- `starter/apps/web/app/page.tsx`
+- `starter/apps/web/app/reset/page.tsx`
+- `starter/apps/web/components/api.ts`
+- `starter/apps/web/components/icon.tsx`
+- `starter/apps/web/components/login.tsx`
+- `starter/apps/web/components/workspace.tsx`
+- `starter/apps/web/eslint.config.mjs`
+- `starter/apps/web/next-env.d.ts`
+- `starter/apps/web/next.config.ts`
+- `starter/apps/web/package-lock.json`
+- `starter/apps/web/package.json`
+- `starter/apps/web/playwright.config.ts`
+- `starter/apps/web/tests/smoke.spec.ts`
+- `starter/apps/web/tsconfig.json`
+
+Root cập nhật: `.gitignore`, `README.md`, `SPRINT0_TASKS.md`.
