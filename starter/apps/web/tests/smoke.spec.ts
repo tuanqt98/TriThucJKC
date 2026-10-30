@@ -1,13 +1,22 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, type Page } from "@playwright/test";
 const password = process.env.UI_DEMO_PASSWORD;
 const evidenceRoot =
   process.env.UI_EVIDENCE_DIR || "../../../docs/reports/sprint01/regression";
+async function submitLogin(page: Page) {
+  const response = page.waitForResponse(
+    (r) =>
+      new URL(r.url()).pathname === "/api/v1/auth/login" &&
+      r.request().method() === "POST",
+  );
+  await page.getByRole("button", { name: "Đăng nhập", exact: true }).click();
+  expect((await response).status()).toBe(200);
+}
 test.beforeEach(async ({ page }) => {
   if (!password) throw new Error("Đặt UI_DEMO_PASSWORD khớp demo seed.");
   await page.goto("/login");
   await page.getByLabel("Tên đăng nhập", { exact: true }).fill("employee");
   await page.getByLabel("Mật khẩu", { exact: true }).fill(password);
-  await page.getByRole("button", { name: "Đăng nhập", exact: true }).click();
+  await submitLogin(page);
   await expect(
     page.getByRole("heading", { name: "Chào anh/chị, hôm nay bạn cần gì?" }),
   ).toBeVisible();
@@ -132,9 +141,10 @@ test("trưởng bộ phận xem trước và duyệt", async ({ page }, testInfo
   await page
     .getByRole("button", { name: "Đăng xuất khỏi thiết bị này" })
     .click();
+  await expect(page).toHaveURL(/\/login$/);
   await page.getByLabel("Tên đăng nhập", { exact: true }).fill("head");
   await page.getByLabel("Mật khẩu", { exact: true }).fill(password!);
-  await page.getByRole("button", { name: "Đăng nhập", exact: true }).click();
+  await submitLogin(page);
   await expect(page.locator("h1")).toContainText("Chào anh/chị");
   await page.goto("/approvals");
   await expect(page.locator('[aria-busy="true"]')).toHaveCount(0);

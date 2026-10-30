@@ -1,11 +1,15 @@
 "use client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useSyncExternalStore } from "react";
 import { api, type User } from "./api";
 import { Icon } from "./icon";
+const subscribe = () => () => {};
+const clientReady = () => true;
+const serverReady = () => false;
 export function Login({ reset = false }: { reset?: boolean }) {
   const router = useRouter();
+  const ready = useSyncExternalStore(subscribe, clientReady, serverReady);
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
   const [busy, setBusy] = useState(false);
@@ -52,6 +56,8 @@ export function Login({ reset = false }: { reset?: boolean }) {
               : "Đăng nhập để tra cứu, học tập và chia sẻ tri thức."}
           </p>
           <form
+            method="post"
+            aria-busy={!ready || busy}
             onSubmit={async (e) => {
               e.preventDefault();
               setBusy(true);
@@ -89,6 +95,7 @@ export function Login({ reset = false }: { reset?: boolean }) {
                 Mã đặt lại mật khẩu
                 <input
                   name="token"
+                  disabled={!ready || busy}
                   required
                   minLength={32}
                   maxLength={200}
@@ -100,6 +107,7 @@ export function Login({ reset = false }: { reset?: boolean }) {
                 Tên đăng nhập
                 <input
                   name="username"
+                  disabled={!ready || busy}
                   required
                   maxLength={100}
                   autoComplete="username"
@@ -112,6 +120,7 @@ export function Login({ reset = false }: { reset?: boolean }) {
               <input
                 type={showPassword ? "text" : "password"}
                 name="password"
+                disabled={!ready || busy}
                 required
                 minLength={reset ? 12 : 1}
                 maxLength={256}
@@ -122,6 +131,7 @@ export function Login({ reset = false }: { reset?: boolean }) {
             <label className="password-toggle">
               <input
                 type="checkbox"
+                disabled={!ready || busy}
                 checked={showPassword}
                 onChange={(e) => setShowPassword(e.target.checked)}
               />{" "}
@@ -137,7 +147,7 @@ export function Login({ reset = false }: { reset?: boolean }) {
                 {message}
               </p>
             )}
-            <button className="button" disabled={busy}>
+            <button className="button" disabled={!ready || busy}>
               {busy ? "Đang xử lý…" : reset ? "Đặt lại mật khẩu" : "Đăng nhập"}
               <Icon name="arrow" />
             </button>

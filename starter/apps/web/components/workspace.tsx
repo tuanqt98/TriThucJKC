@@ -478,10 +478,9 @@ export function Workspace({
                               <Icon name="arrow" />
                             </Link>
                           )}
-                          <p className="subtle">
-                            Nhiệm vụ xác nhận đã đọc sẽ được bổ sung trong
-                            sprint tiếp theo.
-                          </p>
+                          <Link href="/documents">
+                            Xem nội quy và xác nhận đã đọc
+                          </Link>
                         </section>
                         <section className="share-panel">
                           <span className="badge">CÙNG NHAU TỐT HƠN</span>
@@ -750,8 +749,9 @@ export function Workspace({
                 {path === "/approvals" && (
                   <>
                     <p className="notice">
-                      Sprint 0 hỗ trợ xem và duyệt bài tri thức. Trả bài, từ
-                      chối và ban hành nội quy đang chờ triển khai.
+                      Xem và duyệt bài tri thức trong phạm vi. Để yêu cầu chỉnh
+                      sửa, từ chối hoặc ban hành nội quy theo quyền HR, mở{" "}
+                      <Link href="/workspace">Biên soạn / phiên bản</Link>.
                     </p>
                     <div className="approval-grid">
                       <div>
@@ -847,7 +847,7 @@ export function Workspace({
             )
           )}
           <footer className="footer">
-            Tri Thức JKC · Sprint 0 / Nền tảng nội bộ{" "}
+            Tri Thức JKC · Môi trường DEMO{" "}
             <span>Chia sẻ tri thức · Nâng tầm chất lượng</span>
           </footer>
         </main>

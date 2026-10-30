@@ -28,6 +28,7 @@ async function screenshot(page: Page, name: string) {
 }
 test("Login thiết kế 09: hero hiện trên mobile, nút đỏ và hiện mật khẩu", async ({
   page,
+  browser,
 }, info) => {
   await page.goto("/login");
   const asset = await page.request.get("/images/login-hero.png");
@@ -51,6 +52,24 @@ test("Login thiết kế 09: hero hiện trên mobile, nút đỏ và hiện m�
   );
   await page.getByLabel("Hiện mật khẩu").uncheck();
   await screenshot(page, `login-${info.project.name}`);
+  const noJs = await browser.newContext({
+    javaScriptEnabled: false,
+    ignoreHTTPSErrors: process.env.UI_TEST_LOCAL_CA === "true",
+  });
+  try {
+    const native = await noJs.newPage();
+    await native.goto(page.url());
+    await expect(
+      native.getByLabel("Tên đăng nhập", { exact: true }),
+    ).toBeDisabled();
+    await expect(native.getByLabel("Mật khẩu", { exact: true })).toBeDisabled();
+    await expect(
+      native.getByRole("button", { name: "Đăng nhập", exact: true }),
+    ).toBeDisabled();
+    await expect(native.locator("form")).toHaveAttribute("method", "post");
+  } finally {
+    await noJs.close();
+  }
   await page.getByRole("link", { name: /Quên mật khẩu/ }).click();
   await expect(
     page.getByRole("heading", { name: "Đặt lại mật khẩu" }),
