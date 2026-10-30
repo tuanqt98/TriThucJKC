@@ -99,6 +99,17 @@ test("tìm kiếm, trạng thái rỗng, lưu nháp và gửi duyệt", async ({
   await expect(page).toHaveURL(/\/login/);
 });
 test("trưởng bộ phận xem trước và duyệt", async ({ page }, testInfo) => {
+  // Own fixture: this test must also pass when run alone or after a retry.
+  const title = `DEMO · Duyệt độc lập ${testInfo.project.name} ${Date.now()}`;
+  await page.goto("/knowledge/new");
+  await page.getByLabel("Tiêu đề").fill(title);
+  await page
+    .getByLabel("Mô tả vấn đề")
+    .fill("Dữ liệu minh họa cho kiểm thử phê duyệt độc lập.");
+  await page.getByRole("button", { name: "Lưu bản nháp", exact: true }).click();
+  await expect(page.getByRole("status")).toContainText("Đã lưu bản nháp");
+  await page.getByRole("button", { name: "Gửi trưởng bộ phận duyệt" }).click();
+  await expect(page.getByRole("status")).toContainText("Đã gửi phê duyệt");
   await page.goto("/account");
   await page
     .getByRole("button", { name: "Đăng xuất khỏi thiết bị này" })
@@ -109,10 +120,8 @@ test("trưởng bộ phận xem trước và duyệt", async ({ page }, testInfo
   await expect(page.locator("h1")).toContainText("Chào anh/chị");
   await page.goto("/approvals");
   await expect(page.locator('[aria-busy="true"]')).toHaveCount(0);
-  const pending = page
-    .locator(".approval-row")
-    .filter({ hasText: "Chờ duyệt" })
-    .first();
+  const pending = page.locator(".approval-row").filter({ hasText: title });
+  await expect(pending).toContainText("Chờ duyệt");
   await pending.click();
   await expect(page.locator(".approval-preview")).toContainText(
     "Dữ liệu minh họa",
