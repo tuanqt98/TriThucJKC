@@ -3,28 +3,28 @@ monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0xffff92903320&gt;
 
     def test_login_session_is_committed_before_response_start(runtime_client, monkeypatch):
         original = db.connection
-    
+
         @contextmanager
         def delayed_commit():
             with original() as conn:
                 yield conn
                 # Deliberately widen the scheduling window; never sleep in app code.
                 time.sleep(0.15)
-    
+
         monkeypatch.setattr(db, "connection", delayed_commit)
         payload = json.dumps({"username": "employee", "password": "test-only-password-123"}).encode()
         visible = []
-    
+
         async def exercise():
             received = False
-    
+
             async def receive():
                 nonlocal received
                 if not received:
                     received = True
                     return {"type": "http.request", "body": payload, "more_body": False}
                 await asyncio.Event().wait()
-    
+
             async def send(message):
                 if message["type"] != "http.response.start":
                     return
@@ -38,7 +38,7 @@ monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0xffff92903320&gt;
                 # TestClient which waits for request-scoped cleanup before returning.
                 with owner() as conn:
                     visible.append(bool(conn.execute("SELECT 1 FROM sessions WHERE session_hash=%s", (digest(token),)).fetchone()))
-    
+
             await create_app()(
                 {
                     "type": "http",
@@ -62,12 +62,12 @@ monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0xffff92903320&gt;
                 receive,
                 send,
             )
-    
+
         asyncio.run(exercise())
 &gt;       assert visible == [True], "Session cookie escaped before the session INSERT committed"
 E       AssertionError: Session cookie escaped before the session INSERT committed
 E       assert [False] == [True]
-E         
+E
 E         At index 0 diff: False != True
 E         Use -v to get more diff
 
