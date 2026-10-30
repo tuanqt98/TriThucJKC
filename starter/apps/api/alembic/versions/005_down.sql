@@ -1,0 +1,14 @@
+DROP FUNCTION jkc_incident_workflow(text,jsonb,text);
+DROP TRIGGER frozen_solution ON incident_solutions;
+DROP FUNCTION jkc_frozen_solution();
+DROP TRIGGER occurrence_history ON incident_occurrences;
+DROP POLICY incident_read ON incidents;
+DROP POLICY solution_read ON incident_solutions;
+DROP POLICY occurrence_read ON incident_occurrences;
+ALTER TABLE incidents DISABLE ROW LEVEL SECURITY;
+ALTER TABLE incident_solutions DISABLE ROW LEVEL SECURITY;
+ALTER TABLE incident_occurrences DISABLE ROW LEVEL SECURITY;
+DROP FUNCTION jkc_incident_read(uuid);
+ALTER TABLE incident_occurrences DROP CONSTRAINT occurrence_dedup, DROP COLUMN request_key;
+ALTER TABLE incident_solutions DROP COLUMN revision;
+ALTER TABLE incidents DROP COLUMN revision, DROP COLUMN owner_department_id;
