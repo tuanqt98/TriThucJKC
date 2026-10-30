@@ -27,6 +27,13 @@ test("Sprint 0.1 UAT: đọc đúng phiên bản, file an toàn, học và quiz"
   await expect(page.locator("h1")).toContainText("Chào anh/chị");
   await page.goto("/documents");
   const baselineDocument = "DEMO · Tài liệu giới thiệu cổng tri thức";
+  await page
+    .getByRole("textbox", { name: "Lọc theo tiêu đề", exact: true })
+    .fill(baselineDocument);
+  await page
+    .locator("form.filter-search")
+    .getByRole("button", { name: "Tìm kiếm", exact: true })
+    .click();
   if (info.project.name === "mobile")
     await page
       .locator(".content-card:visible")

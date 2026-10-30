@@ -39,6 +39,13 @@ test("8 màn hình, dữ liệu thật và responsive", async ({ page }, testInf
   }
   await page.goto("/documents");
   const baselineDocument = "DEMO · Tài liệu giới thiệu cổng tri thức";
+  await page
+    .getByRole("textbox", { name: "Lọc theo tiêu đề", exact: true })
+    .fill(baselineDocument);
+  await page
+    .locator("form.filter-search")
+    .getByRole("button", { name: "Tìm kiếm", exact: true })
+    .click();
   if (testInfo.project.name === "mobile")
     await page
       .locator(".content-card:visible")
