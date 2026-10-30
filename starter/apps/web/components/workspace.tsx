@@ -22,6 +22,9 @@ const navigation = [
   ["/incidents", "Sự cố", "incident"],
   ["/learning", "Đào tạo", "learning"],
   ["/approvals", "Phê duyệt", "approval"],
+  ["/workspace", "Biên soạn / phiên bản", "document"],
+  ["/incidents/manage", "Hồ sơ / tái diễn", "incident"],
+  ["/learning/manage", "Quản lý đào tạo", "learning"],
 ];
 const titles: Record<string, string> = {
   "/": "Chào anh/chị,\nhôm nay bạn cần gì?",
@@ -337,6 +340,11 @@ export function Workspace({
               </b>
             </div>
           </section>
+          <nav className="management-links" aria-label="Quản lý nội dung">
+            <Link href="/workspace">Biên soạn / phiên bản</Link>
+            <Link href="/incidents/manage">Hồ sơ sự cố / tái diễn</Link>
+            <Link href="/learning/manage">Quản lý đào tạo</Link>
+          </nav>
           {error && (
             <div className="error" role="alert">
               {error}{" "}
@@ -710,9 +718,15 @@ export function Workspace({
                             <h3>{c.title}</h3>
                             <p className="subtle">
                               {c.completed_lessons}/{c.total_lessons} bài học ·{" "}
-                              {c.completed_at
-                                ? "Đã hoàn thành"
-                                : "Chưa hoàn thành"}
+                              {(
+                                {
+                                  NOT_STARTED: "Chưa học",
+                                  IN_PROGRESS: "Đang học",
+                                  COMPLETED: "Hoàn thành",
+                                  FAILED: "Không đạt",
+                                  OVERDUE: "Quá hạn",
+                                } as Record<string, string>
+                              )[c.status] || c.status}
                             </p>
                             <progress
                               max={c.total_lessons || 1}

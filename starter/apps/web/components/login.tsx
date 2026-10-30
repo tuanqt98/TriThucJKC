@@ -9,8 +9,9 @@ export function Login({ reset = false }: { reset?: boolean }) {
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
   const [busy, setBusy] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   return (
-    <main className="login-page">
+    <main className="login-page login-approved">
       <section className="login-story">
         <Link className="brand" href="/login">
           <strong className="brand-mark">
@@ -109,7 +110,7 @@ export function Login({ reset = false }: { reset?: boolean }) {
             <label>
               {reset ? "Mật khẩu mới (tối thiểu 12 ký tự)" : "Mật khẩu"}
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 name="password"
                 required
                 minLength={reset ? 12 : 1}
@@ -117,6 +118,14 @@ export function Login({ reset = false }: { reset?: boolean }) {
                 autoComplete={reset ? "new-password" : "current-password"}
                 placeholder="Nhập mật khẩu của bạn"
               />
+            </label>
+            <label className="password-toggle">
+              <input
+                type="checkbox"
+                checked={showPassword}
+                onChange={(e) => setShowPassword(e.target.checked)}
+              />{" "}
+              Hiện mật khẩu
             </label>
             {error && (
               <p role="alert" className="error">
@@ -141,7 +150,7 @@ export function Login({ reset = false }: { reset?: boolean }) {
           <p className="login-note">
             Tài khoản JKC độc lập. Mật khẩu không đồng bộ với Odoo.
           </p>
-          <p className="demo-notice">Sprint 0 · Môi trường kiểm thử DEMO</p>
+          <p className="demo-notice">Môi trường kiểm thử DEMO</p>
         </div>
       </section>
     </main>

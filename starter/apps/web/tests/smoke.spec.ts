@@ -38,10 +38,18 @@ test("8 màn hình, dữ liệu thật và responsive", async ({ page }, testInf
     ).toBe(true);
   }
   await page.goto("/documents");
-  await page
-    .locator(".content-card:visible, .table-action:visible")
-    .first()
-    .click();
+  const baselineDocument = "DEMO · Tài liệu giới thiệu cổng tri thức";
+  if (testInfo.project.name === "mobile")
+    await page
+      .locator(".content-card:visible")
+      .filter({ hasText: baselineDocument })
+      .click();
+  else
+    await page
+      .locator("tr")
+      .filter({ hasText: baselineDocument })
+      .getByRole("link", { name: "Xem tài liệu", exact: true })
+      .click();
   await expect(
     page.getByRole("heading", {
       name: "DEMO · Tài liệu giới thiệu cổng tri thức",
@@ -64,7 +72,10 @@ test("8 màn hình, dữ liệu thật và responsive", async ({ page }, testInf
     "Chỉ trưởng bộ phận",
   );
   await page.goto("/");
-  await expect(page.locator(".stat").first()).toContainText("1");
+  const counts = await (await page.request.get("/api/v1/dashboard")).json();
+  await expect(page.locator(".stat").first().locator("strong")).toHaveText(
+    String(counts.documents),
+  );
   await page.screenshot({
     path: `${evidenceRoot}/dashboard-${testInfo.project.name}.png`,
     fullPage: true,

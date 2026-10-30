@@ -1,5 +1,7 @@
 import { test, expect } from "@playwright/test";
 import { readFileSync } from "node:fs";
+const evidenceRoot =
+  process.env.UI_EVIDENCE_DIR || "../../../docs/reports/sprint01";
 
 test("Sprint 0.1 UAT: đọc đúng phiên bản, file an toàn, học và quiz", async ({
   page,
@@ -24,10 +26,18 @@ test("Sprint 0.1 UAT: đọc đúng phiên bản, file an toàn, học và quiz"
   await page.getByRole("button", { name: "Đăng nhập", exact: true }).click();
   await expect(page.locator("h1")).toContainText("Chào anh/chị");
   await page.goto("/documents");
-  await page
-    .locator(".content-card:visible, .table-action:visible")
-    .first()
-    .click();
+  const baselineDocument = "DEMO · Tài liệu giới thiệu cổng tri thức";
+  if (info.project.name === "mobile")
+    await page
+      .locator(".content-card:visible")
+      .filter({ hasText: baselineDocument })
+      .click();
+  else
+    await page
+      .locator("tr")
+      .filter({ hasText: baselineDocument })
+      .getByRole("link", { name: "Xem tài liệu", exact: true })
+      .click();
   await page.getByRole("button", { name: "Tôi đã đọc phiên bản này" }).click();
   await expect(
     page
@@ -36,7 +46,7 @@ test("Sprint 0.1 UAT: đọc đúng phiên bản, file an toàn, học và quiz"
   ).toContainText("Đã xác nhận");
   await page.evaluate(() => window.scrollTo(0, 0));
   await page.screenshot({
-    path: `../../../docs/reports/sprint01/reading-${info.project.name}.png`,
+    path: `${evidenceRoot}/reading-${info.project.name}.png`,
     fullPage: true,
   });
   await page.goto("/knowledge/new");
@@ -66,7 +76,7 @@ test("Sprint 0.1 UAT: đọc đúng phiên bản, file an toàn, học và quiz"
   expect((await download).suggestedFilename()).toBe("uat-demo.png");
   await page.evaluate(() => window.scrollTo(0, 0));
   await page.screenshot({
-    path: `../../../docs/reports/sprint01/upload-${info.project.name}.png`,
+    path: `${evidenceRoot}/upload-${info.project.name}.png`,
     fullPage: true,
   });
   await page.getByRole("button", { name: "Gửi trưởng bộ phận duyệt" }).click();
@@ -109,7 +119,7 @@ test("Sprint 0.1 UAT: đọc đúng phiên bản, file an toàn, học và quiz"
   ).toBe(true);
   await page.evaluate(() => window.scrollTo(0, 0));
   await page.screenshot({
-    path: `../../../docs/reports/sprint01/quiz-${info.project.name}.png`,
+    path: `${evidenceRoot}/quiz-${info.project.name}.png`,
     fullPage: true,
   });
   await page.reload();
