@@ -4,7 +4,7 @@ from uuid import UUID
 from fastapi import APIRouter, Depends, Request
 from psycopg.errors import RaiseException
 from pydantic import BaseModel, ConfigDict
-from app.db import database
+from app.db import DB
 from app.permissions import current_user, fail, READ_ACL, acl_params, approval_scopes
 from app.schemas import Message
 
@@ -33,7 +33,7 @@ class AssignInput(AcknowledgeInput):
 
 
 @router.get("/my/reading", response_model=list[ReadingTask])
-def my_reading(user=Depends(current_user), conn=Depends(database)):
+def my_reading(user=Depends(current_user), conn=DB):
     return conn.execute(
         """SELECT a.id,c.id AS content_id,coalesce(v.title,c.title) AS title,v.id AS version_id,v.version_number,a.due_at,k.acknowledged_at,
         (c.current_published_version_id=v.id) AS is_current
@@ -47,7 +47,7 @@ def my_reading(user=Depends(current_user), conn=Depends(database)):
 
 
 @router.post("/reading-assignments/{id}/acknowledge", response_model=Message)
-def acknowledge(id: UUID, data: AcknowledgeInput, request: Request, user=Depends(current_user), conn=Depends(database)):
+def acknowledge(id: UUID, data: AcknowledgeInput, request: Request, user=Depends(current_user), conn=DB):
     try:
         conn.execute("SELECT jkc_ack_reading(%s,%s,%s)", (id, data.version_id, request.state.request_id))
     except RaiseException as exc:
@@ -61,7 +61,7 @@ def acknowledge(id: UUID, data: AcknowledgeInput, request: Request, user=Depends
 
 
 @router.post("/documents/{id}/reading-assignments", response_model=Message, status_code=201)
-def assign(id: UUID, data: AssignInput, request: Request, user=Depends(current_user), conn=Depends(database)):
+def assign(id: UUID, data: AssignInput, request: Request, user=Depends(current_user), conn=DB):
     recipient = conn.execute("SELECT id,department_id FROM users WHERE id=%s AND is_active", (data.user_id,)).fetchone()
     if not recipient or recipient["department_id"] not in approval_scopes(user):
         fail(403, "FORBIDDEN", "Chỉ được giao đọc cho nhân viên trong phạm vi bộ phận.")

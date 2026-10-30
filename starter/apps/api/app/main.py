@@ -1,6 +1,6 @@
 import uuid
 from copy import deepcopy
-from fastapi import FastAPI, Request, Depends, HTTPException
+from fastapi import FastAPI, Request, HTTPException
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from psycopg import OperationalError
@@ -14,7 +14,7 @@ from app.workflows import router as workflow_router
 from app.incident_records import router as incident_router
 from app.training_authoring import router as training_authoring_router
 from app.config import settings
-from app.db import database
+from app.db import DB
 from app.schemas import ErrorResponse, Health
 
 
@@ -87,7 +87,7 @@ def create_app():
         return {"status": "ok"}
 
     @app.get("/api/v1/health/ready", response_model=Health, tags=["System"])
-    def ready(conn=Depends(database)):
+    def ready(conn=DB):
         row = conn.execute("SELECT version_num FROM alembic_version").fetchone()
         if not row or row["version_num"] != "007":
             raise HTTPException(503, {"code": "NOT_READY", "message": "Database chưa được migration."})

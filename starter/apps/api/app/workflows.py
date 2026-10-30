@@ -7,7 +7,7 @@ from fastapi import APIRouter, Depends, Request
 from psycopg.errors import RaiseException, ForeignKeyViolation
 from psycopg.types.json import Jsonb
 from pydantic import BaseModel, ConfigDict, Field
-from app.db import database
+from app.db import DB
 from app.workspace_schemas import ContentWorkspace, VersionResult, PersonView, ReadingProgress
 from app.permissions import current_user, fail
 
@@ -66,17 +66,17 @@ def execute(conn, function, action, data, request):
 
 
 @router.get("/contents", response_model=list[ContentWorkspace])
-def contents(user=Depends(current_user), conn=Depends(database)):
+def contents(user=Depends(current_user), conn=DB):
     return conn.execute("SELECT jkc_content_workspace() AS items").fetchone()["items"]
 
 
 @router.post("/contents", response_model=VersionResult, status_code=201)
-def create(data: CreateContent, request: Request, user=Depends(current_user), conn=Depends(database)):
+def create(data: CreateContent, request: Request, user=Depends(current_user), conn=DB):
     return execute(conn, "jkc_content_workflow", "create", data, request)
 
 
 @router.put("/contents", response_model=VersionResult)
-def save(data: SaveContent, request: Request, user=Depends(current_user), conn=Depends(database)):
+def save(data: SaveContent, request: Request, user=Depends(current_user), conn=DB):
     return execute(conn, "jkc_content_workflow", "save", data, request)
 
 
@@ -86,7 +86,7 @@ def transition(
     data: ReviewContent,
     request: Request,
     user=Depends(current_user),
-    conn=Depends(database),
+    conn=DB,
 ):
     return execute(conn, "jkc_content_workflow", action, data, request)
 
@@ -100,17 +100,17 @@ class AssignReading(StrictInput):
 
 
 @router.get("/people", response_model=list[PersonView])
-def people(user=Depends(current_user), conn=Depends(database)):
+def people(user=Depends(current_user), conn=DB):
     return conn.execute("SELECT jkc_workspace_people() AS items").fetchone()["items"]
 
 
 @router.get("/reading", response_model=list[ReadingProgress])
-def reading(user=Depends(current_user), conn=Depends(database)):
+def reading(user=Depends(current_user), conn=DB):
     return conn.execute("SELECT jkc_reading_manage('list','{}',NULL) AS items").fetchone()["items"]
 
 
 @router.post("/reading", response_model=dict, status_code=201)
-def assign_reading(data: AssignReading, request: Request, user=Depends(current_user), conn=Depends(database)):
+def assign_reading(data: AssignReading, request: Request, user=Depends(current_user), conn=DB):
     if bool(data.user_id) == bool(data.department_id):
         fail(422, "VALIDATION_ERROR", "Chọn một nhân viên hoặc một bộ phận.")
     return execute(conn, "jkc_reading_manage", "assign", data, request)

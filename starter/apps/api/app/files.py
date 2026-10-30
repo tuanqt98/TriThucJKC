@@ -18,7 +18,7 @@ from pydantic import BaseModel
 from PIL import Image
 from pypdf import PdfReader, PdfWriter
 from app.config import settings
-from app.db import database
+from app.db import DB
 from app.permissions import current_user, fail, READ_ACL, acl_params
 
 router = APIRouter(prefix="/api/v1", tags=["Files"])
@@ -169,7 +169,7 @@ def version_access(conn, user, id):
 
 
 @router.get("/content-versions/{id}/attachments", response_model=list[Attachment])
-def attachments(id: UUID, user=Depends(current_user), conn=Depends(database)):
+def attachments(id: UUID, user=Depends(current_user), conn=DB):
     version_access(conn, user, id)
     return conn.execute(
         "SELECT id,filename,mime_type,byte_size,sha256,malware_scan_status,created_at FROM attachments WHERE content_version_id=%s ORDER BY created_at,id",
@@ -178,9 +178,7 @@ def attachments(id: UUID, user=Depends(current_user), conn=Depends(database)):
 
 
 @router.post("/content-versions/{id}/attachments", response_model=Attachment, status_code=201)
-def upload(
-    id: UUID, request: Request, file: UploadFile = File(...), user=Depends(current_user), conn=Depends(database), av=Depends(scanner)
-):
+def upload(id: UUID, request: Request, file: UploadFile = File(...), user=Depends(current_user), conn=DB, av=Depends(scanner)):
     # Serialize with submit/approve: attachments cannot change after submission.
     row = version_access(conn, user, id)
     if row["creator_id"] != user["id"] or row["status"] != "DRAFT":
@@ -238,7 +236,7 @@ def upload(
 
 
 @router.get("/attachments/{id}/download", response_class=Response, responses={200: {"content": {"application/octet-stream": {}}}})
-def download(id: UUID, user=Depends(current_user), conn=Depends(database)):
+def download(id: UUID, user=Depends(current_user), conn=DB):
     row = conn.execute("SELECT * FROM attachments WHERE id=%s", (id,)).fetchone()
     if not row:
         fail(404, "RESOURCE_NOT_FOUND", "Không tìm thấy tệp được quyền tải.")

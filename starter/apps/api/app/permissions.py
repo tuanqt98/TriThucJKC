@@ -1,6 +1,6 @@
 import hmac
-from fastapi import Depends, HTTPException, Request
-from app.db import database
+from fastapi import HTTPException, Request
+from app.db import DB
 from app.security import csrf_for, digest
 
 
@@ -8,7 +8,7 @@ def fail(status, code, message):
     raise HTTPException(status_code=status, detail={"code": code, "message": message})
 
 
-def current_user(request: Request, conn=Depends(database)):
+def current_user(request: Request, conn=DB):
     token = request.cookies.get("jkc_session", "")
     row = conn.execute(
         """SELECT u.id,u.username,u.full_name,u.department_id,u.must_change_password

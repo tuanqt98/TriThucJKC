@@ -3,7 +3,7 @@ from typing import Literal, Optional
 from uuid import UUID
 from fastapi import APIRouter, Depends, Request
 from pydantic import Field
-from app.db import database
+from app.db import DB
 from app.workspace_schemas import IncidentWorkspace, IncidentResult
 from app.permissions import current_user
 from app.workflows import StrictInput, execute
@@ -49,30 +49,30 @@ class OccurrenceInput(StrictInput):
 
 
 @router.get("", response_model=list[IncidentWorkspace])
-def records(user=Depends(current_user), conn=Depends(database)):
+def records(user=Depends(current_user), conn=DB):
     return conn.execute("SELECT jkc_incident_workflow('list','{}',NULL) AS items").fetchone()["items"]
 
 
 @router.post("", response_model=IncidentResult, status_code=201)
-def create(data: IncidentInput, request: Request, user=Depends(current_user), conn=Depends(database)):
+def create(data: IncidentInput, request: Request, user=Depends(current_user), conn=DB):
     return execute(conn, "jkc_incident_workflow", "create", data, request)
 
 
 @router.put("", response_model=IncidentResult)
-def update(data: IncidentUpdate, request: Request, user=Depends(current_user), conn=Depends(database)):
+def update(data: IncidentUpdate, request: Request, user=Depends(current_user), conn=DB):
     return execute(conn, "jkc_incident_workflow", "update", data, request)
 
 
 @router.post("/solutions", response_model=IncidentResult, status_code=201)
-def propose(data: SolutionInput, request: Request, user=Depends(current_user), conn=Depends(database)):
+def propose(data: SolutionInput, request: Request, user=Depends(current_user), conn=DB):
     return execute(conn, "jkc_incident_workflow", "propose", data, request)
 
 
 @router.post("/verify", response_model=IncidentResult)
-def verify(data: VerifyInput, request: Request, user=Depends(current_user), conn=Depends(database)):
+def verify(data: VerifyInput, request: Request, user=Depends(current_user), conn=DB):
     return execute(conn, "jkc_incident_workflow", "verify", data, request)
 
 
 @router.post("/occurrences", response_model=IncidentResult, status_code=201)
-def occur(data: OccurrenceInput, request: Request, user=Depends(current_user), conn=Depends(database)):
+def occur(data: OccurrenceInput, request: Request, user=Depends(current_user), conn=DB):
     return execute(conn, "jkc_incident_workflow", "occur", data, request)

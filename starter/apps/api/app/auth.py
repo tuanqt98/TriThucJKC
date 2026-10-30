@@ -3,7 +3,7 @@ from datetime import timedelta
 from fastapi import APIRouter, Depends, Request, Response
 from psycopg.errors import UniqueViolation
 from app.config import settings
-from app.db import database
+from app.db import DB
 from app.schemas import LoginInput, PasswordInput, ResetInput, UserInput, UserView, Message
 from app.security import DUMMY_HASH, csrf_for, digest, hasher, verify
 from app.permissions import current_user, fail, require_role
@@ -23,7 +23,7 @@ def audit(conn, request, actor, action, entity=None):
 
 
 @router.post("/auth/login", response_model=UserView)
-def login(data: LoginInput, request: Request, response: Response, conn=Depends(database)):
+def login(data: LoginInput, request: Request, response: Response, conn=DB):
     username = data.username.strip().lower()
     keys = sorted([(digest("user:" + username), 5), (digest("ip:" + request.client.host), 20)])
     for key, limit in keys:
@@ -70,7 +70,7 @@ def me(request: Request, user=Depends(current_user)):
 
 
 @router.post("/auth/logout", response_model=Message)
-def logout(request: Request, response: Response, user=Depends(current_user), conn=Depends(database)):
+def logout(request: Request, response: Response, user=Depends(current_user), conn=DB):
     conn.execute("UPDATE sessions SET revoked_at=now() WHERE session_hash=%s", (digest(request.cookies["jkc_session"]),))
     audit(conn, request, user["id"], "LOGOUT")
     response.delete_cookie("jkc_session", path="/api", secure=settings().cookie_secure, httponly=True, samesite="lax")
@@ -78,7 +78,7 @@ def logout(request: Request, response: Response, user=Depends(current_user), con
 
 
 @router.post("/auth/password", response_model=Message)
-def password(data: PasswordInput, request: Request, response: Response, user=Depends(current_user), conn=Depends(database)):
+def password(data: PasswordInput, request: Request, response: Response, user=Depends(current_user), conn=DB):
     row = conn.execute("SELECT password_hash FROM users WHERE id=%s FOR UPDATE", (user["id"],)).fetchone()
     if not verify(row["password_hash"], data.current_password):
         fail(400, "VALIDATION_ERROR", "Mật khẩu hiện tại không đúng.")
@@ -94,7 +94,7 @@ def password(data: PasswordInput, request: Request, response: Response, user=Dep
 
 
 @router.post("/auth/reset", response_model=Message)
-def reset(data: ResetInput, request: Request, conn=Depends(database)):
+def reset(data: ResetInput, request: Request, conn=DB):
     row = conn.execute(
         "SELECT * FROM password_resets WHERE token_hash=%s AND used_at IS NULL AND expires_at>now() FOR UPDATE", (digest(data.token),)
     ).fetchone()
@@ -112,7 +112,7 @@ def reset(data: ResetInput, request: Request, conn=Depends(database)):
 
 
 @router.post("/users", response_model=Message, status_code=201)
-def create_user(data: UserInput, request: Request, user=Depends(current_user), conn=Depends(database)):
+def create_user(data: UserInput, request: Request, user=Depends(current_user), conn=DB):
     require_role(user, "TECH_ADMIN")
     if not conn.execute("SELECT 1 FROM departments WHERE id=%s AND active", (data.department_id,)).fetchone():
         fail(422, "VALIDATION_ERROR", "Bộ phận không hợp lệ.")

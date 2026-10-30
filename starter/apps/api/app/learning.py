@@ -6,7 +6,7 @@ from fastapi import APIRouter, Depends, Request
 from pydantic import BaseModel, Field, ConfigDict
 from psycopg.types.json import Jsonb
 from psycopg.errors import RaiseException
-from app.db import database
+from app.db import DB
 from app.permissions import current_user, fail
 from app.schemas import Message
 
@@ -81,7 +81,7 @@ def assignment(conn, user, id, lock=False):
 
 
 @router.get("/my/learning/{id}", response_model=CourseDetail)
-def course(id: UUID, user=Depends(current_user), conn=Depends(database)):
+def course(id: UUID, user=Depends(current_user), conn=DB):
     row = assignment(conn, user, id)
     lessons = conn.execute(
         """SELECT l.id,l.title,l.body,EXISTS(SELECT 1 FROM lesson_progress p WHERE p.assignment_id=%s AND p.lesson_id=l.id) AS completed
@@ -101,7 +101,7 @@ def course(id: UUID, user=Depends(current_user), conn=Depends(database)):
 
 
 @router.post("/my/learning/{id}/lessons/{lesson_id}/complete", response_model=Message)
-def complete_lesson(id: UUID, lesson_id: UUID, request: Request, user=Depends(current_user), conn=Depends(database)):
+def complete_lesson(id: UUID, lesson_id: UUID, request: Request, user=Depends(current_user), conn=DB):
     row = assignment(conn, user, id, lock=True)
     lesson = conn.execute("SELECT 1 FROM lessons WHERE id=%s AND course_version_id=%s", (lesson_id, row["course_version_id"])).fetchone()
     if not lesson:
@@ -118,7 +118,7 @@ def complete_lesson(id: UUID, lesson_id: UUID, request: Request, user=Depends(cu
 
 
 @router.post("/my/learning/{id}/quiz-attempts", response_model=Attempt)
-def start_attempt(id: UUID, request: Request, user=Depends(current_user), conn=Depends(database)):
+def start_attempt(id: UUID, request: Request, user=Depends(current_user), conn=DB):
     row = assignment(conn, user, id, lock=True)
     pending = conn.execute("SELECT * FROM quiz_attempts WHERE assignment_id=%s AND submitted_at IS NULL", (id,)).fetchone()
     if pending:
@@ -147,7 +147,7 @@ def start_attempt(id: UUID, request: Request, user=Depends(current_user), conn=D
 
 
 @router.post("/quiz-attempts/{id}/submit", response_model=Attempt)
-def submit_quiz(id: UUID, data: Submission, request: Request, user=Depends(current_user), conn=Depends(database)):
+def submit_quiz(id: UUID, data: Submission, request: Request, user=Depends(current_user), conn=DB):
     # Database function validates ownership, exact question set/options, version and state,
     # serializes submissions, grades from protected answer keys and stores immutable history.
     try:

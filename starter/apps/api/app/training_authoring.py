@@ -3,7 +3,7 @@ from typing import Literal, Optional
 from uuid import UUID
 from fastapi import APIRouter, Depends, Request
 from pydantic import Field
-from app.db import database
+from app.db import DB
 from app.workspace_schemas import CourseWorkspace, VersionResult, TrainingProgress
 from app.permissions import current_user, fail
 from app.workflows import StrictInput, execute
@@ -50,27 +50,27 @@ class CourseAssign(CourseVersionInput):
 
 
 @router.get("", response_model=list[CourseWorkspace])
-def courses(user=Depends(current_user), conn=Depends(database)):
+def courses(user=Depends(current_user), conn=DB):
     return conn.execute("SELECT jkc_course_workspace() AS items").fetchone()["items"]
 
 
 @router.get("/progress", response_model=list[TrainingProgress])
-def progress(user=Depends(current_user), conn=Depends(database)):
+def progress(user=Depends(current_user), conn=DB):
     return conn.execute("SELECT jkc_training_progress() AS items").fetchone()["items"]
 
 
 @router.post("", response_model=VersionResult, status_code=201)
-def create(data: CourseCreate, request: Request, user=Depends(current_user), conn=Depends(database)):
+def create(data: CourseCreate, request: Request, user=Depends(current_user), conn=DB):
     return execute(conn, "jkc_course_workflow", "create", data, request)
 
 
 @router.put("", response_model=VersionResult)
-def save(data: CourseSave, request: Request, user=Depends(current_user), conn=Depends(database)):
+def save(data: CourseSave, request: Request, user=Depends(current_user), conn=DB):
     return execute(conn, "jkc_course_workflow", "save", data, request)
 
 
 @router.post("/assign", response_model=VersionResult, status_code=201)
-def assign(data: CourseAssign, request: Request, user=Depends(current_user), conn=Depends(database)):
+def assign(data: CourseAssign, request: Request, user=Depends(current_user), conn=DB):
     if bool(data.user_id) == bool(data.department_id):
         fail(422, "VALIDATION_ERROR", "Chọn một nhân viên hoặc một bộ phận.")
     return execute(conn, "jkc_course_workflow", "assign", data, request)
@@ -82,6 +82,6 @@ def transition(
     data: CourseVersionInput,
     request: Request,
     user=Depends(current_user),
-    conn=Depends(database),
+    conn=DB,
 ):
     return execute(conn, "jkc_course_workflow", action, data, request)
