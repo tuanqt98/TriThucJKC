@@ -46,5 +46,14 @@ export function useManagement<T>(path: string) {
       setBusy(false);
     }
   }
-  return { user, rows, error, notice, busy, loading, mutate, reload };
+  return {
+    user,
+    rows,
+    error,
+    notice,
+    busy: busy || loading || !user,
+    loading,
+    mutate,
+    reload,
+  };
 }

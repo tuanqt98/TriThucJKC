@@ -233,7 +233,26 @@ test("Sprint 1: HR ban hành/giao đọc, sửa tri thức, hồ sơ sự cố v
     page.getByText("Tình huống mẫu tái diễn", { exact: true }),
   ).toBeVisible();
   await screenshot(page, `incident-manager-${info.project.name}`);
+  let releaseAuth!: () => void;
+  const authGate = new Promise<void>((resolve) => {
+    releaseAuth = resolve;
+  });
+  await page.route(
+    "**/api/v1/auth/me",
+    async (route) => {
+      await authGate;
+      await route.continue();
+    },
+    { times: 1 },
+  );
   await page.goto("/learning/manage");
+  await expect(
+    page.getByRole("button", { name: "Tạo khóa nháp", exact: true }),
+  ).toBeDisabled();
+  releaseAuth();
+  await expect(
+    page.getByRole("button", { name: "Tạo khóa nháp", exact: true }),
+  ).toBeEnabled();
   await page.getByLabel("Tên khóa học", { exact: true }).fill(course);
   await page
     .getByRole("button", { name: "Tạo khóa nháp", exact: true })
