@@ -11,7 +11,10 @@ parser = argparse.ArgumentParser()
 parser.add_argument("--project", default="jkc-s01")
 parser.add_argument("--env-file", required=True)
 parser.add_argument("--ca", required=True)
+parser.add_argument("--evidence-dir", default="docs/reports/sprint01")
 args = parser.parse_args()
+evidence = Path(args.evidence_dir)
+evidence.mkdir(parents=True, exist_ok=True)
 assert args.project.startswith(("jkc-s01", "jkc-staging"))
 env = dict(
     line.split("=", 1)
@@ -51,6 +54,8 @@ fixtures = subprocess.check_output(
         "run",
         "--rm",
         "--no-deps",
+        "-e",
+        "UAT_SPRINT1=true",
         "seed",
         "python",
         "-m",
@@ -75,6 +80,8 @@ subprocess.run(
         args.ca,
         "--fixtures",
         str(fixture_path),
+        "--evidence-dir",
+        str(evidence),
     ],
     check=True,
 )
@@ -82,6 +89,7 @@ result_path = Path(".local/ui-results.json").resolve()
 runenv = {
     **os.environ,
     "UI_BASE_URL": env["APP_ORIGIN"],
+    "UI_EVIDENCE_DIR": str((evidence / "regression").resolve()),
     "UI_DEMO_PASSWORD": env["DEMO_PASSWORD"],
     "UI_TEST_LOCAL_CA": "true",
     "UI_UAT_FIXTURES": str(fixture_path.resolve()),
@@ -95,7 +103,7 @@ subprocess.run(
 )
 report = json.loads(result_path.read_text())
 stats = report["stats"]
-assert stats["unexpected"] == 0 and stats["skipped"] == 0 and stats["expected"] == 8
+assert stats["unexpected"] == 0 and stats["skipped"] == 0 and stats["expected"] == 12
 output = {
     "result": "PASS",
     "expected": stats["expected"],
@@ -106,7 +114,7 @@ output = {
     "transport": "HTTPS; independent Python probe verified CA chain; Chromium local-CA ignoreHTTPSErrors used only in automated fixtures",
     "human_uat_signoff": "PENDING; automated test is not PO/IT sign-off",
 }
-Path("docs/reports/sprint01/uat-results.json").write_text(
+(evidence / "uat-results.json").write_text(
     json.dumps(output, ensure_ascii=False, indent=2) + "\n"
 )
 print(json.dumps(output, ensure_ascii=False))

@@ -30,6 +30,25 @@ TABLES = [
     "quiz_responses",
     "audit_logs",
     "sessions",
+    "permissions",
+    "role_permissions",
+    "production_processes",
+    "equipment",
+    "categories",
+    "tags",
+    "content_acl",
+    "content_processes",
+    "content_tags",
+    "incidents",
+    "incident_solutions",
+    "incident_occurrences",
+    "login_limits",
+    "password_resets",
+    "questions",
+    "answers",
+    "notifications",
+    "integration_jobs",
+    "alembic_version",
 ]
 parser = argparse.ArgumentParser()
 parser.add_argument("action", choices=["capture", "verify"])
@@ -38,7 +57,10 @@ parser.add_argument("--env-file", required=True)
 parser.add_argument("--ca")
 parser.add_argument("--fixtures", default=".local/uat01.json")
 parser.add_argument("--checkpoint", default=".local/restore-checkpoint.json")
+parser.add_argument("--evidence-dir", default="docs/reports/sprint01")
 args = parser.parse_args()
+evidence = Path(args.evidence_dir)
+evidence.mkdir(parents=True, exist_ok=True)
 assert args.project.startswith(("jkc-s01", "jkc-staging"))
 base = [
     "docker",
@@ -70,16 +92,14 @@ for table in TABLES:
         text=True,
     )
     rows[table] = json.loads(result)
-path = Path("docs/reports/sprint01/backup-fingerprint.json")
+path = evidence / "backup-fingerprint.json"
 if args.action == "capture":
     checkpoint = Path(args.checkpoint)
     checkpoint.write_text(
         json.dumps(
             {
                 "fixture": json.loads(Path(args.fixtures).read_text())["api"],
-                "probe": json.loads(
-                    Path("docs/reports/sprint01/staging-probe.json").read_text()
-                ),
+                "probe": json.loads((evidence / "staging-probe.json").read_text()),
             }
         )
     )
@@ -135,12 +155,12 @@ else:
     output = {
         "result": "PASS",
         "project": args.project,
-        "database": "22 tables: exact row counts and SHA-256 canonical row fingerprints match before post-restore login",
+        "database": f"{len(TABLES)} tables: exact row counts and SHA-256 canonical row fingerprints match before post-restore login",
         "files": "archive checksum and every database attachment SHA-256 validated during restore; protected download works",
         "application": "CA-verified HTTPS login; reading acknowledgement and quiz history retained",
         "tables": rows,
     }
-    Path("docs/reports/sprint01/restore-verification.json").write_text(
+    (evidence / "restore-verification.json").write_text(
         json.dumps(output, ensure_ascii=False, indent=2) + "\n"
     )
     print(

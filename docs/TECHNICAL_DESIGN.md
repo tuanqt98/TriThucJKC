@@ -141,3 +141,8 @@ S1 (2 tuần): auth/users/RBAC/categories/layout; S2: documents/versions/article
 ## 14. Cập nhật Sprint 0.1 (không thay baseline/PO sign-off)
 
 Những mô tả starter/draft ở trên là baseline ban đầu. Source hiện có thêm auth/RBAC, runtime role/RLS, file private+ClamAV, ACK theo phiên bản, quiz/history và full Compose HTTPS được kiểm thử bằng DEMO. Xem [ADR bổ sung](ADR_SPRINT01.md), [runbook](STAGING_RUNBOOK.md), [UAT](UAT_SPRINT01.md) và [báo cáo có bằng chứng](reports/sprint01/REPORT.md). Exit gate vẫn mở; không suy ra đã nghiệm thu production hoặc xác nhận Odoo.
+# Bổ sung triển khai Sprint 1 (30/10/2026)
+
+Các phần kiến trúc ban đầu bên dưới giữ làm baseline. Implementation hiện hành bổ sung HR role riêng, operator cấp theo scope; TECH_ADMIN không có quyền ban hành mặc định. Workspace authoring/version/review, incident records/recurrence/verification và course authoring/version/assignment qua các hàm DB hẹp, RLS/grants và optimistic revision. Không sửa migrations 001–003; 004–007 nâng cấp có downgrade drill trên DB test. API thực được export trong `api/openapi.yaml`; bản đề xuất `openapi.backlog.yaml` không là runtime contract.
+
+Xem [SRS và acceptance trace](SRS.md), [báo cáo/bằng chứng/giới hạn](reports/SPRINT1_IMPLEMENTATION.md) và [UAT thực địa còn mở](UAT_SPRINT1_FIELD.md). HR ban hành do người dùng xác nhận; thiết bị/mạng/backup độc lập/capacity/sign-off vẫn cần PO/IT. Không production, không dữ liệu nhân viên thật, Odoo no-op.

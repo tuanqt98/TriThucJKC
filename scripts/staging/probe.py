@@ -15,7 +15,10 @@ parser.add_argument("--env-file", required=True)
 parser.add_argument("--ca", required=True)
 parser.add_argument("--fixtures", required=True)
 parser.add_argument("--project", default="jkc-s01")
+parser.add_argument("--evidence-dir", default="docs/reports/sprint01")
 args = parser.parse_args()
+evidence = Path(args.evidence_dir)
+evidence.mkdir(parents=True, exist_ok=True)
 assert args.project.startswith(("jkc-s01", "jkc-staging"))
 env = dict(
     line.split("=", 1)
@@ -181,7 +184,7 @@ output = {
     "course_assignment": course["id"],
     "result": "PASS",
 }
-Path("docs/reports/sprint01/staging-probe.json").write_text(
+(evidence / "staging-probe.json").write_text(
     json.dumps(output, ensure_ascii=False, indent=2) + "\n"
 )
 print(

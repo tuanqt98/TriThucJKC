@@ -1,0 +1,6 @@
+{
+  "action": "backup",
+  "project": "jkc-staging-s1",
+  "backup_set": "sprint1-drill",
+  "result": "completed; verify health and compare data before acceptance"
+}

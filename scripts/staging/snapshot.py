@@ -14,7 +14,10 @@ parser.add_argument("action", choices=["backup", "restore"])
 parser.add_argument("--project", required=True)
 parser.add_argument("--env-file", required=True)
 parser.add_argument("--set", required=True, dest="backup_set")
+parser.add_argument("--evidence-dir", default="docs/reports/sprint01")
 args = parser.parse_args()
+evidence = Path(args.evidence_dir)
+evidence.mkdir(parents=True, exist_ok=True)
 if not re.fullmatch(r"jkc-(s01|staging)[a-z0-9-]*", args.project) or not re.fullmatch(
     r"[A-Za-z0-9_-]+", args.backup_set
 ):
@@ -71,8 +74,7 @@ output = {
     "backup_set": args.backup_set,
     "result": "completed; verify health and compare data before acceptance",
 }
-Path("docs/reports/sprint01").mkdir(parents=True, exist_ok=True)
-Path(f"docs/reports/sprint01/{args.action}-operation.json").write_text(
+(evidence / f"{args.action}-operation.json").write_text(
     json.dumps(output, indent=2) + "\n"
 )
 print(json.dumps(output))

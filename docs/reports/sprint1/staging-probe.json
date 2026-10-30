@@ -1,0 +1,38 @@
+{
+  "project": "jkc-staging-s1",
+  "tls": "CA-verified HTTPS; Secure+HttpOnly session cookie",
+  "compose": {
+    "api": {
+      "state": "running",
+      "health": "healthy",
+      "ports": "8000/tcp"
+    },
+    "clamav": {
+      "state": "running",
+      "health": "healthy",
+      "ports": "3310/tcp, 7357/tcp"
+    },
+    "db": {
+      "state": "running",
+      "health": "healthy",
+      "ports": "5432/tcp"
+    },
+    "proxy": {
+      "state": "running",
+      "health": "healthy",
+      "ports": "127.0.0.1:18081->80/tcp, 127.0.0.1:18444->443/tcp"
+    },
+    "web": {
+      "state": "running",
+      "health": "healthy",
+      "ports": "3000/tcp"
+    }
+  },
+  "file": "real ClamAV CLEAN, EICAR blocked, parent ACL denies TECH_ADMIN",
+  "reading": "version-bound and idempotent",
+  "quiz": "server score 100, immutable submitted attempt, duplicate 409",
+  "content_id": "7c5bd885-9aca-4ac3-8781-5757e227f898",
+  "attachment_id": "b2524b80-f8fa-44b6-b73b-17379be03321",
+  "course_assignment": "44d99a27-5b9e-4a80-b7b3-e2eabcdf37f5",
+  "result": "PASS"
+}

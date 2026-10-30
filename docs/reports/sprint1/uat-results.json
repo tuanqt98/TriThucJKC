@@ -1,0 +1,13 @@
+{
+  "result": "PASS",
+  "expected": 12,
+  "failed": 0,
+  "skipped": 0,
+  "duration_ms": 38215.083999999995,
+  "viewports": [
+    "1440x1000",
+    "390x844"
+  ],
+  "transport": "HTTPS; independent Python probe verified CA chain; Chromium local-CA ignoreHTTPSErrors used only in automated fixtures",
+  "human_uat_signoff": "PENDING; automated test is not PO/IT sign-off"
+}

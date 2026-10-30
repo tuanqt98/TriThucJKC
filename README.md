@@ -1,6 +1,6 @@
 # TriThucJKC — Tri Thức JKC
 
-Cổng tri thức nội bộ JKC, đang ở Sprint 0.1 với dữ liệu DEMO. Giữ ba module Nội quy, Sự cố/Tri thức và Đào tạo. **Chưa nghiệm thu để dùng nhân viên thật hoặc production.** [Kết quả Sprint 0.1 và Go/No-Go](docs/reports/sprint01/REPORT.md), [checklist UAT](docs/UAT_SPRINT01.md), [báo cáo Sprint 0](docs/reports/SPRINT0_IMPLEMENTATION.md).
+Cổng tri thức nội bộ JKC, đang phát triển Sprint 1 với dữ liệu DEMO. Ba module Nội quy, Sự cố/Tri thức và Đào tạo có ưu tiên ngang nhau. **Chưa nghiệm thu để dùng nhân viên thật hoặc production.** [Sprint 1 / bằng chứng / Go-No-Go](docs/reports/SPRINT1_IMPLEMENTATION.md), [Sprint 0.1](docs/reports/sprint01/REPORT.md), [UAT thực địa](docs/UAT_SPRINT1_FIELD.md).
 
 Đã có auth/session/CSRF/RBAC, layout desktop/mobile, Dashboard và thư viện theo ACL; lưu nháp/gửi/duyệt ARTICLE; PostgreSQL migration + runtime role/RLS; file private được ClamAV quét; xác nhận đọc theo phiên bản; bài học, quiz chấm server và lịch sử. Odoo chỉ là no-op adapter, chưa giả định version/gói quyền.
 
@@ -20,7 +20,7 @@ docker compose --project-name jkc-staging --env-file deploy/.env -f deploy/compo
 
 Seed tạo `employee`, `head`, `other`, `admin`, mật khẩu từ DEMO_PASSWORD. Chỉ chạy development/test; service seed đặt development rõ ràng, không tự seed mỗi lần API khởi động. Seed idempotent, không đổi mật khẩu đã có, không dùng tài khoản này cho nhân viên thật.
 
-DB/API/scanner không publish cổng. Chỉ Caddy bind loopback, admin API Caddy bị tắt. Migrate dùng `jkc_owner`, API chỉ dùng `jkc_runtime` không owner/superuser/BYPASSRLS. Readiness kiểm tra migration 003, runtime role, storage có thể ghi và chữ ký ClamAV không quá 7 ngày. API/web chạy non-root, read-only root filesystem.
+DB/API/scanner không publish cổng. Chỉ Caddy bind loopback, admin API Caddy bị tắt. Migrate dùng `jkc_owner`, API chỉ dùng `jkc_runtime` không owner/superuser/BYPASSRLS. Readiness kiểm tra migration 007, runtime role, storage có thể ghi và chữ ký ClamAV không quá 7 ngày. API/web chạy non-root, read-only root filesystem.
 
 Lấy **public CA certificate**, không xuất private key:
 
@@ -116,4 +116,17 @@ Runner kiểm tra CA bằng Python HTTPS thật và ClamAV/EICAR, rồi chạy 8
 
 [Runbook staging](docs/STAGING_RUNBOOK.md) có quy trình dừng ghi, dump DB + private files, SHA-256, restore sang **project/volume rỗng**, kiểm fingerprint và app. Không restore đè. Baseline SQL và migrations 001/002 giữ nguyên; thay đổi Sprint 0.1 ở 003. Rollback có thể làm mất snapshot lịch sử quiz nên ưu tiên restore backup khi đã có dữ liệu cần giữ.
 
-Còn P0 ở exit gate: PO/key users UAT thực địa, IT DNS/VPN/trust CA, lịch backup và bản sao độc lập/retention/RPO-RTO, cập nhật chữ ký/pin release image, policy ban hành/cấp quyền và phạm vi Sprint 1. Không dùng dữ liệu nhân viên thật, không production. Các workflow request-changes/reject, sửa draft sau reload, incident occurrences, notifications/Q&A/reports vẫn ở backlog; không quảng bá là đã có.
+Còn P0 ở exit gate: PO/key users UAT thực địa, IT DNS/VPN/trust CA, lịch backup và bản sao độc lập/retention/RPO-RTO, cập nhật chữ ký/pin release image, danh sách cấp quyền và chính sách máy chung. Người dùng đã xác nhận HR ban hành nội quy. Không dùng dữ liệu nhân viên thật, không production. Notifications/Q&A/reports và capacity/security assessment thực địa còn backlog.
+
+## Sprint 1 — các màn hình mới
+
+- `/workspace`: tạo/sửa nháp, phiên bản, yêu cầu sửa/từ chối/gửi lại, HR ban hành nội quy, head duyệt tri thức; giao và theo dõi đọc.
+- `/incidents/manage`: hồ sơ/điều kiện/nguyên nhân/phương án/kết quả, tái diễn idempotent và head xác minh.
+- `/learning/manage`: khóa/bài học/quiz, lưu và mở lại nháp, duyệt, tạo phiên bản mới và giao học; tiến độ 5 trạng thái. Player cũ giữ chấm DB và lịch sử bất biến.
+- `/login`: hero desktop/mobile và nút đỏ theo thiết kế 09; giữ session/CSRF/reset.
+
+HR là role riêng, không cấp ngầm cho TECH_ADMIN. Scope bộ phận chỉ ban hành trong bộ phận; scope company phải cấp rõ bằng `--company`. Chỉ operator kết nối bằng table owner được chạy `python -m app.grant_hr --username '<approved_username>' --department-code '<approved_department>' --approval-reference '<approval_reference>'`; dùng `--company` thay department-code khi được duyệt phạm vi toàn công ty. Không có API TECH_ADMIN tự cấp HR. Người soạn không tự duyệt, kể cả HR; cần HR khác duyệt nội quy do HR soạn. UAT runner chỉ tạo HR tổng hợp mới trong database DEMO đã qua guard.
+
+Migrations Sprint 1: 004 workflow/HR/reading, 005 incident records/RLS/history, 006 course authoring/status, 007 tiêu đề theo phiên bản và stale incident verification. Giữ nguyên baseline và 001–003. Backup trước rollback có dữ liệu lịch sử; drill downgrade chỉ dùng DB `jkc_test*` riêng.
+
+Lưu bằng chứng mới bằng `--evidence-dir docs/reports/sprint1` khi chạy các script `scripts/staging/*.py`, không ghi đè bằng chứng Sprint 0.1. `uat.py` chạy 12 ca desktop/mobile, tạo fixture riêng mỗi lần, không chấp nhận skip. [Runbook bổ sung](docs/STAGING_SPRINT1.md) ghi stack review và các lệnh kiểm chứng.

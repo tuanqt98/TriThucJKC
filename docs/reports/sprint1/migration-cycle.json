@@ -1,0 +1,31 @@
+{
+  "result": "PASS",
+  "steps": [
+    {
+      "direction": "upgrade",
+      "target": "head",
+      "actual": "007"
+    },
+    {
+      "direction": "downgrade",
+      "target": "003",
+      "actual": "003"
+    },
+    {
+      "direction": "upgrade",
+      "target": "head",
+      "actual": "007"
+    },
+    {
+      "direction": "downgrade",
+      "target": "base",
+      "actual": "base"
+    },
+    {
+      "direction": "upgrade",
+      "target": "head",
+      "actual": "007"
+    }
+  ],
+  "scope": "empty dedicated DEMO test database; baseline and Sprint 0.1 rollback/reapply"
+}

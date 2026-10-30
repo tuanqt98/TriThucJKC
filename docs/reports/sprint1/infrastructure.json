@@ -1,0 +1,163 @@
+{
+  "project": "jkc-staging-s1",
+  "services": {
+    "api": {
+      "state": "running",
+      "health": "healthy",
+      "ports": "8000/tcp",
+      "image_id": "sha256:adca8cd12ad426e7106cbded45fd3c8d048142f5e982e98f00a73e91d559a147"
+    },
+    "clamav": {
+      "state": "running",
+      "health": "healthy",
+      "ports": "3310/tcp, 7357/tcp",
+      "image_id": "sha256:056e00c9680f08ebfc81c120effe0979f14fc48f7a0430871e118158e393536c"
+    },
+    "db": {
+      "state": "running",
+      "health": "healthy",
+      "ports": "5432/tcp",
+      "image_id": "sha256:9ae4e8f8d0284836a505f0b2e825144e32e20499856e7dc5f7b99e19d10eedd6"
+    },
+    "proxy": {
+      "state": "running",
+      "health": "healthy",
+      "ports": "127.0.0.1:18081->80/tcp, 127.0.0.1:18444->443/tcp",
+      "image_id": "sha256:aee41d1ced04e14296ef53ad4f59ad6c7e48b6eda03459d46b34c61d1c1d3e03"
+    },
+    "web": {
+      "state": "running",
+      "health": "healthy",
+      "ports": "3000/tcp",
+      "image_id": "sha256:00a2de61ad260a621393c70396fad69af23b8a96f93b87f906fcee85c6831755"
+    }
+  },
+  "role": {
+    "role": "jkc_runtime",
+    "rolsuper": false,
+    "rolbypassrls": false,
+    "rolcreaterole": false,
+    "rolcreatedb": false,
+    "owns_tables": 0,
+    "can_edit_score": false,
+    "can_read_answer_key": false,
+    "can_issue_reset": false,
+    "unscoped_visible_contents": 0
+  },
+  "rls": [
+    {
+      "tablename": "approval_events",
+      "rowsecurity": true
+    },
+    {
+      "tablename": "approvals",
+      "rowsecurity": true
+    },
+    {
+      "tablename": "attachments",
+      "rowsecurity": true
+    },
+    {
+      "tablename": "audit_logs",
+      "rowsecurity": true
+    },
+    {
+      "tablename": "content_acl",
+      "rowsecurity": true
+    },
+    {
+      "tablename": "content_processes",
+      "rowsecurity": true
+    },
+    {
+      "tablename": "content_tags",
+      "rowsecurity": true
+    },
+    {
+      "tablename": "content_versions",
+      "rowsecurity": true
+    },
+    {
+      "tablename": "contents",
+      "rowsecurity": true
+    },
+    {
+      "tablename": "course_assignments",
+      "rowsecurity": true
+    },
+    {
+      "tablename": "course_versions",
+      "rowsecurity": true
+    },
+    {
+      "tablename": "courses",
+      "rowsecurity": true
+    },
+    {
+      "tablename": "incident_occurrences",
+      "rowsecurity": true
+    },
+    {
+      "tablename": "incident_solutions",
+      "rowsecurity": true
+    },
+    {
+      "tablename": "incidents",
+      "rowsecurity": true
+    },
+    {
+      "tablename": "lesson_progress",
+      "rowsecurity": true
+    },
+    {
+      "tablename": "lessons",
+      "rowsecurity": true
+    },
+    {
+      "tablename": "quiz_attempts",
+      "rowsecurity": true
+    },
+    {
+      "tablename": "quiz_options",
+      "rowsecurity": true
+    },
+    {
+      "tablename": "quiz_questions",
+      "rowsecurity": true
+    },
+    {
+      "tablename": "quiz_responses",
+      "rowsecurity": true
+    },
+    {
+      "tablename": "reading_acks",
+      "rowsecurity": true
+    },
+    {
+      "tablename": "reading_assignments",
+      "rowsecurity": true
+    },
+    {
+      "tablename": "user_roles",
+      "rowsecurity": true
+    }
+  ],
+  "guards": [
+    {
+      "tgname": "attempt_history"
+    },
+    {
+      "tgname": "fixed_content"
+    },
+    {
+      "tgname": "fixed_version"
+    },
+    {
+      "tgname": "frozen_lessons"
+    },
+    {
+      "tgname": "reading_history"
+    }
+  ],
+  "scanner": "ClamAV 1.5.4/28164/Sun Oct 25 06:24:12 2026"
+}

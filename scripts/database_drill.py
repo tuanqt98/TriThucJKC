@@ -44,7 +44,7 @@ try:
     with psycopg.connect(target) as conn:
         assert (
             conn.execute("SELECT version_num FROM alembic_version").fetchone()[0]
-            == "003"
+            == "007"
         )
     # Fresh target for restore; no shared application database is dropped.
     with psycopg.connect(admin, autocommit=True) as conn:

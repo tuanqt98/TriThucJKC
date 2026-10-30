@@ -1,4 +1,4 @@
-name: Sprint 0 checks
+name: JKC regression and staging acceptance
 on: [push, pull_request]
 permissions:
   contents: read
@@ -138,23 +138,23 @@ jobs:
           docker cp jkc-s01-ci-proxy-1:/data/caddy/pki/authorities/local/root.crt .local/ci-ca.crt
       - name: Real antivirus and browser acceptance
         run: |
-          .venv/bin/python scripts/staging/uat.py --project jkc-s01-ci --env-file .local/ci-staging.env --ca .local/ci-ca.crt
-          .venv/bin/python scripts/staging/collect_evidence.py --project jkc-s01-ci --env-file .local/ci-staging.env
+          .venv/bin/python scripts/staging/uat.py --project jkc-s01-ci --env-file .local/ci-staging.env --ca .local/ci-ca.crt --evidence-dir docs/reports/sprint1
+          .venv/bin/python scripts/staging/collect_evidence.py --project jkc-s01-ci --env-file .local/ci-staging.env --evidence-dir docs/reports/sprint1
       - name: Isolated DB and attachment restore
         run: |
-          .venv/bin/python scripts/staging/verify_restore.py capture --project jkc-s01-ci --env-file .local/ci-staging.env
-          .venv/bin/python scripts/staging/snapshot.py backup --project jkc-s01-ci --env-file .local/ci-staging.env --set ci-drill
-          .venv/bin/python scripts/staging/snapshot.py restore --project jkc-s01-ci-restore --env-file .local/ci-restore.env --set ci-drill
+          .venv/bin/python scripts/staging/verify_restore.py capture --project jkc-s01-ci --env-file .local/ci-staging.env --evidence-dir docs/reports/sprint1
+          .venv/bin/python scripts/staging/snapshot.py backup --project jkc-s01-ci --env-file .local/ci-staging.env --set ci-drill --evidence-dir docs/reports/sprint1
+          .venv/bin/python scripts/staging/snapshot.py restore --project jkc-s01-ci-restore --env-file .local/ci-restore.env --set ci-drill --evidence-dir docs/reports/sprint1
           docker cp jkc-s01-ci-restore-proxy-1:/data/caddy/pki/authorities/local/root.crt .local/ci-restore-ca.crt
-          .venv/bin/python scripts/staging/verify_restore.py verify --project jkc-s01-ci-restore --env-file .local/ci-restore.env --ca .local/ci-restore-ca.crt
+          .venv/bin/python scripts/staging/verify_restore.py verify --project jkc-s01-ci-restore --env-file .local/ci-restore.env --ca .local/ci-restore-ca.crt --evidence-dir docs/reports/sprint1
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: sprint01-staging-evidence
+          name: sprint1-staging-evidence
           retention-days: 7
           path: |
-            docs/reports/sprint01/*.json
-            docs/reports/sprint01/**/*.png
+            docs/reports/sprint1/*.json
+            docs/reports/sprint1/**/*.png
             starter/apps/web/playwright-report
       - name: Remove only ephemeral CI stacks
         if: always()

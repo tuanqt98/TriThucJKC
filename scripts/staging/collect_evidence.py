@@ -8,7 +8,10 @@ from pathlib import Path
 parser = argparse.ArgumentParser()
 parser.add_argument("--project", default="jkc-s01")
 parser.add_argument("--env-file", required=True)
+parser.add_argument("--evidence-dir", default="docs/reports/sprint01")
 args = parser.parse_args()
+evidence = Path(args.evidence_dir)
+evidence.mkdir(parents=True, exist_ok=True)
 assert args.project.startswith(("jkc-s01", "jkc-staging"))
 base = [
     "docker",
@@ -74,7 +77,7 @@ assert not any(
     ]
 )
 assert len(facts["guards"]) == 5
-Path("docs/reports/sprint01/infrastructure.json").write_text(
+(evidence / "infrastructure.json").write_text(
     json.dumps(
         {"project": args.project, "services": summary, **facts},
         ensure_ascii=False,
