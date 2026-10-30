@@ -8,7 +8,9 @@ Ngày 30/10/2026. Nhánh `feature/sprint-1-mvp`, baseline `dc47e98`. Chỉ DEMO;
 
 CI baseline [41036298237](https://github.com/tuanqt98/TriThucJKC/actions/runs/41036298237): foundation PASS, PostgreSQL 17 PASS, staging FAIL tại docker cp CA sau restore. Log xác nhận dump, file checksum và restore đã pass; proxy mới ở trạng thái Started, CA chưa tồn tại. Sửa snapshot restore chờ toàn stack healthy qua Compose --wait/240s, giữ guard từ chối volume đã tồn tại. Regression unit kiểm tra chờ readiness và không chạm volume cũ. Không nới lỏng kiểm tra TLS/CA.
 
-CI bản sửa staging [41037682167](https://github.com/tuanqt98/TriThucJKC/actions/runs/41037682167): staging PASS; foundation phát hiện test duyệt phụ thuộc bản nháp test trước. Đã cho test tự tạo fixture riêng, chọn đúng hồ sơ thay vì phần tử đầu. [41038282100](https://github.com/tuanqt98/TriThucJKC/actions/runs/41038282100) tại `f663d03`: **cả 3 job PASS**, trước khi mở rộng chức năng.
+CI bản sửa staging [41037682167](https://github.com/tuanqt98/TriThucJKC/actions/runs/41037682167): staging PASS; foundation phát hiện test duyệt phụ thuộc bản nháp test trước. Đã cho test tự tạo fixture riêng, chọn đúng hồ sơ thay vì phần tử đầu. [41038282100](https://github.com/tuanqt98/TriThucJKC/actions/runs/41038282100) tại `f663d03`: **cả 3 job PASS**, trước khi push các commit chức năng Sprint 1.
+
+CI code Sprint 1 sau khi sửa transaction: [41091188891](https://github.com/tuanqt98/TriThucJKC/actions/runs/41091188891) tại `3fc5e0c`: **foundation / PostgreSQL 17 / staging-acceptance đều PASS**, gồm restore và probe identity ngay sau login. [Snapshot CI](sprint1/ci-audit.json) giữ rõ SHA và cả run lỗi trước đó; [tổng hợp bằng chứng](sprint1/verification-summary.json) liên kết code SHA với kết quả local. Commit bàn giao bằng chứng sau đó cần đối chiếu trạng thái head trên Actions, không suy ra tự động từ SHA cũ.
 
 ## Quyết định nghiệp vụ
 
@@ -43,13 +45,13 @@ Người dùng xác nhận trong phiên làm việc: **HR ban hành nội quy**.
 
 ## Kiểm thử và chứng cứ
 
-- [backend-junit.xml](sprint1/backend-junit.xml): **43 passed**, Python 3.12 / PostgreSQL 17 trong database test mới; giữ đủ 34 tests Sprint 0.1. Có 2 DeprecationWarning từ validator/PDF fixture, không fail.
+- [backend-junit.xml](sprint1/backend-junit.xml): **45 passed**, Python 3.12 / PostgreSQL 17 trong database test mới; giữ đủ 34 tests Sprint 0.1. Có 2 DeprecationWarning từ validator/PDF fixture, không fail. Bổ sung regression transaction tại ASGI response.start, có cả commit thành công/lỗi.
 - [uat-results.json](sprint1/uat-results.json): **12 passed, 0 fail/skip**, desktop 1440×1000 và mobile 390×844. Gồm 8 ca regression cũ, hero/red button/reset và end-to-end 3 module. Test không dựa thứ tự nội dung đầu danh sách; so dashboard với API thật. Không bỏ hay nới kiểm tra authorization cũ.
 - [staging-probe.json](sprint1/staging-probe.json): HTTPS xác thực đúng CA, cookie Secure/HttpOnly, ClamAV CLEAN/EICAR thật, ACL, ACK và quiz duplicate guard.
 - [infrastructure.json](sprint1/infrastructure.json): cả 5 service healthy; chỉ proxy loopback; runtime không owner/superuser/BYPASSRLS, không answer key SELECT/score UPDATE.
 - [migration-cycle.json](sprint1/migration-cycle.json): upgrade/downgrade/reapply 003/007/base PASS, không stamp thay migration.
-- [backup-fingerprint.json](sprint1/backup-fingerprint.json), [backup-operation.json](sprint1/backup-operation.json), [restore-operation.json](sprint1/restore-operation.json), [restore-verification.json](sprint1/restore-verification.json): **41 bảng khớp count/hash**, từng file khớp SHA-256; login/ACK/quiz/protected download còn sau restore. Snapshot được lấy sau UAT, trước post-restore login.
-- Ruff lint/format, Next lint/typecheck/build, OpenAPI export --check, Compose staging config, actionlint, unit restore readiness/volume refusal: PASS theo lệnh đã chạy. Final feature CI cần xem trên [Actions nhánh feature](https://github.com/tuanqt98/TriThucJKC/actions?query=branch%3Afeature%2Fsprint-1-mvp); không lấy local PASS thay remote CI.
+- [backup-fingerprint.json](sprint1/backup-fingerprint.json), [backup-operation.json](sprint1/backup-operation.json), [restore-operation.json](sprint1/restore-operation.json), [restore-verification.json](sprint1/restore-verification.json): **41 bảng khớp count/hash**, từng file khớp SHA-256; login/ACK/quiz/protected download còn sau restore. Snapshot được lấy sau một vòng UAT, trước post-restore login; source tiếp tục có các vòng regression tạo fixture mới sau đó. Fingerprint là bằng chứng tại snapshot, không phải count live mới nhất. Stack restore đã dừng, giữ volume/backup.
+- Ruff lint/format, Next lint/typecheck/build, OpenAPI export --check, Compose staging config, actionlint, unit restore readiness/volume refusal: PASS theo lệnh đã chạy. Remote CI code `3fc5e0c` cũng PASS cả ba job; các head sau đó xem trên [Actions nhánh feature](https://github.com/tuanqt98/TriThucJKC/actions?query=branch%3Afeature%2Fsprint-1-mvp), không lấy local PASS thay remote CI.
 - Ảnh có tại [regression](sprint1/regression/), đã xem login mobile, biên soạn mobile, hồ sơ desktop và đào tạo mobile. Chromium local-CA ignore chỉ cho automated fixture; probe riêng kiểm CA thật. Không suy ra thiết bị xưởng đã trust CA.
 
 ## File thay đổi và lỗi đã sửa
@@ -57,6 +59,8 @@ Người dùng xác nhận trong phiên làm việc: **HR ban hành nội quy**.
 Các file chính: `starter/apps/api/alembic/versions/004*` đến `007*`; `app/workflows.py`, `workspace_schemas.py`, `incident_records.py`, `training_authoring.py`, `grant_hr.py`, auth context/grants/file-access integration; `tests/test_workflows.py`, `test_sprint1_features.py`. Frontend: `authoring.tsx`, `reading-manager.tsx`, `incident-manager.tsx`, `training-manager.tsx`, `use-management.ts`, routes tương ứng, login/CSS/nav và public hero. Ops: scripts staging, migration_cycle/database_drill, workflow CI và Docker web copy public. Contract/docs: OpenAPI, SRS/backlog, runbook/UAT và báo cáo/bằng chứng.
 
 Đã sửa SQL alias đụng biến PL/pgSQL ở list reading/incident gây 500; test giao đọc dùng fixture riêng để không nhầm idempotency với cập nhật hạn cũ; dùng accessible combobox locator; Docker standalone thiếu public; course draft reload cần bỏ ID/order metadata trước gửi strict lesson input. Thêm guard NULL revision ở hàm DB, chặn stale verification theo cả hồ sơ lẫn phương án, tiêu đề bản mới không sửa tiêu đề đã ban hành, seed không kéo published pointer về v1 khi chạy lại.
+
+Vòng kiểm cuối tìm thêm race transaction: dependency DB request-scope có thể gửi cookie/200 trước commit. Đã tái hiện bằng ASGI + connection độc lập: bản cũ FAIL vì session chưa visible tại response.start, bản sửa function-scope PASS, commit lỗi trả 503 không cookie. Không nới ACL hoặc retry che 401; [ADR và bằng chứng red/green](../ADR_SPRINT1_TRANSACTION.md). Các route dùng chung DB dependency function-scope để giữ auth context cùng transaction. Probe kiểm identity ngay sau mỗi login. Login/reset có method POST và khóa đến khi hydrate, test thêm JavaScript tắt. Form quản lý chỉ mở nút sau khi auth/me xong. UAT ghi INCOMPLETE khi bắt đầu và FAIL khi test lỗi, tránh giữ PASS cũ; tìm baseline qua UI search để không phụ thuộc trang đầu khi dữ liệu tăng. Các dòng placeholder Sprint 0 đã được thay bằng link chức năng thực.
 
 ## Còn lại, rủi ro và GO/NO-GO
 

@@ -31,8 +31,8 @@
   "file": "real ClamAV CLEAN, EICAR blocked, parent ACL denies TECH_ADMIN",
   "reading": "version-bound and idempotent",
   "quiz": "server score 100, immutable submitted attempt, duplicate 409",
-  "content_id": "7c5bd885-9aca-4ac3-8781-5757e227f898",
-  "attachment_id": "b2524b80-f8fa-44b6-b73b-17379be03321",
-  "course_assignment": "44d99a27-5b9e-4a80-b7b3-e2eabcdf37f5",
+  "content_id": "e7077833-7726-4451-9019-90cf268b84f8",
+  "attachment_id": "228b4ca2-18a2-46e2-94fe-2c5301060d04",
+  "course_assignment": "fe83485f-a9b4-4c51-a939-6655d5df87c2",
   "result": "PASS"
 }

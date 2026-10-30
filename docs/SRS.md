@@ -33,5 +33,5 @@ Dẫn xuất từ yêu cầu người dùng ngày 30/10/2026 và TECHNICAL_DESIG
 | INC-01/02 | Hồ sơ/propose/occur/verify, no self/out-of-scope/stale, history immutable | Nghiệp vụ xác minh và quy trình thật PO/head ký | migration 005/007, incident_records, incident-manager |
 | LMS-01/02 | Authoring/approve/fork/assign/5 statuses; giữ grader/history | Duyệt bài/đáp án/threshold thật, policy giao học | migration 006, training_authoring, training-manager, tests |
 | UX-01 | 9 designs đã đọc; login hero/đỏ + states; UI12 PASS | Đối chiếu thiết bị thật/UX sign-off, paging cho dữ liệu lớn | design/LOGIN_ASSET.md, sprint1/regression |
-| QA-01 | Backend43 + UI12; lint/types/build/OpenAPI/Compose/actionlint/drill PASS local | CI feature commit mới và UAT PO/IT | reports/SPRINT1_IMPLEMENTATION.md |
+| QA-01 | Backend45 + UI12; lint/types/build/OpenAPI/Compose/actionlint/drill PASS local; CI code 3fc5e0c cả 3 job PASS | Trạng thái head bàn giao sau đó và UAT PO/IT | reports/SPRINT1_IMPLEMENTATION.md |
 | INT-01 | Adapter no-op giữ nguyên | IT/Odoo admin xác minh version/edition/API rights | integrations/odoo.py |

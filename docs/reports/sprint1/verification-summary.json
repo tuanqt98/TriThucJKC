@@ -1,0 +1,58 @@
+{
+  "report_date": "2026-10-30",
+  "source_code_sha": "3fc5e0ce2d0383c8ad3e683445a16989ac6ad469",
+  "data_scope": "DEMO synthetic fixtures; no production deployment",
+  "backend": {
+    "tests": 45,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "transaction_regression_before": {
+    "expected_failure": true,
+    "tests": 1,
+    "failures": 1,
+    "errors": 0,
+    "skipped": 0
+  },
+  "transaction_regression_after": {
+    "tests": 2,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "ui": {
+    "result": "PASS",
+    "passed": 12,
+    "failed": 0,
+    "skipped": 0
+  },
+  "restored_tables": 41,
+  "restore_snapshot_note": "Verified snapshot precedes subsequent UAT writes; not a live row-count inventory",
+  "remote_ci": {
+    "run_id": 41091188891,
+    "head_sha": "3fc5e0ce2d0383c8ad3e683445a16989ac6ad469",
+    "url": "https://github.com/tuanqt98/TriThucJKC/actions/runs/41091188891",
+    "status": "completed",
+    "conclusion": "success",
+    "jobs": [
+      {
+        "name": "staging-acceptance",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "foundation",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "postgres17",
+        "status": "completed",
+        "conclusion": "success"
+      }
+    ]
+  },
+  "human_uat": "PENDING",
+  "go_no_go": "NO-GO formal acceptance/production until PO/IT field gates are signed"
+}

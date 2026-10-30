@@ -145,4 +145,6 @@ Những mô tả starter/draft ở trên là baseline ban đầu. Source hiện 
 
 Các phần kiến trúc ban đầu bên dưới giữ làm baseline. Implementation hiện hành bổ sung HR role riêng, operator cấp theo scope; TECH_ADMIN không có quyền ban hành mặc định. Workspace authoring/version/review, incident records/recurrence/verification và course authoring/version/assignment qua các hàm DB hẹp, RLS/grants và optimistic revision. Không sửa migrations 001–003; 004–007 nâng cấp có downgrade drill trên DB test. API thực được export trong `api/openapi.yaml`; bản đề xuất `openapi.backlog.yaml` không là runtime contract.
 
+HTTP dùng DB dependency scope function để commit/rollback trước response.start; mọi route và auth context dùng cùng alias DB. Xem [ADR transaction và regression](ADR_SPRINT1_TRANSACTION.md), không đưa mutation trở lại request-scope cleanup sau response.
+
 Xem [SRS và acceptance trace](SRS.md), [báo cáo/bằng chứng/giới hạn](reports/SPRINT1_IMPLEMENTATION.md) và [UAT thực địa còn mở](UAT_SPRINT1_FIELD.md). HR ban hành do người dùng xác nhận; thiết bị/mạng/backup độc lập/capacity/sign-off vẫn cần PO/IT. Không production, không dữ liệu nhân viên thật, Odoo no-op.

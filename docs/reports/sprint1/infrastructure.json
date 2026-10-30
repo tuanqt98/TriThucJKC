@@ -5,7 +5,7 @@
       "state": "running",
       "health": "healthy",
       "ports": "8000/tcp",
-      "image_id": "sha256:adca8cd12ad426e7106cbded45fd3c8d048142f5e982e98f00a73e91d559a147"
+      "image_id": "sha256:61c0e9936d28f3b0d966fa5d3e98ebc73e881c8f4770982054b67cf753cdeadf"
     },
     "clamav": {
       "state": "running",
@@ -29,7 +29,7 @@
       "state": "running",
       "health": "healthy",
       "ports": "3000/tcp",
-      "image_id": "sha256:00a2de61ad260a621393c70396fad69af23b8a96f93b87f906fcee85c6831755"
+      "image_id": "sha256:506c1b5898f32458d867d97732f8c15ead1bf30ec40d2b08772b9becd7420bb8"
     }
   },
   "role": {

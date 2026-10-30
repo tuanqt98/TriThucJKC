@@ -1,0 +1,101 @@
+{
+  "scope": "CI snapshots at stated commits; subsequent head status must be checked separately",
+  "runs": [
+    {
+      "run_id": 41086110255,
+      "head_sha": "0c3889d701d9896c16c19dd0d0e038fc64133084",
+      "url": "https://github.com/tuanqt98/TriThucJKC/actions/runs/41086110255",
+      "status": "completed",
+      "conclusion": "failure",
+      "jobs": [
+        {
+          "name": "foundation",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "postgres17",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "staging-acceptance",
+          "status": "completed",
+          "conclusion": "failure"
+        }
+      ]
+    },
+    {
+      "run_id": 41086815025,
+      "head_sha": "34b6fdc36f5b6bb6751e064aefe5eb7d07f24db9",
+      "url": "https://github.com/tuanqt98/TriThucJKC/actions/runs/41086815025",
+      "status": "completed",
+      "conclusion": "success",
+      "jobs": [
+        {
+          "name": "postgres17",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "staging-acceptance",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "foundation",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "run_id": 41087548364,
+      "head_sha": "1fde972eecce449a7e0ac3e1a72a49e51e43beea",
+      "url": "https://github.com/tuanqt98/TriThucJKC/actions/runs/41087548364",
+      "status": "completed",
+      "conclusion": "failure",
+      "jobs": [
+        {
+          "name": "postgres17",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "foundation",
+          "status": "completed",
+          "conclusion": "failure"
+        },
+        {
+          "name": "staging-acceptance",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "run_id": 41091188891,
+      "head_sha": "3fc5e0ce2d0383c8ad3e683445a16989ac6ad469",
+      "url": "https://github.com/tuanqt98/TriThucJKC/actions/runs/41091188891",
+      "status": "completed",
+      "conclusion": "success",
+      "jobs": [
+        {
+          "name": "staging-acceptance",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "foundation",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "postgres17",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    }
+  ]
+}
