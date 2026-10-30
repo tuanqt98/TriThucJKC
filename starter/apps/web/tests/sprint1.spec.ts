@@ -240,7 +240,7 @@ test("Sprint 1: HR ban hành/giao đọc, sửa tri thức, hồ sơ sự cố v
     .click();
   await page.getByLabel("Tên bài học 1", { exact: true }).fill("Bài học UAT");
   await page
-    .getByLabel("Nội dung bài 1", { exact: true })
+    .getByRole("textbox", { name: "Nội dung bài 1", exact: true })
     .fill("Kiểm chứng trước vận hành");
   await page
     .getByLabel("Câu hỏi 1", { exact: true })
@@ -258,7 +258,7 @@ test("Sprint 1: HR ban hành/giao đọc, sửa tri thức, hồ sơ sự cố v
     .filter({ has: page.locator("strong", { hasText: course }) })
     .click();
   await page
-    .getByLabel("Nội dung bài 1", { exact: true })
+    .getByRole("textbox", { name: "Nội dung bài 1", exact: true })
     .fill("Kiểm chứng DEMO sau khi tải lại");
   await page.getByRole("button", { name: "Lưu khóa học", exact: true }).click();
   await expect(page.getByRole("status")).toContainText("Đã lưu dữ liệu");

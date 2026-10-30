@@ -15,6 +15,17 @@ parser.add_argument("--evidence-dir", default="docs/reports/sprint01")
 args = parser.parse_args()
 evidence = Path(args.evidence_dir)
 evidence.mkdir(parents=True, exist_ok=True)
+(evidence / "uat-results.json").write_text(
+    json.dumps(
+        {
+            "result": "INCOMPLETE",
+            "human_uat_signoff": "PENDING",
+            "reason": "Acceptance run started; no pass result yet.",
+        },
+        indent=2,
+    )
+    + "\n"
+)
 assert args.project.startswith(("jkc-s01", "jkc-staging"))
 env = dict(
     line.split("=", 1)
@@ -95,17 +106,22 @@ runenv = {
     "UI_UAT_FIXTURES": str(fixture_path.resolve()),
     "PLAYWRIGHT_JSON_OUTPUT_NAME": str(result_path),
 }
-subprocess.run(
+browser = subprocess.run(
     ["npm", "run", "test:ui", "--", "--reporter=list,json"],
     cwd="starter/apps/web",
     env=runenv,
-    check=True,
+    check=False,
 )
 report = json.loads(result_path.read_text())
 stats = report["stats"]
-assert stats["unexpected"] == 0 and stats["skipped"] == 0 and stats["expected"] == 12
+passed = (
+    browser.returncode == 0
+    and stats["unexpected"] == 0
+    and stats["skipped"] == 0
+    and stats["expected"] == 12
+)
 output = {
-    "result": "PASS",
+    "result": "PASS" if passed else "FAIL",
     "expected": stats["expected"],
     "failed": stats["unexpected"],
     "skipped": stats["skipped"],
@@ -118,3 +134,7 @@ output = {
     json.dumps(output, ensure_ascii=False, indent=2) + "\n"
 )
 print(json.dumps(output, ensure_ascii=False))
+if not passed:
+    raise SystemExit(
+        "Acceptance failed; result file updated, inspect Playwright report."
+    )
