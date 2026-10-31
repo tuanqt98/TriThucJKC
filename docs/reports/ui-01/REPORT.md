@@ -2,6 +2,8 @@
 
 Ngày 31/10/2026. Nhánh `feature/ui-login-fidelity`, xuất phát từ `feature/sprint-1-mvp` tại `461a19a`. **Sẵn sàng PO review; chưa có phê duyệt giao diện cuối.** Chỉ cập nhật màn hình Login trong môi trường DEMO https://localhost:18444/login. Không triển khai production hoặc merge main.
 
+Điều chỉnh theo phản hồi PO ngày 31/10: trên mobile, thêm lớp chuyển từ trắng sang trong suốt cao 80px ở đầu hero, kết hợp blur 3px giảm dần để hòa ảnh vào nền logo. Logo vẫn sắc nét và giữ nguyên tỷ lệ; asset gốc không bị chỉnh sửa. Không thay đổi bố cục desktop hoặc chức năng đăng nhập. Đã chụp lại ảnh 390×844, 375×812 và cập nhật ảnh so sánh; lint/typecheck/build và bộ Login UI-01 chạy lại **9/9 PASS**. Kết quả 2 regression Login cũ bên dưới là từ lần bàn giao trước điều chỉnh CSS này.
+
 ## Thiết kế và asset
 
 Đã đối chiếu màn hình chạy thực tế trước khi sửa với `design/approved_screens/09_login.png`. Bản cũ dùng hero khác, tỷ lệ cột 46/54, logo chữ JKC nằm trên ảnh, chưa có hàng ghi nhớ tên đăng nhập và khối hỗ trợ như mẫu.
