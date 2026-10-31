@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
@@ -32,69 +33,16 @@ type Task = {
   due: string | null;
   icon: string;
 };
-export function PrintIllustration({ code = "OFFSET" }: { code?: string }) {
-  return (
-    <svg viewBox="0 0 200 100" fill="none" aria-hidden="true">
-      <ellipse cx="100" cy="88" rx="80" ry="7" fill="#103958" opacity=".1" />
-      {code === "PREPRESS" ? (
-        <>
-          <rect x="50" y="8" width="100" height="65" rx="5" fill="#183d60" />
-          <rect x="56" y="14" width="88" height="51" rx="2" fill="#b6e7f3" />
-          <path d="m56 58 29-35 28 24 31-32v50H56Z" fill="#ec37a3" />
-          <path d="m56 63 35-15 53 17H56Z" fill="#ffc83d" />
-          <path d="M94 73h12v12h20v4H74v-4h20Z" fill="#637f93" />
-        </>
-      ) : code === "FLEXO" ? (
-        <>
-          <path d="m48 43 46-17 45 17-45 18Z" fill="#e7bf78" />
-          <path d="M48 43v38l46 10V61Z" fill="#c6a369" />
-          <path d="m94 61 45-18v38L94 91Z" fill="#dfb875" />
-          <path d="m71 35 45 18 1 15-14 5V58L60 39Z" fill="#f4d498" />
-          <circle cx="153" cy="67" r="20" fill="#c99e50" />
-          <circle cx="153" cy="67" r="8" fill="#243e50" />
-          <circle cx="30" cy="68" r="15" fill="#e8c875" />
-          <circle cx="30" cy="68" r="6" fill="#243e50" />
-        </>
-      ) : (
-        <>
-          <path d="M26 47 57 29h100l20 15v38H26Z" fill="#7199ad" />
-          <path d="M26 47h151v35H26Z" fill="#375e77" />
-          <path d="M38 39h105v28H38Z" fill="#b9d8df" />
-          {[0, 1, 2, 3].map((i) => (
-            <g key={i}>
-              <rect
-                x={43 + i * 29}
-                y={code === "FINISHING" ? 30 : 20}
-                width="24"
-                height={code === "FINISHING" ? 39 : 49}
-                rx="3"
-                fill={
-                  code === "FINISHING"
-                    ? "#e1a652"
-                    : code === "DIGITAL"
-                      ? "#8caab8"
-                      : "#2e6484"
-                }
-              />
-              <rect
-                x={48 + i * 29}
-                y="27"
-                width="14"
-                height="21"
-                rx="1"
-                fill="#d9eced"
-              />
-              <circle cx={55 + i * 29} cy="57" r="4" fill="#173c56" />
-            </g>
-          ))}
-          <path d="M18 66h23v13H18ZM145 62h37v17h-37Z" fill="#a2bac6" />
-          <path d="M48 82v7m103-7v7" stroke="#203b50" strokeWidth="6" />
-          <path d="m159 39 18 5v15h-18Z" fill="#aee4ed" />
-        </>
-      )}
-    </svg>
-  );
-}
+const demoImageRoot = "/images/dashboard-demo";
+const processImages: Record<string, string> = {
+  OFFSET: "offset",
+  PREPRESS: "prepress",
+  DIGITAL: "digital",
+  FLEXO: "flexo",
+  FINISHING: "finishing",
+};
+const featuredImages = ["offset", "quality", "flexo"];
+
 export function DashboardHero() {
   return (
     <section className={styles.hero}>
@@ -111,13 +59,21 @@ export function DashboardHero() {
         </p>
       </div>
       <div className={styles.heroArt}>
-        <PrintIllustration />
+        <Image
+          src={`${demoImageRoot}/offset.webp`}
+          alt=""
+          fill
+          unoptimized
+          priority
+          sizes="(max-width: 767px) 60vw, 55vw"
+        />
         <span>
           Tri thức hôm nay
           <br />
           Chất lượng ngày mai
         </span>
       </div>
+      <small className={styles.heroDemo}>Ảnh DEMO</small>
     </section>
   );
 }
@@ -133,10 +89,12 @@ function Featured({ item, index }: { item: Content; index: number }) {
   return (
     <Link className={styles.card} href={href(item)}>
       <div className={`${styles.cardArt} ${styles[`art${index % 3}`]}`}>
-        <PrintIllustration
-          code={
-            index % 3 === 1 ? "PREPRESS" : index % 3 === 2 ? "FLEXO" : "OFFSET"
-          }
+        <Image
+          src={`${demoImageRoot}/${featuredImages[index % featuredImages.length]}.webp`}
+          alt="Ảnh DEMO minh họa ngành in"
+          fill
+          unoptimized
+          sizes="(max-width: 767px) 100px, (max-width: 1100px) 30vw, 20vw"
         />
         <span>Minh họa DEMO</span>
       </div>
@@ -325,7 +283,15 @@ export function DashboardFidelity({
                   href={`/knowledge?processId=${p.id}`}
                   className={`${styles.process} ${styles[`process${i % 5}`]}`}
                 >
-                  <PrintIllustration code={p.code} />
+                  <div className={styles.processImage}>
+                    <Image
+                      src={`${demoImageRoot}/${processImages[p.code] || "offset"}.webp`}
+                      alt={`Ảnh DEMO: ${p.name}`}
+                      fill
+                      unoptimized
+                      sizes="(max-width: 767px) 30vw, 15vw"
+                    />
+                  </div>
                   <b>{p.name}</b>
                 </Link>
               ))}

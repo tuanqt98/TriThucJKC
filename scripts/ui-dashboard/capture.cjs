@@ -12,6 +12,8 @@ const path = require('node:path');
   await page.getByRole('heading',{name:'Tri thức nổi bật',exact:true}).waitFor();
   await page.getByText('Đang tải nhiệm vụ…',{exact:true}).waitFor({state:'hidden'});
   await page.evaluate(()=>document.fonts.ready);
+  for(const img of await page.locator("main img").all()){await img.scrollIntoViewIfNeeded();await img.evaluate(image=>image.decode());}
+  await page.evaluate(()=>window.scrollTo(0,0));
   await page.screenshot({path:path.resolve('docs/reports/ui-02',`${process.env.UI_CAPTURE_PHASE||'after'}-${name}-full.png`),fullPage:true});
   await page.screenshot({path:path.resolve('docs/reports/ui-02',`${process.env.UI_CAPTURE_PHASE||'after'}-${name}.png`),fullPage:false});
   const me=await (await page.request.get('/api/v1/auth/me')).json();

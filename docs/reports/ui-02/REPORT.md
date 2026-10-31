@@ -2,7 +2,9 @@
 
 Ngày 31/10/2026. Nhánh `feature/ui-dashboard-fidelity`, kế thừa UI-01 tại `738c2a0`. Bản DEMO review: https://localhost:18444/.
 
-**Đã triển khai layout/Dashboard và pass kiểm thử local; chờ PO duyệt giao diện. Chưa khớp hoàn toàn mockup do thiếu ảnh nguồn/wordmark vector JKC. Không coi đây là bản nghiệm thu hình ảnh cuối hoặc triển khai production. Dừng tại UI-02.**
+**Đã triển khai layout/Dashboard và pass kiểm thử local; chờ PO duyệt giao diện. Theo phản hồi người dùng, dùng ảnh AI/DEMO ngành in trong lúc chờ ảnh công ty; wordmark vector JKC và ảnh gốc đúng mockup vẫn còn thiếu. Không coi đây là bản nghiệm thu hình ảnh cuối hoặc triển khai production. Dừng tại UI-02.**
+
+Bổ sung ảnh DEMO: 6 ảnh tạo bằng built-in image_gen, tổng WebP 879.700 bytes, dùng cho hero, năm danh mục và ba thumbnail (có tái sử dụng). [Danh mục, nguồn gốc và cách thay ảnh](DEMO_IMAGES.md); [prompt và checksum](image-prompts.json). Ảnh được gắn nhãn minh họa, không thay số liệu hoặc biến thành file đính kèm của bài viết. Đợt bổ sung ảnh đã chạy lại lint/typecheck/build và **16/16 test Dashboard PASS**, gồm HTTP 200/WebP cho cả sáu asset và ảnh render tải thành công ở bốn viewport; đã xem screenshot mới và cập nhật so sánh. 17 kết quả regression Login/smoke bên dưới giữ từ bản UI-02 trước thay ảnh, không ghi là vừa chạy lại trong đợt chỉ sửa ảnh này.
 
 ## Khảo sát và đối chiếu
 
@@ -14,7 +16,7 @@ Ngày 31/10/2026. Nhánh `feature/ui-dashboard-fidelity`, kế thừa UI-01 tạ
 | Header | Tìm kiếm và tài khoản, thiếu thông báo | Tiêu đề, tìm kiếm, bell mở trạng thái thông báo, tên thật từ API và avatar chữ cái; mobile hai hàng gọn |
 | Banner | Khối giới thiệu cao, icon home | Banner thấp hơn, lời chào hai dòng, biểu tượng màu và minh họa máy in; bố cục theo mẫu |
 | Thống kê | Card cao, spacing lớn | Ba card tài liệu/khóa học/sự cố với icon màu và số từ API; không thêm số tăng/giảm theo tuần giả |
-| Công đoạn | Cùng một icon printer và số thứ tự | Năm card pastel có SVG minh họa theo nhóm máy/màn hình/bao bì, liên kết theo processId API |
+| Công đoạn | Cùng một icon printer và số thứ tự | Năm card pastel có ảnh DEMO theo nhóm máy/chế bản/bao bì, liên kết theo processId API |
 | Việc cần làm | Tổng số khóa học và liên kết chung | Từng nhiệm vụ đọc đúng phiên bản, từng khóa chưa hoàn thành, phê duyệt đang chờ theo quyền; hạn từ API, quá hạn theo thời gian hiện tại |
 | Tri thức | Card lớn, nhiều chi tiết thừa so với mẫu | Ba card desktop, danh sách ngang hình–chữ mobile; dữ liệu và phiên bản từ API, ngày tạo có nhãn rõ |
 | Mobile | Thứ tự giống desktop, điều hướng khác mẫu | Logo/tìm kiếm/banner/4 shortcut/việc cần làm/tri thức; bottom nav 5 mục và menu mở rộng theo quyền |
@@ -72,13 +74,14 @@ Dashboard test xác minh số liệu khớp API thật, số nhiệm vụ tính 
 - `components/workspace.tsx`: tích hợp khung chung và Dashboard mới; giữ nguyên load/auth/mutation handlers của các luồng hiện có.
 - `playwright.dashboard.config.ts`, `dashboard-tests/dashboard.spec.ts`: bộ UI-02 riêng bốn viewport; không làm thay đổi tập test CI hiện có.
 - `scripts/ui-dashboard/capture.cjs`, `compare.py`: chụp thực tế và tạo so sánh.
+- `scripts/ui-dashboard/encode-images.cjs`, `public/images/dashboard-demo/*.webp`: mã hóa và phục vụ ảnh DEMO tĩnh; prompt/checksum tại `image-prompts.json`.
 - `docs/reports/ui-02/`: báo cáo, JSON, screenshot và chứng cứ phạm vi.
 
 Các đường dẫn frontend ở trên nằm trong `starter/apps/web/`. Không thay đổi backend, OpenAPI, database, migrations, Compose, session/CSRF hay Odoo adapter. Asset người dùng mới `design/approved_screens/logo/logo1.webp` được giữ nguyên ngoài commit này; đó là ảnh nội thất, không tự thay vào Dashboard hoặc Login.
 
 ## Còn thiếu để PO chốt độ khớp hình ảnh
 
-1. Chưa có ảnh hero máy in, ảnh danh mục và thumbnail gốc của mockup 01 trong repository. Đã thông báo thiếu asset; hiện dùng SVG/CSS minh họa ngành in, không lấy screenshot mockup làm ảnh app. Đây là khác biệt lớn nhất còn mở.
+1. Chưa có ảnh hero máy in, ảnh danh mục và thumbnail gốc của mockup 01 trong repository. Đã thông báo thiếu asset; người dùng đồng ý bổ sung ảnh công ty sau và yêu cầu dùng ảnh DEMO trước. Hiện dùng ảnh AI/DEMO ngành in thay SVG, không lấy screenshot mockup làm ảnh app. Độ khớp ảnh gốc vẫn chờ PO review.
 2. Wordmark JKC được dựng bằng chữ/CSS như cách biểu diễn của ứng dụng trước đó, chưa có vector/logo JKC nguồn đúng mockup. Không thay logo INNHATTHAN của Login và không lấy ảnh nội thất làm logo. Cần PO cung cấp/chốt asset thương hiệu cho layout.
 3. Chưa có font nguồn riêng của mockup; giữ font hệ thống hiện có. Nét icon, ảnh, độ đậm và khoảng cách chưa phải pixel-identical.
 4. Không có API hoạt động/notifications, lượt xem/bình luận, tăng trưởng tuần hoặc avatar ảnh. Các vùng tương ứng hiển thị dữ liệu hiện có/giới hạn rõ, không bịa các số 12/5/3, ngày tháng hoặc tên trong mẫu.

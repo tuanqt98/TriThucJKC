@@ -60,8 +60,27 @@
   "limits": [
     "Local Chromium only; no physical-device UAT",
     "Browser ignores local test CA only; no production TLS certification",
-    "Photos and original JKC vector logo absent; SVG/CSS illustrations remain provisional",
+    "Original photos and JKC vector logo absent; generated DEMO photos used as authorized placeholders",
     "Notification/activity feed endpoints unavailable; no fabricated badges or events",
     "GitHub CI not run for UI-02 branch; PO review pending"
-  ]
+  ],
+  "demo_image_revision": {
+    "base": "2fb06ed",
+    "generator": "built-in image_gen",
+    "count": 6,
+    "total_bytes": 879700,
+    "manifest": "image-prompts.json",
+    "dashboard_tests_rerun": {
+      "passed": 16,
+      "failed": 0,
+      "skipped": 0
+    },
+    "checks": [
+      "All six public image URLs return WebP",
+      "Rendered main images decode successfully at four viewports",
+      "lint/typecheck/build PASS",
+      "Compose web healthy; screenshots refreshed"
+    ],
+    "previous_regressions": "17 Login/smoke passes retained from UI-02 baseline; not rerun for image-only update"
+  }
 }

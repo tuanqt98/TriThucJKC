@@ -34,6 +34,29 @@ test("UI-02: dữ liệu thật, nhiệm vụ, điều hướng và responsive",
   const errors: string[] = [];
   page.on("pageerror", (e) => errors.push(e.message));
   await login(page);
+  for (const asset of [
+    "offset",
+    "prepress",
+    "digital",
+    "flexo",
+    "finishing",
+    "quality",
+  ]) {
+    const response = await page.request.get(
+      `/images/dashboard-demo/${asset}.webp`,
+    );
+    expect(response.status()).toBe(200);
+    expect(response.headers()["content-type"]).toContain("image/webp");
+  }
+  for (const image of await page.locator("main img").all()) {
+    await image.scrollIntoViewIfNeeded();
+    await expect
+      .poll(() =>
+        image.evaluate((node) => (node as HTMLImageElement).naturalWidth),
+      )
+      .toBeGreaterThan(0);
+  }
+  await page.evaluate(() => window.scrollTo(0, 0));
   const data = await (await page.request.get("/api/v1/dashboard")).json();
   for (const [i, count] of [
     data.documents,

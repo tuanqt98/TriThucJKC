@@ -66,19 +66,16 @@
   right: 0;
   bottom: 0;
   top: 0;
-  width: 43%;
+  width: 54%;
   display: flex;
   align-items: center;
   justify-content: end;
   gap: 8px;
-  opacity: 0.85;
+  mask-image: linear-gradient(to right, transparent, #000 36%);
 }
-.heroArt svg {
-  width: 70%;
-  position: absolute;
-  right: 0;
-  bottom: -10px;
-  opacity: 0.35;
+.heroArt img {
+  object-fit: cover;
+  object-position: center 58%;
 }
 .heroArt span {
   font:
@@ -91,6 +88,19 @@
   transform: rotate(-7deg);
   border-bottom: 3px solid #ffad1c;
   padding-bottom: 8px;
+  background: #ffffffc9;
+  padding: 8px;
+  border-radius: 4px;
+}
+.heroDemo {
+  position: absolute;
+  right: 8px;
+  bottom: 6px;
+  color: #25445d;
+  background: #ffffffd9;
+  border-radius: 3px;
+  padding: 1px 5px;
+  font-size: 8px;
 }
 .dashboard h2 {
   font-size: 16px;
@@ -223,10 +233,16 @@
   padding: 10px 4px 12px;
   text-align: center;
 }
-.process svg {
+.processImage {
+  position: relative;
   width: 100%;
   max-width: 145px;
   height: 65px;
+  overflow: hidden;
+  border-radius: 6px;
+}
+.processImage img {
+  object-fit: cover;
 }
 .process b {
   font-size: 11px;
@@ -268,9 +284,8 @@
   align-items: center;
   justify-content: center;
 }
-.cardArt svg {
-  width: 90%;
-  height: 100%;
+.cardArt img {
+  object-fit: cover;
 }
 .cardArt > span {
   position: absolute;
@@ -278,6 +293,9 @@
   left: 8px;
   font-size: 8px;
   color: #25445d;
+  background: #ffffffe6;
+  padding: 1px 4px;
+  border-radius: 3px;
 }
 .art0 {
   background: linear-gradient(130deg, #c9e5ef, #8cb6c2);
@@ -520,12 +538,7 @@
     display: none;
   }
   .heroArt {
-    width: 47%;
-  }
-  .heroArt svg {
-    width: 100%;
-    bottom: 0;
-    opacity: 0.5;
+    width: 60%;
   }
   .heroArt span {
     display: none;
@@ -638,9 +651,6 @@
     height: 86px;
     border-radius: 8px;
   }
-  .cardArt svg {
-    width: 100%;
-  }
   .cardArt > span {
     font-size: 7px;
     left: 5px;
@@ -669,7 +679,7 @@
   .process {
     min-height: 110px;
   }
-  .process svg {
+  .processImage {
     height: 58px;
   }
   .feedNote {
@@ -698,7 +708,7 @@
     max-width: 78%;
   }
   .heroArt {
-    opacity: 0.55;
+    opacity: 0.9;
     mask-image: linear-gradient(to right, transparent, #000 65%);
   }
 }

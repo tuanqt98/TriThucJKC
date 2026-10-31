@@ -1,0 +1,80 @@
+[
+  {
+    "name": "offset",
+    "file": "starter/apps/web/public/images/dashboard-demo/offset.webp",
+    "prompt": "Use case: photorealistic-natural. Asset type: wide website dashboard hero and printing category photograph, 16:9 landscape. Generate a realistic editorial photograph of a modern sheet-fed offset printing press in a clean generic commercial print workshop. Close foreground delivery table with colorful CMYK test sheets and registration targets; blue-gray multi-unit press extending into right background, soft daylight, believable metal textures. Composition: subject concentrated toward center-right, spacious pale light blue-gray left side suitable for UI greeting overlay. No people, no logos, no readable words, no watermark. This is a synthetic DEMO illustration, not a real company's factory or technical operating instruction.",
+    "mode": "built-in image_gen",
+    "synthetic_demo": true,
+    "width": 1672,
+    "height": 941,
+    "bytes": 150592,
+    "encoding": "WebP quality 84; no resize, crop, or scene edit",
+    "sha256": "2f2945a966e61bbc1ee5f7eec11fe001df0ae38eb609ad0145c6ae76459cf4b6",
+    "source_sha256": "a82e17fa8413d059c036d3fb2564b4084306e3c9377f76aa1eb44a3b91122859"
+  },
+  {
+    "name": "prepress",
+    "file": "starter/apps/web/public/images/dashboard-demo/prepress.webp",
+    "prompt": "Use case: photorealistic-natural. Asset type: landscape 16:9 website category photograph. Realistic editorial photograph of a commercial print prepress desk: calibrated desktop monitor showing abstract CMYK packaging layout without readable text, color swatch fan, printed proofs, pen tablet. Clean professional print studio, soft daylight, pale blue-gray background, crisp realistic detail. Subjects centered so square or wide crops work. No people, no logos, no readable text, no watermark. Synthetic DEMO scene, not a real company.",
+    "mode": "built-in image_gen",
+    "synthetic_demo": true,
+    "width": 1672,
+    "height": 941,
+    "bytes": 140846,
+    "encoding": "WebP quality 84; no resize, crop, or scene edit",
+    "sha256": "3cda273c941a5809aa8870a1c31f5a8c46b070f19c622682f8a2b67bfb813715",
+    "source_sha256": "f12d78c16143385b8c16bf58a812c10aec60e078ae172b8faea0189b5fb7e73b"
+  },
+  {
+    "name": "digital",
+    "file": "starter/apps/web/public/images/dashboard-demo/digital.webp",
+    "prompt": "Use case: photorealistic-natural. Asset type: landscape 16:9 website category photograph. Realistic editorial photograph of a modern production digital printing machine in a clean generic commercial printing room, white and charcoal body with small cyan accents, output tray carrying vivid CMYK printed sheets, paper stacks. Three-quarter angle, centered subject, soft daylight, realistic metal and paper. No people, no brands, no readable text, no watermark. Synthetic DEMO illustration, not a specific real company's equipment.",
+    "mode": "built-in image_gen",
+    "synthetic_demo": true,
+    "width": 1672,
+    "height": 941,
+    "bytes": 117018,
+    "encoding": "WebP quality 84; no resize, crop, or scene edit",
+    "sha256": "9e57b37206f95cb4f574bdf47d5974f955b10bb41fd70cc32b2c8c5f58fe684a",
+    "source_sha256": "1d7f3edf74b005fd5b61882f636b0c971ad25152ddd412646521cbad38abae15"
+  },
+  {
+    "name": "flexo",
+    "file": "starter/apps/web/public/images/dashboard-demo/flexo.webp",
+    "prompt": "Use case: photorealistic-natural. Asset type: landscape 16:9 website category photograph. Realistic editorial photograph of a modern flexographic packaging press with large paper roll and printed colorful packaging web, kraft carton samples and small roll of printed labels in foreground, clean generic packaging production workshop. Centered composition, soft natural daylight, gray-blue industrial palette and warm kraft paper. No people, no brands, no readable text, no watermark. Synthetic DEMO scene, not a verified technical procedure.",
+    "mode": "built-in image_gen",
+    "synthetic_demo": true,
+    "width": 1672,
+    "height": 941,
+    "bytes": 177488,
+    "encoding": "WebP quality 84; no resize, crop, or scene edit",
+    "sha256": "32c834c5bbf162fa5dfde82e0b71fc80cbac7469e21738652f9cbf4bf2c85450",
+    "source_sha256": "029a407f9140cc5064652e9c729a1dbaf4883644712bbd9c801d7ff89116a66f"
+  },
+  {
+    "name": "finishing",
+    "file": "starter/apps/web/public/images/dashboard-demo/finishing.webp",
+    "prompt": "Use case: photorealistic-natural. Asset type: landscape 16:9 website category photograph. Realistic editorial photograph of a commercial print finishing station with industrial folding and binding machinery, neat stacks of folded brochures and trimmed paper on a delivery table, clean print workshop, silver metal with warm neutral accents. Centered three-quarter composition suitable for small category card crop, soft daylight. No people, no brands, no readable text, no watermark. Synthetic DEMO scene, not a real company's factory.",
+    "mode": "built-in image_gen",
+    "synthetic_demo": true,
+    "width": 1672,
+    "height": 941,
+    "bytes": 163680,
+    "encoding": "WebP quality 84; no resize, crop, or scene edit",
+    "sha256": "58cc8e11201829778935ca5ce998a1b8f16bf4caca486737e9c3ebb982946b6f",
+    "source_sha256": "bbe787db077a387d5ab5970479908d2f57da07ac99fd73f5353de5e0de522350"
+  },
+  {
+    "name": "quality",
+    "file": "starter/apps/web/public/images/dashboard-demo/quality.webp",
+    "prompt": "Use case: photorealistic-natural. Asset type: landscape 16:9 website article thumbnail. Realistic close-up editorial still life at a printing quality-control desk: printed CMYK color chart, handheld spectrophotometer, magnifying loupe, blank checklist with simple check boxes and indistinct ruled lines, pen. Focus on paper texture and colorful ink patches, calm natural light, clean professional composition. No people, no readable text, no brands, no watermark. Synthetic DEMO illustration, not an approved operating instruction.",
+    "mode": "built-in image_gen",
+    "synthetic_demo": true,
+    "width": 1672,
+    "height": 941,
+    "bytes": 130076,
+    "encoding": "WebP quality 84; no resize, crop, or scene edit",
+    "sha256": "b94c8c09f2522b06b3af7d1a44aae962d4fc5ced7492c9c5c182fa7e05d7ce37",
+    "source_sha256": "4b20a190f2f3aa1207d539c0463682d1d4dd5676b14e4f978cba604821e50631"
+  }
+]
