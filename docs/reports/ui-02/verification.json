@@ -1,0 +1,67 @@
+{
+  "date": "2026-10-31",
+  "base": "738c2a0",
+  "branch": "feature/ui-dashboard-fidelity",
+  "tests": {
+    "test-results.json": {
+      "passed": 16,
+      "failed": 0,
+      "skipped": 0
+    },
+    "login-regression.json": {
+      "passed": 9,
+      "failed": 0,
+      "skipped": 0
+    },
+    "existing-login.json": {
+      "passed": 2,
+      "failed": 0,
+      "skipped": 0
+    },
+    "smoke-results.json": {
+      "passed": 6,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "total_passed": 33,
+  "checks": {
+    "lint": "PASS",
+    "typecheck": "PASS",
+    "build": "PASS",
+    "compose_web_build_health": "PASS",
+    "diff_check": "PASS",
+    "login_and_global_css_unchanged_sha256": {
+      "starter/apps/web/components/login.tsx": "c3abf078357888068e3e8d460d90bdbfeadb343e7db09e4a371723b7d83e1bdd",
+      "starter/apps/web/components/login-fidelity.tsx": "5d9cd10d0db8df463a9c24c22e6e6a147ed57e8baedcf0dd7a2f10bfceb1955d",
+      "starter/apps/web/components/login-fidelity.module.css": "3d26c22db3f74f6c94252e87ee232bb3e62e1976e05fad9519784ffd33492c1c",
+      "starter/apps/web/app/globals.css": "8a828ab127cb83000029e11fcc703f4d9b9c432ec75bec8b588dc163a5f9d1d6"
+    },
+    "backend_api_db_deploy_unchanged": true
+  },
+  "viewports": {
+    "desktop": [
+      1440,
+      900
+    ],
+    "tablet": [
+      768,
+      1024
+    ],
+    "mobile390": [
+      390,
+      844
+    ],
+    "mobile375": [
+      375,
+      812
+    ]
+  },
+  "limits": [
+    "Local Chromium only; no physical-device UAT",
+    "Browser ignores local test CA only; no production TLS certification",
+    "Photos and original JKC vector logo absent; SVG/CSS illustrations remain provisional",
+    "Notification/activity feed endpoints unavailable; no fabricated badges or events",
+    "GitHub CI not run for UI-02 branch; PO review pending"
+  ]
+}
