@@ -1,0 +1,14 @@
+[
+  {
+    "source": "design/approved_screens/logo/bgr.jpg",
+    "public": "starter/apps/web/public/images/login-approved/background.jpg",
+    "sha256": "d951ef3b475fbbb7bca175311bb68def3ced20231e87482ef0498047f9d5b662",
+    "unchanged": true
+  },
+  {
+    "source": "design/approved_screens/logo/logo.jpg",
+    "public": "starter/apps/web/public/images/login-approved/logo.jpg",
+    "sha256": "0885c5104db7cbea24b839e6c508cecd91358cf469b560357be00bce9cc1b850",
+    "unchanged": true
+  }
+]
