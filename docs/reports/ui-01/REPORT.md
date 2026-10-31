@@ -4,6 +4,8 @@ Ngày 31/10/2026. Nhánh `feature/ui-login-fidelity`, xuất phát từ `feature
 
 Điều chỉnh theo phản hồi PO ngày 31/10: trên mobile, thêm lớp chuyển từ trắng sang trong suốt cao 80px ở đầu hero, kết hợp blur 3px giảm dần để hòa ảnh vào nền logo. Logo vẫn sắc nét và giữ nguyên tỷ lệ; asset gốc không bị chỉnh sửa. Không thay đổi bố cục desktop hoặc chức năng đăng nhập. Đã chụp lại ảnh 390×844, 375×812 và cập nhật ảnh so sánh; lint/typecheck/build và bộ Login UI-01 chạy lại **9/9 PASS**. Kết quả 2 regression Login cũ bên dưới là từ lần bàn giao trước điều chỉnh CSS này.
 
+Điều chỉnh tiếp theo: ba cụm giá trị trên desktop tăng chữ chính từ 12px lên 16px, chữ phụ 14px, nét thường 400 và giãn dòng 1.55. Thay icon tài liệu/người đơn/clipboard bằng SVG nét mảnh mô phỏng lớp xếp, nhóm người và biểu đồ tăng trưởng của mockup 09; kích thước icon 36px. Cập nhật câu cuối thành “Cùng nhau vươn xa” theo phản hồi. Chỉ sửa `login-fidelity.tsx` và CSS module của Login; đã xem ảnh desktop mới, cập nhật ảnh so sánh, lint/typecheck/build **PASS** và chạy lại **9/9 test Login PASS**. Icon được dựng lại từ mẫu raster, chưa phải file vector gốc nên vẫn chờ PO duyệt độ khớp.
+
 ## Thiết kế và asset
 
 Đã đối chiếu màn hình chạy thực tế trước khi sửa với `design/approved_screens/09_login.png`. Bản cũ dùng hero khác, tỷ lệ cột 46/54, logo chữ JKC nằm trên ảnh, chưa có hàng ghi nhớ tên đăng nhập và khối hỗ trợ như mẫu.

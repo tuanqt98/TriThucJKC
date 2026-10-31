@@ -41,6 +41,30 @@ function FieldIcon({ name }: { name: "lock" | "eye" | "support" }) {
   );
 }
 
+function ValueIcon({ name }: { name: "quality" | "people" | "growth" }) {
+  const paths = {
+    quality:
+      "M3 9 16 3l13 6-13 6ZM3 14l13 6 13-6M3 19l13 6 13-6M3 24l13 6 13-6",
+    people:
+      "M20 10a4 4 0 1 1-8 0 4 4 0 0 1 8 0ZM8 28v-4a8 8 0 0 1 16 0v4M8 7a4 4 0 0 0-2 7M3 25v-4a6 6 0 0 1 5-6M24 7a4 4 0 0 1 2 7M29 25v-4a6 6 0 0 0-5-6",
+    growth:
+      "M4 23h5v7H4ZM14 18h5v12h-5ZM24 12h5v18h-5ZM3 17l9-8 7 2L29 2M22 2h7v7",
+  };
+  return (
+    <svg
+      viewBox="0 0 32 32"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d={paths[name]} />
+    </svg>
+  );
+}
+
 export function LoginFidelity({
   ready,
   busy,
@@ -96,21 +120,21 @@ export function LoginFidelity({
         </div>
         <div className={styles.values}>
           <div>
-            <Icon name="document" />
+            <ValueIcon name="quality" />
             <p>
               Chất lượng<span>Tạo niềm tin</span>
             </p>
           </div>
           <div>
-            <Icon name="user" />
+            <ValueIcon name="people" />
             <p>
               Con người<span>Làm nên giá trị</span>
             </p>
           </div>
           <div>
-            <Icon name="approval" />
+            <ValueIcon name="growth" />
             <p>
-              Phát triển<span>Cùng vươn xa</span>
+              Phát triển<span>Cùng nhau vươn xa</span>
             </p>
           </div>
         </div>

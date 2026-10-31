@@ -49,27 +49,34 @@
   display: flex;
   position: relative;
   z-index: 1;
-  gap: 34px;
+  gap: 44px;
 }
 .values > div {
   display: flex;
-  gap: 12px;
+  gap: 14px;
   align-items: center;
 }
 .values svg {
   flex-shrink: 0;
-  width: 30px;
-  height: 30px;
+  width: 36px;
+  height: 36px;
   color: #fff;
 }
 .page .hero .values p {
   margin: 0;
   color: #fff;
-  font-size: 12px;
-  line-height: 1.5;
+  font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.55;
+  letter-spacing: 0.15px;
+  text-shadow: 0 1px 4px #08131b60;
 }
 .values span {
   display: block;
+  font-size: 14px;
+  font-weight: 400;
+  opacity: 0.9;
 }
 .desktopWave {
   position: absolute;
