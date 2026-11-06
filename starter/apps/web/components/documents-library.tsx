@@ -44,7 +44,8 @@ export function DocumentsLibrary() {
     [clock, setClock] = useState(0);
   const [filters, setFilters] = useState<Filters>(emptyFilters),
     [draft, setDraft] = useState(""),
-    [page, setPage] = useState(1);
+    [page, setPage] = useState(1),
+    [moreFilters, setMoreFilters] = useState(false);
   useEffect(() => {
     let active = true;
     Promise.resolve().then(async () => {
@@ -81,7 +82,7 @@ export function DocumentsLibrary() {
         setDocuments(docs.value);
         if (tasks.status === "fulfilled") setReading(tasks.value);
         else {
-          setFilters(f=>({...f, reading:"",required:""}));
+          setFilters((f) => ({ ...f, reading: "", required: "" }));
           setReadingError(
             "Không tải được trạng thái xác nhận đọc. Danh sách tài liệu vẫn có thể tra cứu.",
           );
@@ -135,6 +136,11 @@ export function DocumentsLibrary() {
     setFilters((f) => ({ ...f, [key]: value }));
     setPage(1);
   }
+  const extraActive = [
+    filters.version,
+    filters.publication,
+    filters.required,
+  ].filter(Boolean).length;
   function reset() {
     setFilters(emptyFilters);
     setDraft("");
@@ -300,7 +306,11 @@ export function DocumentsLibrary() {
                   />
                   <button type="submit">Tìm kiếm</button>
                 </form>
-                <div className={styles.filters}>
+                <div
+                  id="document-filters"
+                  className={styles.filters}
+                  data-expanded={moreFilters}
+                >
                   <label>
                     Bộ phận
                     <select
@@ -316,7 +326,7 @@ export function DocumentsLibrary() {
                       ))}
                     </select>
                   </label>
-                  <label>
+                  <label className={styles.extraFilter}>
                     Phiên bản
                     <select
                       aria-label="Lọc phiên bản"
@@ -331,7 +341,7 @@ export function DocumentsLibrary() {
                       ))}
                     </select>
                   </label>
-                  <label>
+                  <label className={styles.extraFilter}>
                     Trạng thái
                     <select
                       aria-label="Lọc trạng thái ban hành"
@@ -361,7 +371,7 @@ export function DocumentsLibrary() {
                         ))}
                     </select>
                   </label>
-                  <label>
+                  <label className={styles.extraFilter}>
                     Yêu cầu đọc
                     <select
                       aria-label="Lọc yêu cầu đọc"
@@ -374,13 +384,27 @@ export function DocumentsLibrary() {
                       <option value="no">Không được giao</option>
                     </select>
                   </label>
-                  <button className={styles.reset} onClick={reset}>
+                  <button
+                    type="button"
+                    className={styles.moreToggle}
+                    aria-expanded={moreFilters}
+                    aria-controls="document-filters"
+                    onClick={() => setMoreFilters((v) => !v)}
+                  >
+                    {moreFilters ? "Thu gọn bộ lọc" : "Bộ lọc khác"}
+                    {extraActive > 0 && ` (${extraActive})`}
+                  </button>
+                  <button
+                    type="button"
+                    className={styles.reset}
+                    onClick={reset}
+                  >
                     Xóa bộ lọc
                   </button>
                 </div>
                 <p className={styles.dataNote}>
-                  Loại tài liệu và ngày hiệu lực chưa được cung cấp. Bộ phận hiển
-                  thị là bộ phận phụ trách.
+                  Loại tài liệu và ngày hiệu lực chưa được cung cấp. Bộ phận
+                  hiển thị là bộ phận phụ trách.
                 </p>
                 {readingError && (
                   <div className={styles.readingError} role="alert">
@@ -408,7 +432,7 @@ export function DocumentsLibrary() {
                             <th>Bộ phận phụ trách</th>
                             <th>Phiên bản</th>
                             <th>Hiệu lực từ</th>
-                            <th>Trạng thái đọc</th>
+                            <th>Trạng thái</th>
                             <th>Thao tác</th>
                           </tr>
                         </thead>
@@ -449,7 +473,12 @@ export function DocumentsLibrary() {
                                   Chưa cung cấp
                                 </small>
                               </td>
-                              <td>
+                              <td className={styles.statusCell}>
+                                <span
+                                  className={`${styles.badge} ${styles.published}`}
+                                >
+                                  Đã ban hành
+                                </span>
                                 <ReadingBadge row={row} />
                                 {row.task?.due_at && (
                                   <small className={styles.due}>

@@ -264,6 +264,14 @@
   color: var(--primary);
   padding: 6px;
 }
+.moreToggle {
+  display: none;
+}
+.statusCell .badge {
+  display: block;
+  width: fit-content;
+  margin-bottom: 4px;
+}
 .dataNote {
   font-size: 10px;
   line-height: 1.5;
@@ -790,9 +798,20 @@
     padding: 8px;
     margin-top: 5px;
   }
-  .reset {
+  .reset,
+  .moreToggle {
     min-height: 44px;
     font-size: 12px;
+  }
+  .moreToggle {
+    display: block;
+    border: 1px solid var(--border);
+    background: white;
+    color: #334e76;
+    padding: 6px;
+  }
+  .filters:not([data-expanded="true"]) .extraFilter {
+    display: none;
   }
   .dataNote {
     padding: 0;
