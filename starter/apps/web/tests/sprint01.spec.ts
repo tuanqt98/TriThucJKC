@@ -25,6 +25,16 @@ test("Sprint 0.1 UAT: đọc đúng phiên bản, file an toàn, học và quiz"
   await page.getByLabel("Mật khẩu", { exact: true }).fill(password);
   await page.getByRole("button", { name: "Đăng nhập", exact: true }).click();
   await expect(page.locator("h1")).toContainText("Chào anh/chị");
+  // ACK không hoàn tác được: mỗi bộ fixture chỉ dùng một lần. Không sửa lịch sử,
+  // tạo bộ mới bằng `python -m app.seed_uat` (xem docs/reports/ui-04/REPORT.md).
+  const reading = await (await page.request.get("/api/v1/my/reading")).json();
+  const assigned = reading.find(
+    (t: { id: string }) => t.id === fixture.reading_task,
+  );
+  if (!assigned || assigned.acknowledged_at)
+    throw new Error(
+      `Fixture ${fixture.username} đã xác nhận nhiệm vụ đọc hoặc không còn nhiệm vụ; tạo fixture UAT mới bằng app.seed_uat.`,
+    );
   await page.goto("/documents");
   const baselineDocument = "DEMO · Tài liệu giới thiệu cổng tri thức";
   await page

@@ -58,6 +58,8 @@ Nút bị khóa khi đang gửi để tránh bấm hai lần. Nếu server vẫn
 
 ## Khoảng trống dữ liệu (cần PO/BE quyết định)
 
+Đã ghi thành backlog riêng: [docs/UI_DATA_GAPS_BACKLOG.md](../../UI_DATA_GAPS_BACKLOG.md) (DATA-01 … DATA-10, gồm `sort_order` ở DATA-04).
+
 | Mockup | Hiện trạng | Đề xuất |
 |---|---|---|
 | Ngày ban hành, Ngày hiệu lực | DB có `approved_at`, `effective_at` nhưng `GET /documents/{id}` không trả về; UI ghi "Chưa cung cấp". Seed chưa có `effective_at` | Thêm hai trường vào ContentView (gộp với khoảng trống của UI-03) |
@@ -111,7 +113,8 @@ python3 scripts/ui-document-detail/compare.py
 | Regression UI-01 Login | **9/9 PASS**, [JSON](regression-ui01-login.json) |
 | Regression UI-02 Dashboard | **16/16 PASS**, [JSON](regression-ui02-dashboard.json) |
 | Regression UI-03 Nội quy | **16/16 PASS**, [JSON](regression-ui03-documents.json) |
-| E2E Sprint 0/1 `smoke` + `sprint1` (desktop + mobile) | **10/10 PASS** sau khi máy không bị ngủ giữa chừng; `sprint01` không chạy lại được trên fixture cũ (xem bên dưới) |
+| E2E Sprint 0/1 `smoke` + `sprint1` (desktop + mobile) | **10/10 PASS** (chạy lại khi máy không bị ngủ giữa chừng) |
+| E2E Sprint 0.1 `sprint01` (desktop + mobile), fixture DEMO mới | **2/2 PASS**, [JSON](regression-sprint01.json) |
 
 Kịch bản UI-04 (`starter/apps/web/document-detail-tests/document-detail.spec.ts`), chạy với API thật trừ các chỗ ghi "mock":
 1. **Hiển thị và xác nhận:**
@@ -138,7 +141,17 @@ Chạy lại: `cd starter/apps/web && UI_TEST_LOCAL_CA=true UI_UAT_FIXTURES=../.
 `tests/sprint01.spec.ts` và `tests/sprint1.spec.ts` bấm nút cũ "Tôi đã đọc phiên bản này". Tôi chỉ đổi selector sang nút mới và biên nhận `ack-receipt`; nghiệp vụ test không đổi. Kết quả:
 - `smoke` và `sprint1`: **10/10 PASS** trên desktop và mobile, gồm bước HR ban hành → giao đọc → học viên xác nhận bằng nút mới.
   - Lần chạy đầu có 2 test mobile treo ~16 phút. Log `pmset` cho thấy máy ngủ 21:40–21:55 (đang dùng pin). Chạy lại dưới `caffeinate`: pass trong 17 giây.
-- `sprint01`: **chưa pass, nhưng không do UI-04.** Test này xác nhận tài liệu seed bằng tài khoản trong `.local/uat01.json`; tài khoản đó đã xác nhận từ 30/10/2026, nên nút xác nhận không còn hiện (giao diện cũ cũng vậy). Test chỉ chạy được một lần cho mỗi bộ fixture. Cần tạo fixture Sprint 0.1 mới để chạy lại.
+- `sprint01`: **2/2 PASS** với bộ fixture DEMO mới.
+  - Lỗi ban đầu không do UI-04: tài khoản trong `.local/uat01.json` đã xác nhận tài liệu seed từ 30/10/2026, nên nút không còn hiện (giao diện cũ cũng vậy). ACK không hoàn tác được, nên mỗi bộ fixture chỉ dùng một lần.
+  - Cách sửa:
+    1. Tạo bộ tài khoản `uat_*` mới bằng chính `python -m app.seed_uat` (cách `scripts/staging/uat.py` vẫn dùng), ghi vào `.local/uat02.json`. Không sửa hay xóa lịch sử xác nhận nào; `uat01.json` giữ nguyên vì checkpoint restore tham chiếu tới nó.
+    2. Thêm bước kiểm tra trước trong `sprint01.spec.ts`: nếu nhiệm vụ đọc của fixture đã xác nhận thì test dừng ngay với thông báo "tạo fixture UAT mới bằng app.seed_uat", thay vì treo 30 giây ở nút xác nhận. Đã kiểm: với `uat01.json`, test dừng sau 0,7 giây với đúng thông báo đó.
+  - Lệnh tạo fixture mới:
+    ```sh
+    docker compose --project-name jkc-staging-s1 --env-file .local/sprint1.env -f deploy/compose.yml \
+      --profile demo run --rm --no-deps -e UAT_SPRINT1=true seed python -m app.seed_uat > .local/uat0N.json
+    ```
+  - `uat02.json` giờ cũng đã dùng; lần chạy sau cần tạo `uat03.json`.
 
 Các test cũ có ghi ảnh vào `docs/reports/sprint01/regression` và `docs/reports/sprint1`. Tôi đã khôi phục các ảnh đó về bản đã commit để giữ nguyên bằng chứng các sprint trước.
 
