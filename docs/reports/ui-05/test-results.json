@@ -262,12 +262,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 6529,
+                  "duration": 7082,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-09T02:48:17.081Z",
+                  "startTime": "2026-11-09T06:28:03.266Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -296,12 +296,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 4339,
+                  "duration": 3884,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-09T02:48:23.963Z",
+                  "startTime": "2026-11-09T06:28:10.589Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -330,12 +330,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 5158,
+                  "duration": 5221,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-09T02:48:28.308Z",
+                  "startTime": "2026-11-09T06:28:14.482Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -364,12 +364,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 6015,
+                  "duration": 5954,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-09T02:48:33.470Z",
+                  "startTime": "2026-11-09T06:28:19.708Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -380,6 +380,40 @@
           "id": "0828a03cd0e93ee0ce1b-9d05a864c171936234e2",
           "file": "knowledge.spec.ts",
           "line": 241,
+          "column": 5
+        },
+        {
+          "title": "UI-05: mobile chỉ có ô tìm của Kho tri thức; Header UI-02 giữ nguyên ở trang khác (PO phương án A)",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1990,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-09T06:28:25.668Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "0828a03cd0e93ee0ce1b-5f67fc1602e839557fa8",
+          "file": "knowledge.spec.ts",
+          "line": 322,
           "column": 5
         },
         {
@@ -398,12 +432,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 5597,
+                  "duration": 5550,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-09T02:48:39.773Z",
+                  "startTime": "2026-11-09T06:28:27.880Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -432,12 +466,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 3841,
+                  "duration": 3846,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-09T02:48:45.544Z",
+                  "startTime": "2026-11-09T06:28:33.514Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -466,12 +500,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 5668,
+                  "duration": 4222,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-09T02:48:49.392Z",
+                  "startTime": "2026-11-09T06:28:37.367Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -500,12 +534,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 6009,
+                  "duration": 5985,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-09T02:48:55.066Z",
+                  "startTime": "2026-11-09T06:28:41.598Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -516,6 +550,40 @@
           "id": "0828a03cd0e93ee0ce1b-023498bd9a70518a228f",
           "file": "knowledge.spec.ts",
           "line": 241,
+          "column": 5
+        },
+        {
+          "title": "UI-05: mobile chỉ có ô tìm của Kho tri thức; Header UI-02 giữ nguyên ở trang khác (PO phương án A)",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "tablet",
+              "projectName": "tablet",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1984,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-09T06:28:47.590Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "0828a03cd0e93ee0ce1b-7a6c49b5dfb9b3d41824",
+          "file": "knowledge.spec.ts",
+          "line": 322,
           "column": 5
         },
         {
@@ -534,12 +602,12 @@
                   "workerIndex": 2,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 5542,
+                  "duration": 6530,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-09T02:49:01.287Z",
+                  "startTime": "2026-11-09T06:28:49.783Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -568,12 +636,12 @@
                   "workerIndex": 2,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 3757,
+                  "duration": 3908,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-09T02:49:06.925Z",
+                  "startTime": "2026-11-09T06:28:56.402Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -602,12 +670,12 @@
                   "workerIndex": 2,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 5152,
+                  "duration": 5179,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-09T02:49:10.689Z",
+                  "startTime": "2026-11-09T06:29:00.319Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -636,12 +704,12 @@
                   "workerIndex": 2,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 6001,
+                  "duration": 5935,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-09T02:49:15.846Z",
+                  "startTime": "2026-11-09T06:29:05.505Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -652,6 +720,40 @@
           "id": "0828a03cd0e93ee0ce1b-b56e525b66471f5ae141",
           "file": "knowledge.spec.ts",
           "line": 241,
+          "column": 5
+        },
+        {
+          "title": "UI-05: mobile chỉ có ô tìm của Kho tri thức; Header UI-02 giữ nguyên ở trang khác (PO phương án A)",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile390",
+              "projectName": "mobile390",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1965,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-09T06:29:11.448Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "0828a03cd0e93ee0ce1b-c3281de3f15704308760",
+          "file": "knowledge.spec.ts",
+          "line": 322,
           "column": 5
         },
         {
@@ -670,12 +772,12 @@
                   "workerIndex": 3,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 5596,
+                  "duration": 5507,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-09T02:49:22.059Z",
+                  "startTime": "2026-11-09T06:29:13.632Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -704,12 +806,12 @@
                   "workerIndex": 3,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 3830,
+                  "duration": 3867,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-09T02:49:27.755Z",
+                  "startTime": "2026-11-09T06:29:19.224Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -738,12 +840,12 @@
                   "workerIndex": 3,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 5640,
+                  "duration": 6085,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-09T02:49:31.591Z",
+                  "startTime": "2026-11-09T06:29:23.101Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -772,12 +874,12 @@
                   "workerIndex": 3,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 6037,
+                  "duration": 5916,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-09T02:49:37.236Z",
+                  "startTime": "2026-11-09T06:29:29.192Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -789,15 +891,49 @@
           "file": "knowledge.spec.ts",
           "line": 241,
           "column": 5
+        },
+        {
+          "title": "UI-05: mobile chỉ có ô tìm của Kho tri thức; Header UI-02 giữ nguyên ở trang khác (PO phương án A)",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile375",
+              "projectName": "mobile375",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1981,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-09T06:29:35.117Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "0828a03cd0e93ee0ce1b-3f4f27392cc5ef337cce",
+          "file": "knowledge.spec.ts",
+          "line": 322,
+          "column": 5
         }
       ]
     }
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-11-09T02:48:16.804Z",
-    "duration": 86507.01000000001,
-    "expected": 16,
+    "startTime": "2026-11-09T06:28:03.006Z",
+    "duration": 94121.675,
+    "expected": 20,
     "skipped": 0,
     "unexpected": 0,
     "flaky": 0

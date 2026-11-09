@@ -318,3 +318,36 @@ test("UI-05: loading, rỗng, lỗi + thử lại, 403 và gõ nhanh không hi�
   await expect(cards(page).first()).toContainText(token);
   await noHorizontalOverflow(page);
 });
+
+test("UI-05: mobile chỉ có ô tìm của Kho tri thức; Header UI-02 giữ nguyên ở trang khác (PO phương án A)", async ({
+  page,
+}, info) => {
+  const mobile = isMobile(info.project.name);
+  const header = page.getByRole("textbox", { name: "Tìm trong kho tri thức" });
+  const visibleInputs = page.locator(
+    "input[type=search]:visible, header input[name=q]:visible",
+  );
+  await login(page);
+
+  await page.goto("/knowledge");
+  await ready(page);
+  await expect(searchBox(page)).toBeVisible();
+  if (mobile) {
+    await expect(header).toBeHidden();
+    await expect(visibleInputs).toHaveCount(1);
+  } else await expect(header).toBeVisible();
+  await noHorizontalOverflow(page);
+
+  // Other pages keep the UI-02 header search on every viewport.
+  for (const path of ["/", "/documents"]) {
+    await page.goto(path);
+    await expect(header).toBeVisible();
+  }
+  // The header search still lands on /knowledge with the query (desktop path unchanged).
+  await header.fill("khongcoketquaui05a");
+  await page.getByRole("button", { name: "Tìm kiếm", exact: true }).click();
+  await expect(page).toHaveURL(/\/knowledge\?q=khongcoketquaui05a/);
+  await ready(page);
+  await expect(searchBox(page)).toHaveValue("khongcoketquaui05a");
+  if (mobile) await expect(header).toBeHidden();
+});

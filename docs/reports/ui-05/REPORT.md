@@ -2,7 +2,7 @@
 
 Ngày 09/11/2026. Nhánh `feature/ui-knowledge-library`, tách từ `feature/ui-document-detail` tại `ed0d9ea` (chứa UI-01 → UI-04; `main` mới có Sprint 0.1). Bản DEMO review: https://localhost:18444/knowledge (staging `jkc-staging-s1`).
 
-**Đã triển khai trang Kho tri thức & Tìm kiếm theo mockup 04 và hoàn thiện vòng 2 (tìm không dấu, tìm trong nội dung, ẩn bộ lọc chưa có API); kiểm thử local đạt. Đang chờ PO duyệt. Có một thay đổi API nhỏ, chỉ đọc (mục "Thay đổi backend"). Nhiều thành phần trong mockup chưa có dữ liệu (loại kiến thức, thiết bị, thẻ, lượt xem, hỏi đáp…); UI ẩn đi hoặc ghi rõ, không dùng dữ liệu giả. Dừng ở UI-05, chưa làm UI-06.**
+**Đã triển khai trang Kho tri thức & Tìm kiếm theo mockup 04 và hoàn thiện vòng 2 (tìm không dấu, tìm trong nội dung, ẩn bộ lọc chưa có API) và vòng 3 (PO chọn phương án A: mobile chỉ còn ô tìm của Kho tri thức); kiểm thử local đạt. Đang chờ PO duyệt lần cuối. Có một thay đổi API nhỏ, chỉ đọc (mục "Thay đổi backend"). Nhiều thành phần trong mockup chưa có dữ liệu (loại kiến thức, thiết bị, thẻ, lượt xem, hỏi đáp…); UI ẩn đi hoặc ghi rõ, không dùng dữ liệu giả. Dừng ở UI-05, chưa làm UI-06.**
 
 ## Khảo sát
 
@@ -82,7 +82,7 @@ Mockup cần công đoạn, người chia sẻ và thời điểm duyệt trên 
 | "Tri thức nổi bật tuần này" | "Mới được duyệt" (theo thời điểm duyệt) | Không có lượt xem, DATA-17 |
 | "Không tìm thấy? Hãy đặt câu hỏi" / nút "Đặt câu hỏi" mobile | "Không tìm thấy?" + "Chia sẻ kiến thức" | Chưa có Hỏi đáp, DATA-18 |
 | Ảnh riêng từng bài | Ảnh minh họa DEMO theo công đoạn | DATA-19 |
-| Mobile chỉ 1 ô tìm | 2 ô: header UI-02 đã duyệt + ô của trang | **Cần PO chọn phương án**, xem "Đề xuất hai ô tìm kiếm trên mobile" |
+| Mobile chỉ 1 ô tìm | **1 ô** (ô của Kho tri thức); ô header ẩn chỉ trên mobile ở `/knowledge` | Đã xử lý ở vòng 3 (PO chọn phương án A) |
 | Bottom nav: Trang chủ / Tìm kiếm / Hỏi đáp / Thông báo / Cá nhân | Giữ bottom nav UI-02 đã duyệt ("Tra cứu" sáng khi ở trang này) | Không sửa UI-02 |
 
 Dữ liệu DEMO cho ảnh chụp tạo bằng `node scripts/ui-knowledge/fixture.mjs`: 5 bài, mỗi công đoạn một bài, đi qua workflow thật (tác giả `employee` → `head` duyệt). Nội dung ghi rõ DEMO, không có thông số vận hành. Tiêu đề có kèm thời điểm tạo. Staging còn nhiều bài "DEMO · Duyệt độc lập…" và "Tra cứu ui05…" do các bộ test sinh ra, vì xác nhận/duyệt không hoàn tác được.
@@ -116,7 +116,7 @@ python3 scripts/ui-knowledge/compare.py
 | pytest backend (gồm 12 test mới, kể cả vòng 2) | **57/57 PASS** trên DB sạch |
 | Unit `knowledge-model` (URL ↔ trạng thái, lọc / sắp xếp / phân trang, trích đoạn, ảnh, snapshot) | **5/5 PASS** |
 | Unit `document-detail-model` / `documents-model` | 7/7 · 8/8 PASS |
-| UI-05 Playwright (desktop, tablet, 390, 375 × 4 kịch bản) | **16/16 PASS**, [JSON](test-results.json) |
+| UI-05 Playwright (desktop, tablet, 390, 375 × 5 kịch bản, gồm kịch bản vòng 3) | **20/20 PASS**, [JSON](test-results.json) |
 | Regression UI-01 / UI-02 / UI-03 / UI-04 | 9/9 · 16/16 · 16/16 · 16/16 PASS ([JSON](regression-ui01-login.json), [JSON](regression-ui02-dashboard.json), [JSON](regression-ui03-documents.json), [JSON](regression-ui04-document-detail.json)) |
 | E2E `smoke` + `sprint1` (desktop + mobile) | **10/10 PASS** |
 | E2E `sprint01`, fixture DEMO mới `uat05` (`app.seed_uat`) | **2/2 PASS**, [JSON](regression-sprint01.json) |
@@ -138,6 +138,7 @@ Kịch bản UI-05 (`starter/apps/web/knowledge-tests/knowledge.spec.ts`), dữ 
    - `other` và `admin` không thấy bài, kể cả khi tìm theo nội dung; detail 404.
    - Đăng xuất rồi vào `/knowledge`: chuyển về `/login`.
 4. **Trạng thái:** loading, thư viện rỗng (mock), lỗi 500 + Thử lại, 403 (mock), gõ nhanh với response cũ về muộn.
+5. **Ô tìm Header (vòng 3):** trên mobile ở `/knowledge` ô header bị ẩn và chỉ còn đúng 1 ô nhập tìm kiếm; desktop/tablet vẫn hiện ô header; ở `/` và `/documents` ô header hiện trên cả 4 viewport; gửi từ khóa từ ô header vẫn chuyển sang `/knowledge?q=…` và điền sẵn vào ô của trang.
 
 Chạy lại: `cd starter/apps/web && UI_TEST_LOCAL_CA=true UI_UAT_FIXTURES=../../../.local/uat01.json UI_DEMO_PASSWORD=… npx playwright test -c playwright.knowledge.config.ts`.
 
@@ -173,7 +174,7 @@ Thêm fixture dọn dữ liệu (archive nội dung do test tạo, giữ audit/p
 
 Bộ lọc Thiết bị và Thẻ được bỏ khỏi giao diện (desktop và bảng lọc mobile), không còn ô khóa "Chưa có". Lưới bộ lọc desktop còn 2 cột. Câu gợi ý "gõ có dấu" cũng bỏ, vì tìm không dấu đã chạy được.
 
-### Đề xuất hai ô tìm kiếm trên mobile (chưa làm, chờ PO)
+### Đề xuất hai ô tìm kiếm trên mobile (PO đã chọn A, xem vòng 3)
 
 Hiện tại: header UI-02 đã duyệt luôn có ô "Tìm lỗi, quy trình, kinh nghiệm…" (gửi từ khóa vào trang này), và trang có ô tìm riêng (tự tìm khi gõ, có nút xóa, giữ từ khóa). Mockup 04 mobile chỉ có 1 ô.
 
@@ -194,7 +195,7 @@ Hiện tại: header UI-02 đã duyệt luôn có ô "Tìm lỗi, quy trình, ki
 | Mobile 375, bảng lọc | [Trước](round2/before-mobile375-filters.png) | [Sau](round2/after-mobile375-filters.png) |
 | Tablet | [Trước](round2/before-tablet.png) | [Sau](round2/after-tablet.png) |
 
-Toàn bộ ảnh After chính ở đầu báo cáo và các bảng so sánh với mockup đã được chụp lại sau vòng 2.
+Ảnh After chính và các bảng so sánh với mockup hiện là bản chụp sau vòng 3.
 
 ## CI
 
@@ -204,12 +205,40 @@ Toàn bộ ảnh After chính ở đầu báo cáo và các bảng so sánh vớ
   - client 16: drill pass.
   - Log CI cần đăng nhập nên chưa đọc trực tiếp; kết luận dựa trên tái hiện. **Không do code UI-05**: bước drill chỉ dump/restore và chạy migration, UI-05 không đổi migration.
 - **Sửa:** trong `.github/workflows/ci.yml`, bước drill của job `foundation` đặt `pg_dump`/`pg_restore` bản 16 (chạy qua image `postgres:16`) lên đầu `PATH`, khớp major với service. Không đổi `database_drill.py` hay các job khác.
-- Nhánh UI-03/UI-04 chưa có bản sửa này; nếu chạy lại CI trên runner mới thì có thể đỏ ở cùng bước.
+- Bản sửa `ci.yml` đã được đưa sang nhánh UI-03 (`30aaf53`) rồi merge xuôi sang UI-04 (`5348aff`) và UI-05 (`5626504`); cả 7 lượt CI sau đó đều xanh.
+
+## Vòng 3 (09/11/2026): một ô tìm trên mobile — PO chọn phương án A
+
+**Thay đổi (3 file web, không đổi API/DB):**
+- `components/app-frame.tsx`: thêm prop tùy chọn `hideMobileSearch` (mặc định `false`). Khi bật, form tìm của header có thêm class `searchDesktopOnly`.
+- `components/app-frame.module.css`: `.searchDesktopOnly { display: none }` **chỉ trong** `@media (max-width: 767px)`. Desktop và tablet (≥ 768px) giữ nguyên ô header.
+- `components/knowledge-library.tsx`: chỉ trang `/knowledge` truyền `hideMobileSearch`.
+
+**Không đổi:** các trang khác không truyền prop nên Header UI-02 giữ nguyên hành vi và giao diện; tìm kiếm, bộ lọc, phân trang, trạng thái URL của UI-05 không đổi; auth/session/CSRF/RBAC/RLS/phê duyệt/xác nhận đọc không đổi.
+
+**Kiểm thử vòng 3 (staging HTTPS, sau khi build lại web):**
+
+| Kiểm tra | Kết quả |
+|---|---|
+| ESLint / TypeScript | PASS |
+| UI-05 Playwright (4 viewport × 5 kịch bản, thêm kịch bản ô tìm Header) | **20/20 PASS** |
+| Regression UI-01 / UI-02 / UI-03 / UI-04 (desktop, tablet, 390, 375) | **9/9 · 16/16 · 16/16 · 16/16 PASS** |
+| E2E `smoke` + `sprint1` (desktop + mobile, fixture `uat01`) | **10/10 PASS** |
+
+Ảnh chụp chính ở mục Screenshot và 4 bảng so sánh đã được chụp lại. Dữ liệu DEMO cho ảnh tạo lại bằng `scripts/ui-knowledge/fixture.mjs` (5 bài DEMO qua workflow thật), vì các bộ regression vừa tạo nhiều bài "Duyệt độc lập…" mới lên đầu danh sách.
+
+| Màn | Before (vòng 2: 2 ô tìm) | After (vòng 3: 1 ô tìm) |
+|---|---|---|
+| Mobile 390 | [Trước](round3/before-mobile390.png) | [Sau](round3/after-mobile390.png) |
+| Mobile 390, tìm "lech mau" | [Trước](round3/before-mobile390-unaccented.png) | [Sau](round3/after-mobile390-unaccented.png) |
+| Mobile 375 | [Trước](round3/before-mobile375.png) | [Sau](round3/after-mobile375.png) |
+| Mobile 375, tìm "lệch màu" | [Trước](round3/before-mobile375-search.png) | [Sau](round3/after-mobile375-search.png) |
+| Tablet 768 (giữ ô header) | [Trước](round3/before-tablet.png) | [Sau](round3/after-tablet.png) |
+| Desktop 1440 (giữ ô header) | [Trước](round3/before-desktop.png) | [Sau](round3/after-desktop.png) |
 
 ## Chưa làm / ngoài phạm vi
 
 - Các mục backlog [DATA-12 (xếp hạng liên quan) … DATA-21](../../UI_DATA_GAPS_BACKLOG.md): taxonomy, thiết bị, thẻ, người duyệt, lượt xem/bình luận/lưu, Hỏi đáp, ảnh bìa, lọc phía server, index tìm kiếm. DATA-11 (tìm không dấu) và phần tìm trong nội dung của DATA-12 đã xong ở vòng 2.
-- Phương án hai ô tìm kiếm trên mobile: chờ PO chọn.
 - Trang chi tiết bài tri thức `/knowledge/[id]` và tạo bài `/knowledge/new` vẫn là giao diện cũ (mockup 06 và màn chi tiết thuộc UI sau).
 - Chưa thử trên điện thoại thật và chưa cài CA lên thiết bị (gate của IT).
 - UI-06 chưa bắt đầu.

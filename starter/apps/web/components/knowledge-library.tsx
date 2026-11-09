@@ -269,6 +269,7 @@ export function KnowledgeLibrary() {
       user={user}
       path="/knowledge"
       title="Kho tri thức"
+      hideMobileSearch
       onSearch={(e) => {
         e.preventDefault();
         submit(new FormData(e.currentTarget).get("q")?.toString() || "");
