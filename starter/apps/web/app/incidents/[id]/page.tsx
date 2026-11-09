@@ -1,4 +1,4 @@
-import { Workspace } from "../../../components/workspace";
+import { IncidentDetail } from "../../../components/incident-detail";
 export default function Page() {
-  return <Workspace />;
+  return <IncidentDetail />;
 }
