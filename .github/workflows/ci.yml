@@ -47,7 +47,16 @@ jobs:
         run: |
           ../../../.venv/bin/alembic upgrade head
           ../../../.venv/bin/pytest -q
-      - run: .venv/bin/python scripts/database_drill.py
+      - name: Database drill with client tools matching the PostgreSQL 16 service
+        run: |
+          # ubuntu-latest may ship pg_dump 17+, which writes "SET transaction_timeout" that PostgreSQL 16
+          # rejects during pg_restore --exit-on-error. Pin the client major to the service major.
+          bin="$RUNNER_TEMP/pg16-bin"; mkdir -p "$bin"
+          for tool in pg_dump pg_restore; do
+            printf '#!/bin/sh\nexec docker run --rm --network host -v /tmp:/tmp postgres:16 %s "$@"\n' "$tool" > "$bin/$tool"
+            chmod +x "$bin/$tool"
+          done
+          PATH="$bin:$PATH" TMPDIR=/tmp .venv/bin/python scripts/database_drill.py
       - working-directory: starter/apps/web
         run: |
           npm ci
