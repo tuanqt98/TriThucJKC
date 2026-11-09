@@ -198,11 +198,13 @@ Toàn bộ ảnh After chính ở đầu báo cáo và các bảng so sánh vớ
 
 ## CI
 
-- `3bb6da9` (UI-05 vòng 1): `staging-acceptance` ✅, `postgres17` ✅, `foundation` ❌ ở bước `scripts/database_drill.py`. [Run 42552101803](https://github.com/tuanqt98/TriThucJKC/actions/runs/42552101803)
-  - Chạy lại ở local trên PostgreSQL 16 ngay sau pytest: drill **pass** (migration upgrade → downgrade → upgrade, dump/restore và số dòng khớp).
-  - UI-05 không đổi migration. Log job cần đăng nhập GitHub (API trả 403), nên **chưa xác nhận được nguyên nhân**; nghi do môi trường runner (cảnh báo chuyển `ubuntu-latest` sang Ubuntu 26).
-  - Sẽ đọc bằng `gh run view --log-failed` khi `gh` đã đăng nhập.
-- Commit vòng 2: kết quả cập nhật trong mô tả PR.
+- `3bb6da9` (UI-05 vòng 1) và `527a6b6` (vòng 2): `staging-acceptance` ✅, `postgres17` ✅, `foundation` ❌ ở bước `scripts/database_drill.py`. Xem [Run 42552101803](https://github.com/tuanqt98/TriThucJKC/actions/runs/42552101803) và [Run 42553588933](https://github.com/tuanqt98/TriThucJKC/actions/runs/42553588933).
+- **Nguyên nhân (đã tái hiện ở local):** runner `ubuntu-latest` (đang chuyển sang Ubuntu 26) có thể có `pg_dump` 17+. Từ bản 17, `pg_dump` ghi `SET transaction_timeout = 0`, mà PostgreSQL 16 (service của job `foundation`) không hiểu, nên `pg_restore --exit-on-error` dừng. Trên cùng một DB sau pytest:
+  - client 18: hỏng đúng lỗi `unrecognized configuration parameter "transaction_timeout"`;
+  - client 16: drill pass.
+  - Log CI cần đăng nhập nên chưa đọc trực tiếp; kết luận dựa trên tái hiện. **Không do code UI-05**: bước drill chỉ dump/restore và chạy migration, UI-05 không đổi migration.
+- **Sửa:** trong `.github/workflows/ci.yml`, bước drill của job `foundation` đặt `pg_dump`/`pg_restore` bản 16 (chạy qua image `postgres:16`) lên đầu `PATH`, khớp major với service. Không đổi `database_drill.py` hay các job khác.
+- Nhánh UI-03/UI-04 chưa có bản sửa này; nếu chạy lại CI trên runner mới thì có thể đỏ ở cùng bước.
 
 ## Chưa làm / ngoài phạm vi
 
