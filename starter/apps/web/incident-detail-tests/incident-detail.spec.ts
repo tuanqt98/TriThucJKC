@@ -54,11 +54,9 @@ async function noHorizontalOverflow(page: Page) {
   ).toBeLessThanOrEqual(0);
 }
 const section = (page: Page, name: string) =>
-  page
-    .locator("main section")
-    .filter({
-      has: page.getByRole("heading", { name: new RegExp(`^${name}`) }),
-    });
+  page.locator("main section").filter({
+    has: page.getByRole("heading", { name: new RegExp(`^${name}`) }),
+  });
 
 test.afterEach(async ({ page }) => logout(page));
 
