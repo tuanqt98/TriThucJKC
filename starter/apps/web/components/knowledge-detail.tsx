@@ -257,6 +257,17 @@ export function KnowledgeDetail() {
       ].filter(([, , v]) => v) as [string, string, string][])
     : [];
 
+  // Mobile header keeps a one-line summary; version and process are already in the chips.
+  const compact = article
+    ? [
+        article.author_name,
+        article.department_name,
+        article.approved_at && `Duyệt ${day(article.approved_at)}`,
+      ]
+        .filter(Boolean)
+        .join(" · ")
+    : "";
+
   return (
     <AppFrame
       user={user}
@@ -343,7 +354,15 @@ export function KnowledgeDetail() {
                   </div>
                 </div>
                 {images.cover && (
-                  <Figure file={images.cover} className={styles.cover} />
+                  <Figure
+                    file={images.cover}
+                    className={`${styles.cover} ${styles.coverWide}`}
+                  />
+                )}
+                {compact && (
+                  <p className={styles.metaCompact} data-testid="meta-compact">
+                    {compact}
+                  </p>
                 )}
                 <dl className={styles.meta}>
                   {meta.map(([d, k, v]) => (
@@ -388,6 +407,13 @@ export function KnowledgeDetail() {
                 data-panel="content"
                 aria-labelledby="article-title"
               >
+                {images.cover && (
+                  // Mobile (PO): cover lives in the "Nội dung" tab so the tabs follow the title directly.
+                  <Figure
+                    file={images.cover}
+                    className={`${styles.cover} ${styles.coverMobile}`}
+                  />
+                )}
                 {sections.length ? (
                   sections.map((s, i) => (
                     <section key={`${s.title}-${i}`} aria-label={s.title}>

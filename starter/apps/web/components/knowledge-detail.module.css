@@ -219,8 +219,12 @@
   padding: 16px 0;
   border-top: 1px solid var(--border);
 }
-.body section:first-child {
+.body section:first-of-type {
   border-top: 0;
+}
+.coverMobile,
+.metaCompact {
+  display: none;
 }
 .body h2 {
   font-size: 16px;
@@ -571,15 +575,26 @@
   .head h1 {
     font-size: 20px;
   }
-  .cover img {
-    max-height: 170px;
-  }
+  /* PO round 2: tabs directly after title + compact metadata; cover moves into the "Nội dung" tab. */
+  .coverWide,
   .meta {
-    grid-template-columns: 1fr 1fr;
+    display: none;
   }
-  .meta > div {
-    border-left: 0;
-    padding: 0;
+  .coverMobile {
+    display: block;
+    margin: 12px 0 4px;
+  }
+  .cover img {
+    max-height: 200px;
+  }
+  .metaCompact {
+    display: block;
+    margin: 10px 0 0;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+    font-size: 12px;
+    color: #476282;
+    line-height: 1.5;
   }
   .tabs {
     display: flex;

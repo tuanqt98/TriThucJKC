@@ -75,4 +75,21 @@ for view, w, h in [("mobile390", 390, 844), ("mobile375", 375, 812)]:
             w,
             2600,
         )
+# Round 2 (PO): mobile cover moved into the "Nội dung" tab, tabs right after the title block.
+for view, w, h in [("mobile390", 390, 844), ("mobile375", 375, 812)]:
+    if (out / f"round2/before-{view}.png").exists():
+        board(
+            f"round2/compare-{view}",
+            [f"round2/before-{view}.png", f"after-{view}.png"],
+            ["Before (c741eac)", "After"],
+            w,
+            h,
+        )
+        board(
+            f"round2/compare-{view}-tabs",
+            [f"round2/before-{view}-tabs.png", f"after-{view}-tabs.png"],
+            ["Before (c741eac): 3 tab", "After: 3 tab"],
+            w * 3,
+            2600,
+        )
 print("Saved UI-05B comparison boards.")

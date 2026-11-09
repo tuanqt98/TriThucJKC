@@ -84,15 +84,41 @@ test("UI-05B: dữ liệu thật từ API, thứ tự mục, ảnh đại diện
     "Kiểm tra nhãn lô",
   ]);
   // Metadata only from the API; technical S1- code and old placeholders are not shown.
-  const meta = page.locator("main dl").first();
-  for (const v of [
-    api.author_name,
-    api.department_name,
-    api.process_name,
-    day(api.approved_at),
-    `v${api.version_number} · hiện hành`,
-  ])
-    await expect(meta).toContainText(v);
+  if (mobile) {
+    // PO round 2: one-line metadata, tab bar right after the title block (inside the first screen).
+    await expect(page.locator("main dl").first()).toBeHidden();
+    const compact = page.getByTestId("meta-compact");
+    for (const v of [
+      api.author_name,
+      api.department_name,
+      `Duyệt ${day(api.approved_at)}`,
+    ])
+      await expect(compact).toContainText(v);
+    const chips = page
+      .locator("header")
+      .filter({ has: page.locator("#article-title") });
+    await expect(chips).toContainText(`v${api.version_number}`);
+    await expect(chips).toContainText(api.process_name);
+    const bar = await page
+      .getByRole("tablist", { name: "Phần của bài viết" })
+      .boundingBox();
+    expect(bar!.y + bar!.height).toBeLessThanOrEqual(
+      page.viewportSize()!.height,
+    );
+  } else {
+    await expect(page.getByTestId("meta-compact")).toBeHidden();
+    const meta = page.locator("main dl").first();
+    for (const v of [
+      api.author_name,
+      api.department_name,
+      api.process_name,
+      day(api.approved_at),
+      `v${api.version_number} · hiện hành`,
+    ])
+      await expect(meta)
+        .toBeVisible()
+        .then(() => expect(meta).toContainText(v));
+  }
   expect(api.code).toMatch(/^S1-/);
   await expect(page.getByText(api.code)).toHaveCount(0);
   await expect(page.getByText("Nội dung DEMO để kiểm thử")).toHaveCount(0);
@@ -100,6 +126,14 @@ test("UI-05B: dữ liệu thật từ API, thứ tự mục, ảnh đại diện
 
   // Cover = first image not referenced by a step; step 2 shows its image in place of the filename line.
   const cover = page.getByRole("img", { name: "DEMO-anh-dai-dien.png" });
+  await expect(cover).toHaveCount(1); // only the copy for this layout is rendered visibly
+  // Mobile: cover is part of the "Nội dung" tab; desktop/tablet: under the title in the head card.
+  await expect(
+    (mobile
+      ? page.locator("#panel-content")
+      : page.locator("header").filter({ has: page.locator("#article-title") })
+    ).getByRole("img", { name: "DEMO-anh-dai-dien.png" }),
+  ).toBeVisible();
   await expect(cover.first()).toBeVisible();
   expect(
     await cover
@@ -133,6 +167,7 @@ test("UI-05B: dữ liệu thật từ API, thứ tự mục, ảnh đại diện
     await expect(page.getByRole("region", { name: /Ảnh & tệp/ })).toBeHidden();
     await page.getByRole("tab", { name: "Ảnh & tệp (3)" }).click();
     await expect(page.locator("#panel-content")).toBeHidden();
+    await expect(cover).toHaveCount(0); // cover belongs to the content tab
   } else
     await expect(
       page.getByRole("tablist", { includeHidden: true }),

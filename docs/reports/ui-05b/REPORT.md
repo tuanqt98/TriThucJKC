@@ -4,7 +4,9 @@ Ngày 09/11/2026. Nhánh `feature/ui-knowledge-detail`, tách từ `feature/ui-k
 
 **Trạng thái:**
 - Đề xuất (mục 1–6, giữ nguyên làm hồ sơ) đã được PO chấp thuận định hướng ngày 09/11/2026 với 8 quyết định.
-- **Đã triển khai giao diện thật** (mục 7), kiểm thử local đạt. Đang chờ PO nghiệm thu UI cuối cùng.
+- **Đã triển khai giao diện thật** (mục 7), CI xanh trên `c741eac`.
+- **Vòng 2 theo PO** (mục 8): trên mobile, ảnh đại diện chuyển vào tab Nội dung; thanh 3 tab nằm ngay sau tiêu đề và metadata rút gọn. Có đề xuất môi trường review DEMO sạch.
+- Đang chờ PO duyệt hình ảnh UI-05B cuối cùng.
 - Chưa merge. Chưa làm UI-06.
 
 > Mục 1–6 dưới đây là bản đề xuất **trước khi PO quyết định**. Các điểm đã thay đổi theo quyết định (ẩn mã `S1-…`, ảnh theo bước, người duyệt đã có API) xem ở mục 7.
@@ -242,3 +244,71 @@ cd starter/apps/web && UI_TEST_LOCAL_CA=true UI_DEMO_PASSWORD=… npx playwright
 - **"Cùng công đoạn"** trên staging hiện cả bài do test tự động tạo; đó là dữ liệu thật của staging, môi trường thật sẽ chỉ có bài nghiệp vụ.
 - **Bài "Giải pháp sự cố"** từ Kho tri thức vẫn mở `/incidents/[id]` (mockup 05, làm riêng).
 - **Lịch sử phiên bản đầy đủ:** DATA-22, chưa làm.
+
+## 8. Vòng 2 (09/11/2026): mobile, quy ước ảnh, môi trường review sạch
+
+### Quyết định của PO
+
+1. **Ảnh theo bước:** chấp nhận tạm thời quy ước tên tệp trong MVP. Giữ DATA-23 (chọn và gắn ảnh trực tiếp vào từng mục) trong backlog.
+2. **Mobile:**
+   - ảnh đại diện chuyển vào tab "Nội dung";
+   - thanh 3 tab nằm ngay sau tiêu đề và metadata rút gọn;
+   - desktop và tablet giữ nguyên.
+3. **"Cùng công đoạn":** giữ; không xóa audit hay nội dung đã duyệt để làm sạch staging; đề xuất môi trường review DEMO riêng.
+
+### Thay đổi (chỉ web, 2 file component + test)
+
+- **`knowledge-detail.tsx`:**
+  - Trên mobile, khối tiêu đề có tiêu đề, chip (Đã duyệt · phiên bản · Bài tri thức · công đoạn) và **một dòng metadata**: người chia sẻ · bộ phận · ngày duyệt.
+  - Phiên bản và công đoạn đã có trong chip, nên không mất thông tin.
+  - Ảnh đại diện nằm đầu tab "Nội dung".
+  - Desktop/tablet giữ ảnh dưới tiêu đề và lưới metadata 3 cột như cũ.
+  - Mỗi bố cục chỉ hiển thị một bản ảnh; bản còn lại `display: none`, nên trình đọc màn hình chỉ thấy một.
+- **`knowledge-detail.module.css`:** chỉ thêm quy tắc trong `@media (max-width: 767px)`.
+- **Test:** kịch bản 1 kiểm tra thêm trên mobile:
+  - thanh tab nằm trọn trong màn hình đầu tiên (390×844, 375×812);
+  - có dòng metadata rút gọn, lưới metadata bị ẩn;
+  - ảnh đại diện nằm trong tab Nội dung và biến mất khi sang tab "Ảnh & tệp".
+  Desktop/tablet kiểm tra ảnh vẫn ở khối tiêu đề và lưới metadata vẫn hiện.
+- **Không đổi:** API, auth, RBAC, RLS, workflow phê duyệt; UI-01 → UI-05.
+
+### Kiểm thử vòng 2 (staging HTTPS, sau khi build lại `web`)
+
+| Kiểm tra | Kết quả |
+|---|---|
+| ESLint / TypeScript / Next production build | PASS |
+| Unit test model | 26/26 PASS |
+| UI-05B Playwright (4 viewport × 4 kịch bản) | **16/16 PASS** ([JSON](test-results.json)) |
+| Regression UI-01 / UI-02 / UI-03 / UI-04 / UI-05 | **9/9 · 16/16 · 16/16 · 16/16 · 20/20 PASS** (JSON `regression-*.json` đã cập nhật) |
+| E2E `smoke` + `sprint1` | **10/10 PASS** |
+| CI `c741eac` (lần triển khai đầu) | ✅ foundation · postgres17 · staging-acceptance, cả push và pull_request |
+
+### Ảnh Before / After vòng 2 (`round2/`)
+
+| Viewport | Trước → sau | 3 tab (trước → sau) |
+|---|---|---|
+| Mobile 390×844 | [compare-mobile390](round2/compare-mobile390.png) | [compare-mobile390-tabs](round2/compare-mobile390-tabs.png) |
+| Mobile 375×812 | [compare-mobile375](round2/compare-mobile375.png) | [compare-mobile375-tabs](round2/compare-mobile375-tabs.png) |
+
+Ảnh After chính (`after-*.png`, `final-*.png`, `after-mobile*-tabs.png`) đã chụp lại sau vòng 2. Desktop và tablet không đổi bố cục.
+
+### Đề xuất: môi trường review DEMO sạch, tách khỏi kiểm thử tự động
+
+**Vấn đề:**
+- Staging `jkc-staging-s1` (https://localhost:18444) được dùng chung cho review và cho các bộ test tự động.
+- Mỗi lần chạy test tạo thêm bài DEMO qua workflow thật.
+- Duyệt bài và xác nhận đọc không hoàn tác được; audit phải giữ.
+- Vì vậy "Cùng công đoạn", "Mới được duyệt"… trên staging lẫn bài test. Không được xóa để làm sạch.
+
+**Đề xuất:** thêm một stack thứ hai, **chỉ dùng để PO/người dùng review**, từ cùng `deploy/compose.yml`. Không sửa code ứng dụng, không đổi quyền.
+
+| Hạng mục | Cách làm |
+|---|---|
+| Tách biệt | Compose project riêng, ví dụ `jkc-review`, file env riêng `.local/review.env` (không commit): DB, volume tệp, mật khẩu DB/runtime/DEMO riêng; cổng riêng, ví dụ `HTTPS_PORT=18446`, `BIND_ADDRESS=127.0.0.1` (không mở ra mạng ngoài). Staging hiện tại giữ nguyên làm môi trường test tự động |
+| Dữ liệu | Chỉ seed tài khoản DEMO (`seed` profile `demo`) và **bộ nội dung review chọn lọc**, tạo qua workflow thật bằng các script có sẵn (`scripts/ui-knowledge/fixture.mjs`, `scripts/ui-knowledge-detail/fixture.mjs`, fixture UI-03/UI-04) với `UI_BASE_URL` trỏ vào stack review. Tiêu đề có nhãn DEMO, không có thông số vận hành |
+| Chặn test chạy nhầm | Thêm lệnh kiểm tra trong các fixture/Playwright config: từ chối chạy khi `UI_BASE_URL` trùng cổng review (hoặc khi API báo `APP_ENV=review`). Đây là thay đổi nhỏ trong code test, không chạm ứng dụng |
+| Làm mới | Stack review là dữ liệu dùng một lần, không chứa dữ liệu thật: muốn làm sạch thì chạy `docker compose -p jkc-review … down --volumes` rồi dựng lại và seed lại. Lệnh chỉ trỏ vào project `jkc-review`, **không đụng staging và audit của staging**. Cần lưu lại thì chụp trước bằng `scripts/staging/snapshot.py` |
+| Đóng gói | Một script `scripts/review/up.sh` (dựng, seed, in URL và CA) cùng hướng dẫn trong README. Ước lượng khoảng 0,5–1 ngày công, gồm kiểm thử |
+| Cần quyết định | PO/IT chốt: cổng, ai được truy cập (chỉ máy nội bộ), tần suất làm mới, và stack review có đi theo nhánh đang review hay theo bản đã merge |
+
+Chưa triển khai đề xuất này; chờ PO quyết định.
