@@ -1,13 +1,13 @@
-# UI-05B — Chi tiết bài viết tri thức: ĐỀ XUẤT THIẾT KẾ (chờ PO duyệt)
+# UI-05B — Chi tiết bài viết tri thức
 
-Ngày 09/11/2026. Nhánh `feature/ui-knowledge-detail`, tách từ `feature/ui-knowledge-library` tại `08e337e` (UI-01 → UI-05 vòng 3).
+Ngày 09/11/2026. Nhánh `feature/ui-knowledge-detail`, tách từ `feature/ui-knowledge-library` tại `08e337e` (UI-01 → UI-05 vòng 3). Draft PR #3, base `feature/ui-knowledge-library`.
 
-**Dự án chưa có mockup riêng cho trang chi tiết bài tri thức** (`design/approved_screens/` chỉ có 03 chi tiết nội quy, 05 chi tiết sự cố, 06 tạo bài). Theo yêu cầu task, **dừng ở bước đề xuất**:
-- Chưa viết lại giao diện `/knowledge/[id]`.
-- Chưa đổi code ứng dụng, API hay database.
-- Chưa làm UI-06.
+**Trạng thái:**
+- Đề xuất (mục 1–6, giữ nguyên làm hồ sơ) đã được PO chấp thuận định hướng ngày 09/11/2026 với 8 quyết định.
+- **Đã triển khai giao diện thật** (mục 7), kiểm thử local đạt. Đang chờ PO nghiệm thu UI cuối cùng.
+- Chưa merge. Chưa làm UI-06.
 
-Bản đề xuất được dựng **trong khung ứng dụng thật** (sidebar, header, bottom nav của UI-05) và lấy **dữ liệu thật từ API** của một bài DEMO đã duyệt qua workflow thật. Mọi ảnh đề xuất có dải cam "ĐỀ XUẤT THIẾT KẾ UI-05B · chưa triển khai". Ô viền nét đứt là dữ liệu **chưa có API**; khi triển khai sẽ không hiển thị.
+> Mục 1–6 dưới đây là bản đề xuất **trước khi PO quyết định**. Các điểm đã thay đổi theo quyết định (ẩn mã `S1-…`, ảnh theo bước, người duyệt đã có API) xem ở mục 7.
 
 ## 1. Khảo sát hiện trạng
 
@@ -145,3 +145,100 @@ Bài DEMO dùng 6 mục theo mockup 06, nội dung chung chung, **không có th�
 | Code ứng dụng | **Không đổi**, nên chưa chạy lại lint/build/Playwright/regression. Sẽ chạy đủ khi triển khai |
 
 Thay đổi trong commit: chỉ có `scripts/ui-knowledge-detail/` (fixture, capture, compare, `proposal/`), `docs/reports/ui-05b/` và backlog.
+
+## 7. Triển khai thực tế (sau khi PO chấp thuận định hướng)
+
+### Quyết định của PO và cách làm
+
+| # | Quyết định | Triển khai |
+|---|---|---|
+| 1 | Desktop 2 cột; tablet và mobile 1 cột | Cột phải 340px; ≤ 1100px một cột (tablet: các thẻ phụ 2 cột một hàng); < 768px một cột |
+| 2 | Mobile 3 tab | *Nội dung* (mặc định) · *Ảnh & tệp (n)* · *Phê duyệt*; khối tiêu đề luôn hiện; vùng chạm 44px |
+| 3 | Ảnh đại diện dưới tiêu đề nếu có ảnh thật; ảnh theo bước gần mục tương ứng | Ảnh đại diện = ảnh đã quét sạch đầu tiên **chưa gắn mục**. Ảnh theo bước: API chưa gắn tệp với mục, nên dùng quy ước dựa trên dữ liệu thật: dòng trong mục **đúng bằng tên tệp ảnh** của phiên bản (có thể ghi "Ảnh: tên-tệp.jpg") thì hiện ảnh tại đó. Ảnh còn lại ở "Hình ảnh khác". Không có ảnh thì không hiện khung ảnh. Giải pháp lâu dài ghi ở **DATA-23** |
+| 4 | Giữ "Cùng công đoạn" | `GET /articles?processId=…` (cùng ACL, chỉ bài đã duyệt), bỏ bài đang xem, tối đa 3 |
+| 5 | Thêm người duyệt (chỉ đọc) | `ContentView.approver_name`: LEFT JOIN `users` theo `approved_by` của **phiên bản đã duyệt hiện hành**. Không đổi WHERE/ACL/RLS, không migration. OpenAPI thêm 1 trường tùy chọn |
+| 6 | Lịch sử phiên bản: backlog | DATA-22; khối "Phê duyệt & phiên bản" chỉ hiện phiên bản hiện hành, không có dòng giữ chỗ |
+| 7 | Ẩn mã kỹ thuật `S1-…` | Mã do workflow sinh (`S1-<uuid>`) bị ẩn; mã nghiệp vụ khác (ví dụ `JKC-QD-001`) vẫn hiện |
+| 8 | Quay lại giữ từ khóa, bộ lọc, trang, kiểu xem | URL của UI-05 là nguồn chính. Trang Kho tri thức lưu query vào `sessionStorage` (mỗi tab trình duyệt một bản riêng). Nút "← Kho tri thức": nếu bài được mở từ thư viện trong cùng tab thì dùng `history.back()` (khôi phục cả vị trí cuộn); ngược lại dẫn tới `/knowledge?<query đã lưu>`, chỉ giữ tham số hợp lệ của UI-05. Mở trực tiếp trong tab mới thì về `/knowledge` |
+
+**Yêu cầu thêm:**
+- Mục sắp theo số đầu tiêu đề, không theo thứ tự khóa JSONB (cùng quy tắc với UI-04).
+- Dòng giữ chỗ "Nội dung DEMO để kiểm thử", "Lịch sử xác nhận…" và dòng "Môi trường DEMO" không hiện trên trang này.
+- Metadata chỉ hiện khi API có giá trị; không có giá trị giả hay "Chưa cung cấp".
+
+### Thay đổi
+
+- **Web:**
+  - mới `components/knowledge-detail.tsx`, `knowledge-detail.module.css`, `knowledge-detail-model.ts`;
+  - `app/knowledge/[id]/page.tsx` dùng component mới;
+  - `api.ts` thêm trường tùy chọn `approver_name`;
+  - `knowledge-library.tsx` (UI-05) chỉ thêm việc lưu query vào `sessionStorage` và đánh dấu bài vừa mở; không đổi giao diện hay hành vi của UI-05;
+  - `tsconfig.json` bật `allowImportingTsExtensions` (dự án đã `noEmit`), để model dùng lại `sectionTitle` của UI-04 và `readState`/`writeState` của UI-05 mà vẫn chạy được unit test bằng Node.
+- **API:** `content.py` (SELECT thêm `approver_name`), `schemas.py`, `api/openapi.yaml`.
+- **Test:**
+  - `tests/test_knowledge_listing.py` +2 test;
+  - `scripts/tests/knowledge-detail-model.test.mjs` 6 test;
+  - `knowledge-detail-tests/` (Playwright, 4 kịch bản × 4 viewport).
+- **Không đổi:** auth, session, CSRF, RBAC, RLS, workflow phê duyệt, xác nhận đọc, migration; giao diện UI-01 → UI-05; trang `/incidents/[id]`.
+
+### Kiểm thử (staging HTTPS, sau khi build lại `api` + `web`)
+
+| Kiểm tra | Kết quả |
+|---|---|
+| ESLint / TypeScript / Next production build | PASS |
+| Ruff check/format, OpenAPI drift check | PASS |
+| pytest backend, PostgreSQL 16 sạch (gồm 2 test `approver_name`: đúng người duyệt của bản đã duyệt hiện hành kể cả khi có bản nháp/chờ duyệt mới; `other`/`admin` 404 và tìm không thấy; giữ đủ các trường cũ; dữ liệu seed không có người duyệt vẫn chạy) | **59/59 PASS** |
+| Unit test model (`node --test scripts/tests/*.test.mjs`) | **26/26 PASS** (6 mới) |
+| UI-05B Playwright (desktop, tablet, 390, 375 × 4 kịch bản) | **16/16 PASS**, [JSON](test-results.json) |
+| Regression UI-01 / UI-02 / UI-03 / UI-04 / UI-05 | **9/9 · 16/16 · 16/16 · 16/16 · 20/20 PASS** ([01](regression-ui01-login.json) · [02](regression-ui02-dashboard.json) · [03](regression-ui03-documents.json) · [04](regression-ui04-document-detail.json) · [05](regression-ui05-knowledge.json)) |
+| E2E `smoke` + `sprint1` | **10/10 PASS** |
+| E2E `sprint01`, fixture DEMO mới `uat06` (`app.seed_uat`) | **2/2 PASS** |
+
+**Kịch bản UI-05B** (`starter/apps/web/knowledge-detail-tests/knowledge-detail.spec.ts`), dữ liệu tạo qua workflow thật:
+1. **Dữ liệu:**
+   - Tiêu đề và metadata khớp API.
+   - Các mục ghi lệch thứ tự (6, 2, 1, 10, 3) hiển thị đúng 1, 2, 3, 6, 10; danh sách đánh số đúng.
+   - Mã `S1-…` và các dòng giữ chỗ không hiện.
+   - Ảnh đại diện tải được; ảnh của bước 2 nằm trong mục 2, dòng tên tệp không hiện.
+   - "Cùng công đoạn" chỉ chứa bài API trả về và không có bài đang xem.
+   - Mobile: chuyển tab ẩn/hiện đúng phần. Desktop/tablet: không có tab.
+   - 3 tệp; tải PDF trả 200. Người duyệt khớp API.
+   - Không tràn ngang, không lỗi JS.
+2. **Quay lại:**
+   - `/knowledge?q=DEMO&type=ARTICLE&sort=title&page=2&view=grid` → mở bài → "Kho tri thức" về đúng URL, ô tìm giữ "DEMO", cùng bài đầu tiên.
+   - Reload trang bài rồi quay lại: vẫn đúng.
+   - Thư viện → bài A → bài liên quan B → "Kho tri thức": về danh sách đã lưu.
+   - Tab thứ hai mở trực tiếp: về `/knowledge`. Tab thứ hai đổi bộ lọc không ảnh hưởng tab đầu.
+3. **Quyền:**
+   - Bản nháp, bản chờ duyệt: "Không tìm thấy bài viết", không lộ tiêu đề.
+   - `other`, `admin`: không thấy bài, ảnh; API tệp trả 404.
+   - Chưa đăng nhập: chuyển về `/login`.
+4. **Trạng thái:** đang tải, lỗi 500 + Thử lại, 403, lỗi tải tệp không chặn nội dung, bài không tồn tại.
+
+### Ảnh Mockup / Before / After
+
+Chưa có mockup được duyệt riêng cho màn này, nên cột **Mockup** là ảnh đề xuất mà PO đã chấp thuận định hướng. Ảnh After chụp trang thật trên staging, tài khoản `employee`, bài DEMO tạo qua workflow thật (`scripts/ui-knowledge-detail/fixture.mjs`, mục 5 gắn ảnh "sau xử lý").
+
+| Viewport | Mockup / Before / After | After |
+|---|---|---|
+| Desktop 1440×900 | [final-desktop](final-desktop.png) | [màn hình](after-desktop.png) · [toàn trang](after-desktop-full.png) |
+| Tablet 768×1024 | [final-tablet](final-tablet.png) | [màn hình](after-tablet.png) · [toàn trang](after-tablet-full.png) |
+| Mobile 390×844 | [final-mobile390](final-mobile390.png) | [3 tab](after-mobile390-tabs.png) · [Nội dung](after-mobile390-full.png) · [Ảnh & tệp](after-mobile390-files-full.png) · [Phê duyệt](after-mobile390-approval-full.png) |
+| Mobile 375×812 | [final-mobile375](final-mobile375.png) | [3 tab](after-mobile375-tabs.png) · [Nội dung](after-mobile375-full.png) · [Ảnh & tệp](after-mobile375-files-full.png) · [Phê duyệt](after-mobile375-approval-full.png) |
+
+Tái tạo:
+```sh
+UI_DEMO_PASSWORD=… node scripts/ui-knowledge-detail/fixture.mjs
+UI_DEMO_PASSWORD=… UI_ARTICLE_ID=<id> UI_CAPTURE_PHASE=after node scripts/ui-knowledge-detail/capture.cjs
+… UI_CAPTURE_TAB=files UI_CAPTURE_SUFFIX=-files …   # và UI_CAPTURE_TAB=approval UI_CAPTURE_SUFFIX=-approval
+python3 scripts/ui-knowledge-detail/compare.py
+cd starter/apps/web && UI_TEST_LOCAL_CA=true UI_DEMO_PASSWORD=… npx playwright test -c playwright.knowledge-detail.config.ts
+```
+
+### Điểm cần PO lưu ý khi nghiệm thu
+
+- **Ảnh theo bước** dùng quy ước tên tệp (mục 7, quyết định 3). Người biên soạn cần ghi đúng tên tệp ảnh trong mục. Muốn chọn ảnh theo mục ngay trong trình biên soạn thì cần DATA-23 (thay đổi DB/API), chưa làm.
+- **Trên mobile**, ảnh đại diện (cao tối đa 170px) và metadata đẩy thanh tab xuống gần cuối màn hình đầu tiên (390×844). Nếu PO muốn tab hiện ngay, có thể chuyển ảnh đại diện vào tab Nội dung.
+- **"Cùng công đoạn"** trên staging hiện cả bài do test tự động tạo; đó là dữ liệu thật của staging, môi trường thật sẽ chỉ có bài nghiệp vụ.
+- **Bài "Giải pháp sự cố"** từ Kho tri thức vẫn mở `/incidents/[id]` (mockup 05, làm riêng).
+- **Lịch sử phiên bản đầy đủ:** DATA-22, chưa làm.

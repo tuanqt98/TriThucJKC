@@ -38,7 +38,7 @@ UI-05 đã thêm 4 trường **chỉ đọc** vào `ContentView`: `process_id`, 
 | DATA-13 | P1 | **Loại kiến thức** (Kinh nghiệm / Hướng dẫn / Checklist / FAQ) | Chỉ có `kind`: Bài tri thức (ARTICLE) / Giải pháp sự cố (INCIDENT_GUIDE). UI-05 lọc theo 2 loại này | Dùng `categories` (đi cùng DATA-03), có trường chọn loại khi biên soạn | Danh mục chính thức |
 | DATA-14 | P2 | **Thiết bị / máy** | Không có trong schema. Bộ lọc **đã ẩn** (vòng 2) cho tới khi có API | Bảng thiết bị và quan hệ nội dung–thiết bị | Danh sách thiết bị, ai quản lý |
 | DATA-15 | P2 | **Thẻ từ khóa** | Bảng `tags`/`content_tags` có sẵn nhưng rỗng, chưa có UI biên soạn thẻ. Bộ lọc **đã ẩn** (vòng 2) | Trả `tags` trong `ContentView`; thêm thẻ khi biên soạn | Quy tắc đặt thẻ |
-| DATA-16 | P2 | **Người duyệt** trên card | Có `approved_by`, chưa trả về | Thêm `approver_name` (chỉ đọc) | Có cần hiển thị không |
+| DATA-16 | — | **Người duyệt** | **Đã làm ở UI-05B:** `ContentView.approver_name` (chỉ đọc, LEFT JOIN `approved_by` của phiên bản đã duyệt hiện hành; không đổi ACL; có test). Trang chi tiết bài tri thức đã hiển thị | Còn lại: hiển thị trên card UI-05 nếu PO muốn | Có cần hiện trên card không |
 | DATA-17 | P3 | **Lượt xem, bình luận, lưu bài (bookmark), "nổi bật tuần"** | Không có dữ liệu. Khung bên phải đang là "Mới được duyệt" (xếp theo thời điểm duyệt) | Bảng sự kiện xem/lưu, có chính sách riêng tư | Có cần đo lượt xem không |
 | DATA-18 | P3 | **Hỏi đáp** ("Đặt câu hỏi" trong mockup) | Chưa có module/route. UI-05 thay bằng nút "Chia sẻ kiến thức" | Module Q&A riêng | Phạm vi MVP |
 | DATA-19 | P3 | **Ảnh đại diện bài viết** | Card dùng ảnh minh họa DEMO theo công đoạn (có nhãn "Ảnh minh họa"), không phải ảnh của bài | Cho chọn ảnh bìa từ tệp đính kèm đã quét sạch | Có cần không |
@@ -51,7 +51,7 @@ UI-05 đã thêm 4 trường **chỉ đọc** vào `ContentView`: `process_id`, 
 |---|---|---|---|---|---|
 | DATA-22 | P2 | **Lịch sử phiên bản bài tri thức** | `GET /articles/{id}` chỉ trả phiên bản đã duyệt hiện hành; không có danh sách phiên bản trước (DATA-05 là cho nội quy) | `GET /articles/{id}/versions`: chỉ bản `APPROVED`, theo ACL; trả `version_number`, `approved_at`, người duyệt (đi cùng DATA-16) | Nhân viên có cần xem phiên bản cũ của bài kinh nghiệm không |
 
-DATA-16 (người duyệt) cũng áp dụng cho khối "Phê duyệt & phiên bản" của trang chi tiết.
+| DATA-23 | P2 | **Ảnh gắn với từng mục nội dung** | Tệp gắn với phiên bản, không gắn với mục. UI-05B tạm dùng quy ước: một dòng trong mục **đúng bằng tên tệp ảnh đã quét sạch của phiên bản** (có thể thêm tiền tố "Ảnh:") thì hiện ảnh tại chỗ đó; ảnh đầu tiên chưa gắn mục là ảnh đại diện; ảnh còn lại ở "Hình ảnh khác" | Thêm `section_key` (hoặc thứ tự mục) cho tệp đính kèm, đi cùng DATA-04; trình biên soạn cho chọn ảnh theo mục | Có giữ quy ước tên tệp không, hay chờ làm DATA-04/DATA-23 |
 
 ## Liên quan UI (không phải API)
 

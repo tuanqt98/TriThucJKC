@@ -1,5 +1,5 @@
 // Screenshot /knowledge/<id> at the four review viewports (UI-05B).
-// UI_DEMO_PASSWORD and UI_ARTICLE_ID required. UI_CAPTURE_PHASE: before | proposal.
+// UI_DEMO_PASSWORD and UI_ARTICLE_ID required. UI_CAPTURE_PHASE: before | proposal | after.
 // "proposal" renders the design PROPOSAL (scripts/ui-knowledge-detail/proposal/*) inside the real
 // UI-05 app frame using the real API response of that article; it is not production code.
 const { chromium } = require('../../starter/apps/web/node_modules/@playwright/test');
@@ -35,6 +35,11 @@ const out = path.resolve(__dirname, '../../docs/reports/ui-05b');
     } else {
       await page.goto(`/knowledge/${id}`);
       await page.waitForLoadState('networkidle');
+      await page.locator('main [aria-busy=true]').waitFor({ state: 'detached' }).catch(() => {});
+      // phase "after": UI_CAPTURE_TAB=files|approval opens that mobile tab of the real UI-05B page.
+      const tab = { files: /^Ảnh & tệp/, approval: /^Phê duyệt$/ }[process.env.UI_CAPTURE_TAB || ''];
+      if (tab && mobile) await page.getByRole('tab', { name: tab }).click();
+      if (tab && !mobile) { await page.close(); continue; }
     }
     await page.evaluate(() => document.fonts.ready);
     for (const img of await page.locator('main img:visible').all()) {

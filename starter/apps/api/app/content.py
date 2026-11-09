@@ -21,12 +21,14 @@ from app.integrations.odoo import NoOpOdooAdapter
 router = APIRouter(prefix="/api/v1", tags=["Knowledge"])
 # UI-05: read-only display fields (author, approval time, primary process). Same ACL/WHERE as before;
 # process uses the version's process, falling back to the legacy content_processes link.
+# UI-05B: approver_name of the published version (read-only LEFT JOIN, never filters rows).
 SELECT = """SELECT c.id,c.code,c.kind,coalesce(v.title,c.title) AS title,c.owner_department_id,d.name AS department_name,
     v.id AS version_id,v.version_number,v.body,v.status,v.created_at,v.approved_at,
-    u.full_name AS author_name,pp.id AS process_id,pp.name AS process_name
+    u.full_name AS author_name,ua.full_name AS approver_name,pp.id AS process_id,pp.name AS process_name
     FROM contents c JOIN content_versions v ON v.id=c.current_published_version_id
     LEFT JOIN departments d ON d.id=c.owner_department_id
     LEFT JOIN users u ON u.id=c.creator_id
+    LEFT JOIN users ua ON ua.id=v.approved_by
     LEFT JOIN LATERAL (SELECT p.id,p.name FROM production_processes p WHERE p.id=coalesce(v.process_id,
       (SELECT cp.process_id FROM content_processes cp WHERE cp.content_id=c.id ORDER BY cp.process_id LIMIT 1))) pp ON true"""
 BASE = f"c.archived_at IS NULL AND v.status='APPROVED' AND {READ_ACL}"

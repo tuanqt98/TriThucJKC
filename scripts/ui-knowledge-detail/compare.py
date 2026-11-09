@@ -1,4 +1,4 @@
-"""UI-05B boards: Before (current /knowledge/<id>) next to the design PROPOSAL, per viewport."""
+"""UI-05B boards per viewport: Before / PROPOSAL, and Mockup (PO-approved proposal) / Before / After."""
 
 from pathlib import Path
 
@@ -47,4 +47,32 @@ for view, w, h in [("mobile390", 390, 844), ("mobile375", 375, 812)]:
         w,
         2400,
     )
+# Final hand-over: the PO-approved proposal plays the mockup role (no separate approved mockup exists).
+for view, w, h in [
+    ("desktop", 720, 450),
+    ("tablet", 420, 560),
+    ("mobile390", 390, 844),
+    ("mobile375", 375, 812),
+]:
+    if (out / f"after-{view}.png").exists():
+        board(
+            f"final-{view}",
+            [f"proposal-{view}.png", f"before-{view}.png", f"after-{view}.png"],
+            ["Mockup (de xuat PO duyet)", "Before", "After"],
+            w,
+            h,
+        )
+for view, w, h in [("mobile390", 390, 844), ("mobile375", 375, 812)]:
+    if (out / f"after-{view}-files-full.png").exists():
+        board(
+            f"after-{view}-tabs",
+            [
+                f"after-{view}-full.png",
+                f"after-{view}-files-full.png",
+                f"after-{view}-approval-full.png",
+            ],
+            ["Tab Noi dung (toan trang)", "Tab Anh & tep", "Tab Phe duyet"],
+            w,
+            2600,
+        )
 print("Saved UI-05B comparison boards.")

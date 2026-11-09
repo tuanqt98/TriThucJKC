@@ -1,6 +1,7 @@
 // UI-05B design proposal only: publishes ONE DEMO knowledge article through the real workflow
 // (employee drafts + uploads -> submits -> head approves). Never writes the database directly.
 // Body headings follow approved mockup 06; text is generic DEMO with no operating parameters.
+// Section 5 references an attached image by filename (UI-05B per-step image rule, interim until DATA-04).
 // Images are the UI-02 DEMO illustrations re-encoded to JPEG (the API only accepts PNG/JPEG/PDF).
 // UI_DEMO_PASSWORD=... node scripts/ui-knowledge-detail/fixture.mjs  -> prints {id, version_id}
 import { execFileSync } from "node:child_process";
@@ -28,7 +29,7 @@ const body = {
   "2. Điều kiện phát sinh": "- Xuất hiện sau khi đổi lô vật tư\n- Tập trung ở vùng màu đậm\n- Ca đêm ghi nhận nhiều hơn ca ngày",
   "3. Các bước đã kiểm tra": "1. So sánh tờ in với mẫu đã duyệt\n2. Kiểm tra nhãn lô vật tư và hạn sử dụng\n3. Kiểm tra vệ sinh trục và khay mực\n4. Ghi ảnh hiện tượng vào hồ sơ ca",
   "4. Cách xử lý / giải pháp": "Báo trưởng ca, tách lô nghi ngờ và áp dụng hướng dẫn xử lý trong tài liệu kỹ thuật chính thức của bộ phận.",
-  "5. Kết quả đạt được": "Lô in lại đạt so với mẫu đã duyệt; không phát sinh khiếu nại trong đợt giao hàng DEMO.",
+  "5. Kết quả đạt được": "Lô in lại đạt so với mẫu đã duyệt; không phát sinh khiếu nại trong đợt giao hàng DEMO.\nẢnh: DEMO-anh-sau-xu-ly.jpg",
   "6. Lưu ý an toàn và phạm vi áp dụng": `- Dừng máy trước khi vệ sinh trục\n- Chỉ áp dụng cho bao bì màng trong phạm vi DEMO\n- ${note}`,
 };
 
