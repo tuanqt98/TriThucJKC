@@ -66,6 +66,19 @@ Trang `/incidents/[id]` hiển thị **hướng dẫn xử lý đã duyệt** (`
 | DATA-28 | P3 | **Trao đổi & xác minh (bình luận theo dòng thời gian)** | Chưa có bảng | Bảng bình luận theo hồ sơ hoặc theo hướng dẫn, có audit và ACL | Có trong MVP không |
 | DATA-29 | P3 | **In phiếu xử lý, Báo lỗi mới** (nút trong mockup) | Chưa có trang in; tạo hồ sơ có ở `/incidents/manage` | In: CSS `@media print` cho trang chi tiết (chỉ UI). Báo lỗi mới: nút dẫn tới `/incidents/manage` (chỉ UI) | Có làm ngay không |
 
+## Bổ sung từ UI-07 (Tạo bài chia sẻ kinh nghiệm)
+
+UI-07 dùng API biên soạn có phiên bản sẵn có: `POST/PUT /workspace/contents` (kiểm tra `revision`), `POST /workspace/contents/{submit|fork}`, `POST /content-versions/{id}/attachments` (chỉ tác giả, chỉ bản nháp, quét ClamAV đồng bộ, PNG/JPEG/PDF, tối đa `MAX_UPLOAD_BYTES` = 10 MiB). Không đổi API hay DB. Các thiếu hụt:
+
+| ID | Đề xuất ưu tiên | Thiếu hụt | Hiện trạng | Đề xuất kỹ thuật | Cần PO/JKC chốt |
+|---|---|---|---|---|---|
+| DATA-30 | P2 | **Tên bộ phận của người dùng** (ô "Bộ phận" trong mockup) | Bài luôn thuộc bộ phận của tài khoản (máy chủ tự gán), không chọn được. `/auth/me` không trả tên bộ phận; `/workspace/people` chỉ dành cho trưởng bộ phận/HR. UI ghi "Bộ phận của tài khoản bạn" | Thêm `department_name` (chỉ đọc) vào `/auth/me`; việc này chạm module auth nên cần duyệt riêng | Có cần hiện tên không; nhân viên thuộc nhiều bộ phận có được chọn không |
+| DATA-31 | P2 | **Xóa tệp đã tải lên khỏi bản nháp** (nút × trong mockup) | Chưa có API xóa; UI không hiện nút × và ghi rõ "Chưa hỗ trợ xóa" | `DELETE /attachments/{id}`: chỉ tác giả, chỉ khi phiên bản còn DRAFT; xóa mềm, có audit, xóa tệp lưu trữ theo chính sách | Xóa cứng hay giữ để audit |
+| DATA-32 | P3 | **Video MP4** (mockup ghi "JPG, PNG, MP4, PDF") | API chỉ nhận PNG/JPEG/PDF tĩnh (có chuẩn hóa và quét) | Thêm định dạng video cần kiểm tra mã độc, giới hạn dung lượng, chuyển mã, lưu trữ riêng | Có cần video trong MVP không |
+| DATA-33 | P3 | **Danh sách "Bài của tôi"** để mở lại bản nháp | Bản nháp mở lại được bằng `/knowledge/new?id=…` (URL tự đổi sau lần lưu đầu). Trang "Biên soạn / phiên bản" cũ liệt kê bài nhưng chưa dẫn sang form mới | Thêm danh sách bài của tôi (đang nháp, chờ duyệt, cần sửa) dẫn tới form UI-07 | Đặt ở đâu (Kho tri thức hay Tài khoản) |
+
+Loại bài (DATA-13), thiết bị (DATA-14) và thẻ (DATA-15) **chưa hiện** trên form UI-07 vì chưa có API. Ảnh gắn theo mục dùng quy ước tên tệp (DATA-23).
+
 ## Liên quan UI (không phải API)
 
 - Header mobile của trang chi tiết: mockup có nút quay lại + tìm kiếm; UI-04 giữ header UI-02 đã duyệt và đặt nút quay lại ở breadcrumb. PO quyết định có làm header riêng hay không.

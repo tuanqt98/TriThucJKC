@@ -111,10 +111,16 @@ test("tìm kiếm, trạng thái rỗng, lưu nháp và gửi duyệt", async ({
   await page
     .getByLabel("Mô tả vấn đề")
     .fill("Dữ liệu minh họa cho kiểm thử, không dùng trong vận hành.");
-  await page.getByRole("button", { name: "Lưu bản nháp", exact: true }).click();
-  await expect(page.getByRole("status")).toContainText("Đã lưu bản nháp");
-  await page.getByRole("button", { name: "Gửi trưởng bộ phận duyệt" }).click();
-  await expect(page.getByRole("status")).toContainText("Đã gửi phê duyệt");
+  // UI-07: versioned authoring form; submitting an article requires a process (server rule).
+  await page.getByLabel("Công đoạn").selectOption({ label: "In offset" });
+  await page.getByRole("button", { name: "Lưu nháp", exact: true }).click();
+  await expect(page.locator("main").getByRole("status")).toContainText(
+    "Đã lưu bản nháp",
+  );
+  await page.getByRole("button", { name: "Gửi duyệt", exact: true }).click();
+  await expect(page.locator("main").getByRole("status")).toContainText(
+    "Đã gửi trưởng bộ phận duyệt",
+  );
   await page.goto("/account");
   await page
     .getByRole("button", { name: "Đăng xuất khỏi thiết bị này" })
@@ -133,10 +139,16 @@ test("trưởng bộ phận xem trước và duyệt", async ({ page }, testInfo
   await page
     .getByLabel("Mô tả vấn đề")
     .fill("Dữ liệu minh họa cho kiểm thử phê duyệt độc lập.");
-  await page.getByRole("button", { name: "Lưu bản nháp", exact: true }).click();
-  await expect(page.getByRole("status")).toContainText("Đã lưu bản nháp");
-  await page.getByRole("button", { name: "Gửi trưởng bộ phận duyệt" }).click();
-  await expect(page.getByRole("status")).toContainText("Đã gửi phê duyệt");
+  // UI-07: versioned authoring form; submitting an article requires a process (server rule).
+  await page.getByLabel("Công đoạn").selectOption({ label: "In offset" });
+  await page.getByRole("button", { name: "Lưu nháp", exact: true }).click();
+  await expect(page.locator("main").getByRole("status")).toContainText(
+    "Đã lưu bản nháp",
+  );
+  await page.getByRole("button", { name: "Gửi duyệt", exact: true }).click();
+  await expect(page.locator("main").getByRole("status")).toContainText(
+    "Đã gửi trưởng bộ phận duyệt",
+  );
   await page.goto("/account");
   await page
     .getByRole("button", { name: "Đăng xuất khỏi thiết bị này" })

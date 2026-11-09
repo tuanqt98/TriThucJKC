@@ -1,0 +1,521 @@
+{
+  "config": {
+    "argv": [
+      "/Users/quoctuan8386/.nvm/versions/node/v24.20.0/bin/node",
+      "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/node_modules/.bin/playwright",
+      "test",
+      "-c",
+      "playwright.login.config.ts"
+    ],
+    "configFile": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/playwright.login.config.ts",
+    "rootDir": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/ui-tests",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "desktop",
+        "name": "desktop",
+        "testDir": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/ui-tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "mobile390",
+        "name": "mobile390",
+        "testDir": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/ui-tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "mobile375",
+        "name": "mobile375",
+        "testDir": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/ui-tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "desktop",
+        "testDir": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/ui-tests",
+        "snapshotDir": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/ui-tests",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 30000,
+        "use": {
+          "baseURL": "https://localhost:18444",
+          "ignoreHTTPSErrors": true,
+          "locale": "vi-VN",
+          "timezoneId": "Asia/Ho_Chi_Minh",
+          "trace": "off",
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          }
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "desktop"
+      },
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "mobile390",
+        "testDir": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/ui-tests",
+        "snapshotDir": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/ui-tests",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 30000,
+        "use": {
+          "baseURL": "https://localhost:18444",
+          "ignoreHTTPSErrors": true,
+          "locale": "vi-VN",
+          "timezoneId": "Asia/Ho_Chi_Minh",
+          "trace": "off",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "isMobile": true,
+          "hasTouch": true
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "mobile390"
+      },
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "mobile375",
+        "testDir": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/ui-tests",
+        "snapshotDir": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/ui-tests",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 30000,
+        "use": {
+          "baseURL": "https://localhost:18444",
+          "ignoreHTTPSErrors": true,
+          "locale": "vi-VN",
+          "timezoneId": "Asia/Ho_Chi_Minh",
+          "trace": "off",
+          "viewport": {
+            "width": 375,
+            "height": 812
+          },
+          "isMobile": true,
+          "hasTouch": true
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "mobile375"
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "../../../docs/reports/ui-01/test-results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.1",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "login-fidelity.spec.ts",
+      "file": "login-fidelity.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "UI-01: assets thật, bố cục, nhớ tên và viewport bàn phím",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 637,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-09T09:13:45.918Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "21fa948186d3a26e8536-732a9a4bc49e0f785612",
+          "file": "login-fidelity.spec.ts",
+          "line": 2,
+          "column": 5
+        },
+        {
+          "title": "UI-01: loading, mạng lỗi và thông báo phiên hết hạn",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 174,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-09T09:13:46.798Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "21fa948186d3a26e8536-5c097cc94fb9d86c2c15",
+          "file": "login-fidelity.spec.ts",
+          "line": 92,
+          "column": 5
+        },
+        {
+          "title": "UI-01: đăng nhập DEMO thật, cookie và session giữ nguyên",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 294,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-09T09:13:46.976Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "21fa948186d3a26e8536-0c00132d9f621bfb15e0",
+          "file": "login-fidelity.spec.ts",
+          "line": 126,
+          "column": 5
+        },
+        {
+          "title": "UI-01: assets thật, bố cục, nhớ tên và viewport bàn phím",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile390",
+              "projectName": "mobile390",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 437,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-09T09:13:47.471Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "21fa948186d3a26e8536-557e497c2da96e1de05a",
+          "file": "login-fidelity.spec.ts",
+          "line": 2,
+          "column": 5
+        },
+        {
+          "title": "UI-01: loading, mạng lỗi và thông báo phiên hết hạn",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile390",
+              "projectName": "mobile390",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 174,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-09T09:13:47.984Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "21fa948186d3a26e8536-afdde5abbe73eb081598",
+          "file": "login-fidelity.spec.ts",
+          "line": 92,
+          "column": 5
+        },
+        {
+          "title": "UI-01: đăng nhập DEMO thật, cookie và session giữ nguyên",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile390",
+              "projectName": "mobile390",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 264,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-09T09:13:48.161Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "21fa948186d3a26e8536-c03869b7c2887b187921",
+          "file": "login-fidelity.spec.ts",
+          "line": 126,
+          "column": 5
+        },
+        {
+          "title": "UI-01: assets thật, bố cục, nhớ tên và viewport bàn phím",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile375",
+              "projectName": "mobile375",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 433,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-09T09:13:48.618Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "21fa948186d3a26e8536-8042b0d941bdf3c6105c",
+          "file": "login-fidelity.spec.ts",
+          "line": 2,
+          "column": 5
+        },
+        {
+          "title": "UI-01: loading, mạng lỗi và thông báo phiên hết hạn",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile375",
+              "projectName": "mobile375",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 174,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-09T09:13:49.127Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "21fa948186d3a26e8536-48ade66826599f3a351a",
+          "file": "login-fidelity.spec.ts",
+          "line": 92,
+          "column": 5
+        },
+        {
+          "title": "UI-01: đăng nhập DEMO thật, cookie và session giữ nguyên",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile375",
+              "projectName": "mobile375",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 282,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-09T09:13:49.305Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "21fa948186d3a26e8536-f567f17bb27309fee6c1",
+          "file": "login-fidelity.spec.ts",
+          "line": 126,
+          "column": 5
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-11-09T09:13:45.732Z",
+    "duration": 3882.857,
+    "expected": 9,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

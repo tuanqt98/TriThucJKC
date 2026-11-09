@@ -75,32 +75,43 @@ test("Sprint 0.1 UAT: đọc đúng phiên bản, file an toàn, học và quiz"
   await page
     .getByLabel("Mô tả vấn đề")
     .fill("Nội dung giả lập để kiểm thử file riêng tư và quét mã độc.");
-  await page.getByRole("button", { name: "Lưu bản nháp", exact: true }).click();
-  await expect(page.getByRole("status")).toContainText("Đã lưu bản nháp");
+  // UI-07: versioned authoring form; submitting an article requires a process (server rule).
+  await page.getByLabel("Công đoạn").selectOption({ label: "In offset" });
+  await page.getByRole("button", { name: "Lưu nháp", exact: true }).click();
+  await expect(page.locator("main").getByRole("status")).toContainText(
+    "Đã lưu bản nháp",
+  );
   const png = Buffer.from(
     "iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAIAAAAmkwkpAAAAE0lEQVR4nGNk+P+fAQaY4Cy8HABjoQIGrQ8XLQAAAABJRU5ErkJggg==",
     "base64",
   );
-  await page.getByLabel("Chọn ảnh hoặc PDF minh họa").setInputFiles({
+  // UI-07 uploads on selection (scan included); mobile shows files on the "Đính kèm" step.
+  if (info.project.name === "mobile")
+    await page.getByRole("tab", { name: /^Đính kèm/ }).click();
+  await page.getByLabel("Chọn tệp đính kèm").setInputFiles({
     name: "uat-demo.png",
     mimeType: "image/png",
     buffer: png,
   });
-  await page.getByRole("button", { name: "Tải lên và quét mã độc" }).click();
-  await expect(page.locator(".attachment-list")).toContainText(
-    "Đã quét an toàn",
+  await expect(page.getByRole("list", { name: "Danh sách tệp" })).toContainText(
+    "đã quét an toàn",
   );
   const download = page.waitForEvent("download");
-  await page.getByRole("link", { name: "Tải xuống", exact: true }).click();
+  await page
+    .getByRole("link", { name: "Tải uat-demo.png", exact: true })
+    .click();
   expect((await download).suggestedFilename()).toBe("uat-demo.png");
   await page.evaluate(() => window.scrollTo(0, 0));
   await page.screenshot({
     path: `${evidenceRoot}/upload-${info.project.name}.png`,
     fullPage: true,
   });
-  await page.getByRole("button", { name: "Gửi trưởng bộ phận duyệt" }).click();
+  await page.getByRole("button", { name: "Gửi duyệt", exact: true }).click();
   await expect(
-    page.getByRole("status").filter({ hasText: "Đã gửi phê duyệt" }),
+    page
+      .locator("main")
+      .getByRole("status")
+      .filter({ hasText: "Đã gửi trưởng bộ phận duyệt" }),
   ).toBeVisible();
   await page.goto("/learning/" + fixture.assignment);
   await expect(
