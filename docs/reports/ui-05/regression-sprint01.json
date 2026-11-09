@@ -1,0 +1,228 @@
+{
+  "config": {
+    "argv": [
+      "/Users/quoctuan8386/.nvm/versions/node/v24.20.0/bin/node",
+      "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/node_modules/.bin/playwright",
+      "test",
+      "tests/sprint01.spec.ts",
+      "--reporter=json"
+    ],
+    "configFile": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/playwright.config.ts",
+    "rootDir": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/tests",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "desktop",
+        "name": "desktop",
+        "testDir": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "mobile",
+        "name": "mobile",
+        "testDir": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "desktop",
+        "testDir": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/tests",
+        "snapshotDir": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/tests",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 30000,
+        "use": {
+          "baseURL": "https://localhost:18444",
+          "trace": "retain-on-failure",
+          "locale": "vi-VN",
+          "timezoneId": "Asia/Ho_Chi_Minh",
+          "ignoreHTTPSErrors": true,
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          }
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "desktop"
+      },
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "mobile",
+        "testDir": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/tests",
+        "snapshotDir": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/tests",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 30000,
+        "use": {
+          "baseURL": "https://localhost:18444",
+          "trace": "retain-on-failure",
+          "locale": "vi-VN",
+          "timezoneId": "Asia/Ho_Chi_Minh",
+          "ignoreHTTPSErrors": true,
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "isMobile": true,
+          "hasTouch": true
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "mobile"
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.1",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "sprint01.spec.ts",
+      "file": "sprint01.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "Sprint 0.1 UAT: đọc đúng phiên bản, file an toàn, học và quiz",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2821,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-09T02:19:06.186Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "51d163e46d47520c81fe-1620e55b256b894aec2c",
+          "file": "sprint01.spec.ts",
+          "line": 6,
+          "column": 5
+        },
+        {
+          "title": "Sprint 0.1 UAT: đọc đúng phiên bản, file an toàn, học và quiz",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile",
+              "projectName": "mobile",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2330,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-09T02:19:09.424Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "51d163e46d47520c81fe-8a7a2750839a6c7b52c0",
+          "file": "sprint01.spec.ts",
+          "line": 6,
+          "column": 5
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-11-09T02:19:05.995Z",
+    "duration": 5859.204000000001,
+    "expected": 2,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

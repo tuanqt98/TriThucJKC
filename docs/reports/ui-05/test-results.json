@@ -1,0 +1,805 @@
+{
+  "config": {
+    "argv": [
+      "/Users/quoctuan8386/.nvm/versions/node/v24.20.0/bin/node",
+      "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/node_modules/.bin/playwright",
+      "test",
+      "-c",
+      "playwright.knowledge.config.ts"
+    ],
+    "configFile": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/playwright.knowledge.config.ts",
+    "rootDir": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/knowledge-tests",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "desktop",
+        "name": "desktop",
+        "testDir": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/knowledge-tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 90000
+      },
+      {
+        "outputDir": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "tablet",
+        "name": "tablet",
+        "testDir": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/knowledge-tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 90000
+      },
+      {
+        "outputDir": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "mobile390",
+        "name": "mobile390",
+        "testDir": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/knowledge-tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 90000
+      },
+      {
+        "outputDir": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "mobile375",
+        "name": "mobile375",
+        "testDir": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/knowledge-tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 90000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "desktop",
+        "testDir": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/knowledge-tests",
+        "snapshotDir": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/knowledge-tests",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 90000,
+        "use": {
+          "baseURL": "https://localhost:18444",
+          "ignoreHTTPSErrors": true,
+          "locale": "vi-VN",
+          "timezoneId": "Asia/Ho_Chi_Minh",
+          "trace": "off",
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          }
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "desktop"
+      },
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "tablet",
+        "testDir": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/knowledge-tests",
+        "snapshotDir": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/knowledge-tests",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 90000,
+        "use": {
+          "baseURL": "https://localhost:18444",
+          "ignoreHTTPSErrors": true,
+          "locale": "vi-VN",
+          "timezoneId": "Asia/Ho_Chi_Minh",
+          "trace": "off",
+          "viewport": {
+            "width": 768,
+            "height": 1024
+          }
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "tablet"
+      },
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "mobile390",
+        "testDir": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/knowledge-tests",
+        "snapshotDir": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/knowledge-tests",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 90000,
+        "use": {
+          "baseURL": "https://localhost:18444",
+          "ignoreHTTPSErrors": true,
+          "locale": "vi-VN",
+          "timezoneId": "Asia/Ho_Chi_Minh",
+          "trace": "off",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "isMobile": true,
+          "hasTouch": true
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "mobile390"
+      },
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "mobile375",
+        "testDir": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/knowledge-tests",
+        "snapshotDir": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/knowledge-tests",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 90000,
+        "use": {
+          "baseURL": "https://localhost:18444",
+          "ignoreHTTPSErrors": true,
+          "locale": "vi-VN",
+          "timezoneId": "Asia/Ho_Chi_Minh",
+          "trace": "off",
+          "viewport": {
+            "width": 375,
+            "height": 812
+          },
+          "isMobile": true,
+          "hasTouch": true
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "mobile375"
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "../../../docs/reports/ui-05/test-results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.1",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "knowledge.spec.ts",
+      "file": "knowledge.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "UI-05: dữ liệu thật, tìm kiếm có/không kết quả, URL và tìm kiếm phân biệt dấu",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4181,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-09T02:15:30.443Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "0828a03cd0e93ee0ce1b-a4db31d09f1e230856e2",
+          "file": "knowledge.spec.ts",
+          "line": 84,
+          "column": 5
+        },
+        {
+          "title": "UI-05: bộ lọc công đoạn + loại + bộ phận, xóa bộ lọc, phân trang và quay lại từ bài viết",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2029,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-09T02:15:34.876Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "0828a03cd0e93ee0ce1b-723e02ae7068094f61f8",
+          "file": "knowledge.spec.ts",
+          "line": 131,
+          "column": 5
+        },
+        {
+          "title": "UI-05: chỉ bài đã duyệt trong phạm vi; nháp, chờ duyệt và ngoài phạm vi bị ẩn",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2853,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-09T02:15:36.912Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "0828a03cd0e93ee0ce1b-5d3a7afe8a3d1bcb179d",
+          "file": "knowledge.spec.ts",
+          "line": 191,
+          "column": 5
+        },
+        {
+          "title": "UI-05: loading, rỗng, lỗi + thử lại, 403 và gõ nhanh không hiện kết quả cũ",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5948,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-09T02:15:39.769Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "0828a03cd0e93ee0ce1b-9d05a864c171936234e2",
+          "file": "knowledge.spec.ts",
+          "line": 229,
+          "column": 5
+        },
+        {
+          "title": "UI-05: dữ liệu thật, tìm kiếm có/không kết quả, URL và tìm kiếm phân biệt dấu",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "tablet",
+              "projectName": "tablet",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4857,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-09T02:15:45.926Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "0828a03cd0e93ee0ce1b-fbe15da644f2cc6773e9",
+          "file": "knowledge.spec.ts",
+          "line": 84,
+          "column": 5
+        },
+        {
+          "title": "UI-05: bộ lọc công đoạn + loại + bộ phận, xóa bộ lọc, phân trang và quay lại từ bài viết",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "tablet",
+              "projectName": "tablet",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3603,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-09T02:15:50.876Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "0828a03cd0e93ee0ce1b-190db5330547ecd14655",
+          "file": "knowledge.spec.ts",
+          "line": 131,
+          "column": 5
+        },
+        {
+          "title": "UI-05: chỉ bài đã duyệt trong phạm vi; nháp, chờ duyệt và ngoài phạm vi bị ẩn",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "tablet",
+              "projectName": "tablet",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2875,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-09T02:15:54.492Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "0828a03cd0e93ee0ce1b-73c9bd7da74e2b5d6e8e",
+          "file": "knowledge.spec.ts",
+          "line": 191,
+          "column": 5
+        },
+        {
+          "title": "UI-05: loading, rỗng, lỗi + thử lại, 403 và gõ nhanh không hiện kết quả cũ",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "tablet",
+              "projectName": "tablet",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5940,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-09T02:15:57.373Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "0828a03cd0e93ee0ce1b-023498bd9a70518a228f",
+          "file": "knowledge.spec.ts",
+          "line": 229,
+          "column": 5
+        },
+        {
+          "title": "UI-05: dữ liệu thật, tìm kiếm có/không kết quả, URL và tìm kiếm phân biệt dấu",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile390",
+              "projectName": "mobile390",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4932,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-09T02:16:03.549Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "0828a03cd0e93ee0ce1b-534b90ca12206c0f1870",
+          "file": "knowledge.spec.ts",
+          "line": 84,
+          "column": 5
+        },
+        {
+          "title": "UI-05: bộ lọc công đoạn + loại + bộ phận, xóa bộ lọc, phân trang và quay lại từ bài viết",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile390",
+              "projectName": "mobile390",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3772,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-09T02:16:08.579Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "0828a03cd0e93ee0ce1b-1fc8d6430b1ed4963f6d",
+          "file": "knowledge.spec.ts",
+          "line": 131,
+          "column": 5
+        },
+        {
+          "title": "UI-05: chỉ bài đã duyệt trong phạm vi; nháp, chờ duyệt và ngoài phạm vi bị ẩn",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile390",
+              "projectName": "mobile390",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2897,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-09T02:16:12.361Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "0828a03cd0e93ee0ce1b-fd871363a9b3e636f7f7",
+          "file": "knowledge.spec.ts",
+          "line": 191,
+          "column": 5
+        },
+        {
+          "title": "UI-05: loading, rỗng, lỗi + thử lại, 403 và gõ nhanh không hiện kết quả cũ",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile390",
+              "projectName": "mobile390",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5942,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-09T02:16:15.262Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "0828a03cd0e93ee0ce1b-b56e525b66471f5ae141",
+          "file": "knowledge.spec.ts",
+          "line": 229,
+          "column": 5
+        },
+        {
+          "title": "UI-05: dữ liệu thật, tìm kiếm có/không kết quả, URL và tìm kiếm phân biệt dấu",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile375",
+              "projectName": "mobile375",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4825,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-09T02:16:21.420Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "0828a03cd0e93ee0ce1b-1dea78ead2576995c874",
+          "file": "knowledge.spec.ts",
+          "line": 84,
+          "column": 5
+        },
+        {
+          "title": "UI-05: bộ lọc công đoạn + loại + bộ phận, xóa bộ lọc, phân trang và quay lại từ bài viết",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile375",
+              "projectName": "mobile375",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3629,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-09T02:16:26.329Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "0828a03cd0e93ee0ce1b-e93adeccf957957a120f",
+          "file": "knowledge.spec.ts",
+          "line": 131,
+          "column": 5
+        },
+        {
+          "title": "UI-05: chỉ bài đã duyệt trong phạm vi; nháp, chờ duyệt và ngoài phạm vi bị ẩn",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile375",
+              "projectName": "mobile375",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2809,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-09T02:16:29.968Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "0828a03cd0e93ee0ce1b-105b5d24a6267cdce34c",
+          "file": "knowledge.spec.ts",
+          "line": 191,
+          "column": 5
+        },
+        {
+          "title": "UI-05: loading, rỗng, lỗi + thử lại, 403 và gõ nhanh không hiện kết quả cũ",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile375",
+              "projectName": "mobile375",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5963,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-09T02:16:32.783Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "0828a03cd0e93ee0ce1b-90e678dd07d5eb26596e",
+          "file": "knowledge.spec.ts",
+          "line": 229,
+          "column": 5
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-11-09T02:15:30.191Z",
+    "duration": 68583.38500000001,
+    "expected": 16,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

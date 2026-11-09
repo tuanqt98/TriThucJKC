@@ -4698,6 +4698,28 @@ components:
           type: string
           format: date-time
           title: Created At
+        approved_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Approved At
+        author_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Author Name
+        process_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Process Id
+        process_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Process Name
       type: object
       required:
       - id

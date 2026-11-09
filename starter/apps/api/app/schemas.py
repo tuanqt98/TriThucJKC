@@ -78,6 +78,10 @@ class ContentView(BaseModel):
     body: dict
     status: str
     created_at: datetime
+    approved_at: Optional[datetime] = None
+    author_name: Optional[str] = None
+    process_id: Optional[UUID] = None
+    process_name: Optional[str] = None
 
 
 class ContentPage(BaseModel):
