@@ -20,7 +20,6 @@ import {
   detailHref,
   excerpt,
   kindLabels,
-  lacksDiacritics,
   loadAll,
   readState,
   sortLabels,
@@ -261,18 +260,7 @@ export function KnowledgeLibrary() {
             )}
         </select>
       </label>
-      <label className={styles.unavailable}>
-        Thiết bị
-        <select disabled aria-label="Lọc thiết bị (chưa có dữ liệu)">
-          <option>Chưa có</option>
-        </select>
-      </label>
-      <label className={styles.unavailable}>
-        Thẻ
-        <select disabled aria-label="Lọc thẻ (chưa có dữ liệu)">
-          <option>Chưa có</option>
-        </select>
-      </label>
+      {/* Thiết bị / Thẻ: hidden until an API provides them (backlog DATA-14, DATA-15). */}
     </>
   );
 
@@ -328,7 +316,7 @@ export function KnowledgeLibrary() {
                 type="search"
                 name="knowledge-q"
                 aria-label="Từ khóa tìm tri thức"
-                placeholder="Tìm theo tiêu đề, ví dụ: lệch màu"
+                placeholder="Tìm tiêu đề, nội dung: lech mau, bong muc…"
                 maxLength={200}
                 value={draft}
                 enterKeyHint="search"
@@ -495,9 +483,8 @@ export function KnowledgeLibrary() {
                   <>
                     <h2>Không tìm thấy kết quả phù hợp.</h2>
                     <p>
-                      Thử từ khóa khác hoặc bỏ bớt bộ lọc.
-                      {lacksDiacritics(state.q) &&
-                        " Tìm kiếm hiện phân biệt dấu tiếng Việt: hãy thử gõ có dấu (ví dụ “lệch màu”)."}
+                      Thử từ khóa khác hoặc bỏ bớt bộ lọc. Tìm theo từng từ
+                      trong tiêu đề và nội dung, có dấu hoặc không dấu.
                     </p>
                     <button type="button" onClick={clearAll}>
                       Xóa bộ lọc

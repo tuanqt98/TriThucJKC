@@ -194,7 +194,7 @@
 }
 .filters {
   display: grid;
-  grid-template-columns: repeat(4, minmax(120px, 1fr));
+  grid-template-columns: repeat(2, minmax(150px, 220px));
   gap: 10px;
   flex: 1;
   min-width: 0;
@@ -219,10 +219,6 @@
   background: white;
   color: #365477;
   font-size: 12px;
-}
-.unavailable select {
-  background: #f5f7fa;
-  color: #9aa9bc;
 }
 .sheetButton {
   display: none;

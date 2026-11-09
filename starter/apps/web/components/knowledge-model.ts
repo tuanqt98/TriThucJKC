@@ -124,12 +124,6 @@ export function detailHref(item: Pick<Content, "id" | "kind">) {
   return `${item.kind === "INCIDENT_GUIDE" ? "/incidents" : "/knowledge"}/${item.id}`;
 }
 
-/** True when the keyword has no Vietnamese diacritics (backend search is accent-sensitive). */
-export function lacksDiacritics(q: string) {
-  const t = q.trim();
-  return !!t && /[a-z]/i.test(t) && t.normalize("NFD") === t && !/đ/i.test(t);
-}
-
 /**
  * Read every page of one ACL-protected listing. Filters run on the whole snapshot,
  * so refuse oversized or changing snapshots instead of showing wrong counts.

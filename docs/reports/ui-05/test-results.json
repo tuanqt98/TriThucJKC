@@ -247,7 +247,7 @@
       "line": 0,
       "specs": [
         {
-          "title": "UI-05: dữ liệu thật, tìm kiếm có/không kết quả, URL và tìm kiếm phân biệt dấu",
+          "title": "UI-05: dữ liệu thật, tìm kiếm có/không kết quả, URL, không dấu và trong nội dung",
           "ok": true,
           "tags": [],
           "tests": [
@@ -262,12 +262,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 4181,
+                  "duration": 6529,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-09T02:15:30.443Z",
+                  "startTime": "2026-11-09T02:48:17.081Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -275,9 +275,9 @@
               "status": "expected"
             }
           ],
-          "id": "0828a03cd0e93ee0ce1b-a4db31d09f1e230856e2",
+          "id": "0828a03cd0e93ee0ce1b-c6c672215b797302105e",
           "file": "knowledge.spec.ts",
-          "line": 84,
+          "line": 83,
           "column": 5
         },
         {
@@ -296,12 +296,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 2029,
+                  "duration": 4339,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-09T02:15:34.876Z",
+                  "startTime": "2026-11-09T02:48:23.963Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -311,7 +311,7 @@
           ],
           "id": "0828a03cd0e93ee0ce1b-723e02ae7068094f61f8",
           "file": "knowledge.spec.ts",
-          "line": 131,
+          "line": 132,
           "column": 5
         },
         {
@@ -330,12 +330,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 2853,
+                  "duration": 5158,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-09T02:15:36.912Z",
+                  "startTime": "2026-11-09T02:48:28.308Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -345,7 +345,7 @@
           ],
           "id": "0828a03cd0e93ee0ce1b-5d3a7afe8a3d1bcb179d",
           "file": "knowledge.spec.ts",
-          "line": 191,
+          "line": 192,
           "column": 5
         },
         {
@@ -364,12 +364,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 5948,
+                  "duration": 6015,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-09T02:15:39.769Z",
+                  "startTime": "2026-11-09T02:48:33.470Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -379,11 +379,11 @@
           ],
           "id": "0828a03cd0e93ee0ce1b-9d05a864c171936234e2",
           "file": "knowledge.spec.ts",
-          "line": 229,
+          "line": 241,
           "column": 5
         },
         {
-          "title": "UI-05: dữ liệu thật, tìm kiếm có/không kết quả, URL và tìm kiếm phân biệt dấu",
+          "title": "UI-05: dữ liệu thật, tìm kiếm có/không kết quả, URL, không dấu và trong nội dung",
           "ok": true,
           "tags": [],
           "tests": [
@@ -398,12 +398,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 4857,
+                  "duration": 5597,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-09T02:15:45.926Z",
+                  "startTime": "2026-11-09T02:48:39.773Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -411,9 +411,9 @@
               "status": "expected"
             }
           ],
-          "id": "0828a03cd0e93ee0ce1b-fbe15da644f2cc6773e9",
+          "id": "0828a03cd0e93ee0ce1b-e2e8f3c5475b1aa4094c",
           "file": "knowledge.spec.ts",
-          "line": 84,
+          "line": 83,
           "column": 5
         },
         {
@@ -432,12 +432,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 3603,
+                  "duration": 3841,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-09T02:15:50.876Z",
+                  "startTime": "2026-11-09T02:48:45.544Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -447,7 +447,7 @@
           ],
           "id": "0828a03cd0e93ee0ce1b-190db5330547ecd14655",
           "file": "knowledge.spec.ts",
-          "line": 131,
+          "line": 132,
           "column": 5
         },
         {
@@ -466,12 +466,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 2875,
+                  "duration": 5668,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-09T02:15:54.492Z",
+                  "startTime": "2026-11-09T02:48:49.392Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -481,7 +481,7 @@
           ],
           "id": "0828a03cd0e93ee0ce1b-73c9bd7da74e2b5d6e8e",
           "file": "knowledge.spec.ts",
-          "line": 191,
+          "line": 192,
           "column": 5
         },
         {
@@ -500,12 +500,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 5940,
+                  "duration": 6009,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-09T02:15:57.373Z",
+                  "startTime": "2026-11-09T02:48:55.066Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -515,11 +515,11 @@
           ],
           "id": "0828a03cd0e93ee0ce1b-023498bd9a70518a228f",
           "file": "knowledge.spec.ts",
-          "line": 229,
+          "line": 241,
           "column": 5
         },
         {
-          "title": "UI-05: dữ liệu thật, tìm kiếm có/không kết quả, URL và tìm kiếm phân biệt dấu",
+          "title": "UI-05: dữ liệu thật, tìm kiếm có/không kết quả, URL, không dấu và trong nội dung",
           "ok": true,
           "tags": [],
           "tests": [
@@ -534,12 +534,12 @@
                   "workerIndex": 2,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 4932,
+                  "duration": 5542,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-09T02:16:03.549Z",
+                  "startTime": "2026-11-09T02:49:01.287Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -547,9 +547,9 @@
               "status": "expected"
             }
           ],
-          "id": "0828a03cd0e93ee0ce1b-534b90ca12206c0f1870",
+          "id": "0828a03cd0e93ee0ce1b-ed9ec3831171815b31ce",
           "file": "knowledge.spec.ts",
-          "line": 84,
+          "line": 83,
           "column": 5
         },
         {
@@ -568,12 +568,12 @@
                   "workerIndex": 2,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 3772,
+                  "duration": 3757,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-09T02:16:08.579Z",
+                  "startTime": "2026-11-09T02:49:06.925Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -583,7 +583,7 @@
           ],
           "id": "0828a03cd0e93ee0ce1b-1fc8d6430b1ed4963f6d",
           "file": "knowledge.spec.ts",
-          "line": 131,
+          "line": 132,
           "column": 5
         },
         {
@@ -602,12 +602,12 @@
                   "workerIndex": 2,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 2897,
+                  "duration": 5152,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-09T02:16:12.361Z",
+                  "startTime": "2026-11-09T02:49:10.689Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -617,7 +617,7 @@
           ],
           "id": "0828a03cd0e93ee0ce1b-fd871363a9b3e636f7f7",
           "file": "knowledge.spec.ts",
-          "line": 191,
+          "line": 192,
           "column": 5
         },
         {
@@ -636,12 +636,12 @@
                   "workerIndex": 2,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 5942,
+                  "duration": 6001,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-09T02:16:15.262Z",
+                  "startTime": "2026-11-09T02:49:15.846Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -651,11 +651,11 @@
           ],
           "id": "0828a03cd0e93ee0ce1b-b56e525b66471f5ae141",
           "file": "knowledge.spec.ts",
-          "line": 229,
+          "line": 241,
           "column": 5
         },
         {
-          "title": "UI-05: dữ liệu thật, tìm kiếm có/không kết quả, URL và tìm kiếm phân biệt dấu",
+          "title": "UI-05: dữ liệu thật, tìm kiếm có/không kết quả, URL, không dấu và trong nội dung",
           "ok": true,
           "tags": [],
           "tests": [
@@ -670,12 +670,12 @@
                   "workerIndex": 3,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 4825,
+                  "duration": 5596,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-09T02:16:21.420Z",
+                  "startTime": "2026-11-09T02:49:22.059Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -683,9 +683,9 @@
               "status": "expected"
             }
           ],
-          "id": "0828a03cd0e93ee0ce1b-1dea78ead2576995c874",
+          "id": "0828a03cd0e93ee0ce1b-c80591819fa7526a28dc",
           "file": "knowledge.spec.ts",
-          "line": 84,
+          "line": 83,
           "column": 5
         },
         {
@@ -704,12 +704,12 @@
                   "workerIndex": 3,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 3629,
+                  "duration": 3830,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-09T02:16:26.329Z",
+                  "startTime": "2026-11-09T02:49:27.755Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -719,7 +719,7 @@
           ],
           "id": "0828a03cd0e93ee0ce1b-e93adeccf957957a120f",
           "file": "knowledge.spec.ts",
-          "line": 131,
+          "line": 132,
           "column": 5
         },
         {
@@ -738,12 +738,12 @@
                   "workerIndex": 3,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 2809,
+                  "duration": 5640,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-09T02:16:29.968Z",
+                  "startTime": "2026-11-09T02:49:31.591Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -753,7 +753,7 @@
           ],
           "id": "0828a03cd0e93ee0ce1b-105b5d24a6267cdce34c",
           "file": "knowledge.spec.ts",
-          "line": 191,
+          "line": 192,
           "column": 5
         },
         {
@@ -772,12 +772,12 @@
                   "workerIndex": 3,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 5963,
+                  "duration": 6037,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-09T02:16:32.783Z",
+                  "startTime": "2026-11-09T02:49:37.236Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -787,7 +787,7 @@
           ],
           "id": "0828a03cd0e93ee0ce1b-90e678dd07d5eb26596e",
           "file": "knowledge.spec.ts",
-          "line": 229,
+          "line": 241,
           "column": 5
         }
       ]
@@ -795,8 +795,8 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-11-09T02:15:30.191Z",
-    "duration": 68583.38500000001,
+    "startTime": "2026-11-09T02:48:16.804Z",
+    "duration": 86507.01000000001,
     "expected": 16,
     "skipped": 0,
     "unexpected": 0,

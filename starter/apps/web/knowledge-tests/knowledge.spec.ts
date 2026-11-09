@@ -69,8 +69,7 @@ async function seed(
     articles: states.map((state, i) => ({
       title: `DEMO · Tra cứu ${token} ${state} ${i}`,
       body: {
-        "Ghi chú":
-          "DEMO · bài kiểm thử tự động, không phải hướng dẫn vận hành.",
+        "Ghi chú": `DEMO · bài kiểm thử tự động, không phải hướng dẫn vận hành. Đường bế chitiet${token} ${state}.`,
       },
       processCode: "FLEXO",
       state,
@@ -81,7 +80,7 @@ async function seed(
 
 test.afterEach(async ({ page }) => logout(page));
 
-test("UI-05: dữ liệu thật, tìm kiếm có/không kết quả, URL và tìm kiếm phân biệt dấu", async ({
+test("UI-05: dữ liệu thật, tìm kiếm có/không kết quả, URL, không dấu và trong nội dung", async ({
   page,
 }, info) => {
   const errors: string[] = [];
@@ -105,18 +104,20 @@ test("UI-05: dữ liệu thật, tìm kiếm có/không kết quả, URL và tì
   await expect(searchBox(page)).toHaveValue(token);
   await expect(cards(page)).toHaveCount(1);
 
-  // Backend ILIKE is accent-sensitive: document the gap instead of claiming it works.
-  await searchBox(page).fill("tra cuu " + token);
-  await searchBox(page).press("Enter");
-  await expect(count(page)).toHaveText(
-    `Tìm thấy 0 kết quả cho “tra cuu ${token}”`,
-  );
-  await expect(
-    page.getByText("Tìm kiếm hiện phân biệt dấu tiếng Việt"),
-  ).toBeVisible();
-  await searchBox(page).fill("Tra cứu " + token);
-  await searchBox(page).press("Enter");
-  await expect(cards(page)).toHaveCount(1);
+  // Accent/case-insensitive, word order free, title or body (published version only).
+  for (const q of [
+    `tra cuu ${token}`,
+    `TRA CỨU ${token}`,
+    `${token} tra`,
+    `duong be chitiet${token}`,
+  ]) {
+    await searchBox(page).fill(q);
+    await searchBox(page).press("Enter");
+    await expect(count(page)).toHaveText(`Tìm thấy 1 kết quả cho “${q}”`);
+    await expect(cards(page)).toHaveCount(1);
+  }
+  await expect(page.getByLabel("Lọc thiết bị")).toHaveCount(0);
+  await expect(page.getByLabel("Lọc thẻ")).toHaveCount(0);
 
   await searchBox(page).fill(`khongtontai${Date.now()}`);
   await expect(
@@ -201,6 +202,14 @@ test("UI-05: chỉ bài đã duyệt trong phạm vi; nháp, chờ duyệt và n
   await ready(page);
   await expect(cards(page)).toHaveCount(1);
   await expect(cards(page).first()).toContainText("approved");
+  // Body-only word exists in the draft and pending versions too: only the approved article matches.
+  await page.goto(`/knowledge?q=chitiet${token}`);
+  await ready(page);
+  await expect(cards(page)).toHaveCount(1);
+  await expect(cards(page).first()).toContainText("approved");
+  await page.goto(`/knowledge?q=chitiet${token}%20pending`);
+  await ready(page);
+  await expect(cards(page)).toHaveCount(0);
   await expect(
     page.getByRole("link", { name: "Chia sẻ kiến thức" }).first(),
   ).toBeVisible();
@@ -212,6 +221,9 @@ test("UI-05: chỉ bài đã duyệt trong phạm vi; nháp, chờ duyệt và n
   for (const user of ["other", "admin"]) {
     await login(page, user);
     await page.goto(`/knowledge?q=${token}`);
+    await ready(page);
+    await expect(cards(page)).toHaveCount(0);
+    await page.goto(`/knowledge?q=chitiet${token}`);
     await ready(page);
     await expect(cards(page)).toHaveCount(0);
     await expect(

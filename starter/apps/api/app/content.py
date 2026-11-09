@@ -32,16 +32,43 @@ SELECT = """SELECT c.id,c.code,c.kind,coalesce(v.title,c.title) AS title,c.owner
 BASE = f"c.archived_at IS NULL AND v.status='APPROVED' AND {READ_ACL}"
 
 
+def fold(expr):
+    """Accent/case-insensitive Vietnamese form: NFD, drop combining marks, đ->d, lower. Built-ins only (PG13+)."""
+    return f"lower(translate(regexp_replace(normalize({expr}, NFD), '[\\u0300-\\u036f]', '', 'g'), 'đĐ', 'dD'))"
+
+
+# UI-05: every keyword (max 8) must appear in the title or in the text of the *current published* version
+# (v is joined via current_published_version_id and BASE keeps ACL/APPROVED), so drafts and newer unapproved
+# versions never match. Matching is accent/case-insensitive; LIKE wildcards in the input stay literal.
+BODY_TEXT = "(SELECT string_agg(e.value, ' ') FROM jsonb_each_text(CASE WHEN jsonb_typeof(v.body)='object' THEN v.body END) e)"
+MAX_TERMS = 8
+
+
+def like_pattern(term):
+    return "%" + term.replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_") + "%"
+
+
+def match(count):
+    return (
+        " AND ".join(
+            f"({fold('coalesce(v.title,c.title)')} LIKE {fold(f'%(t{i})s::text')} OR {fold(BODY_TEXT)} LIKE {fold(f'%(t{i})s::text')})"
+            for i in range(count)
+        )
+        or "true"
+    )
+
+
 def listing(conn, user, kind=None, q="", page=1, size=12, process_id=None):
+    terms = q.split()[:MAX_TERMS]
     params = {
         **acl_params(user),
+        **{f"t{i}": like_pattern(t) for i, t in enumerate(terms)},
         "kind": kind,
         "process": process_id,
-        "query": "%" + q.replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_") + "%",
         "limit": size,
         "offset": (page - 1) * size,
     }
-    where = BASE + " AND (%(kind)s::text IS NULL OR c.kind=%(kind)s) AND coalesce(v.title,c.title) ILIKE %(query)s"
+    where = BASE + " AND (%(kind)s::text IS NULL OR c.kind=%(kind)s) AND " + match(len(terms))
     where += " AND (%(process)s::uuid IS NULL OR v.process_id=%(process)s OR (v.process_id IS NULL AND EXISTS (SELECT 1 FROM content_processes cp WHERE cp.content_id=c.id AND cp.process_id=%(process)s)))"
     items = conn.execute(
         SELECT + " WHERE " + where + " ORDER BY v.created_at DESC,c.id LIMIT %(limit)s OFFSET %(offset)s", params

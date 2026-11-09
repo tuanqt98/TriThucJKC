@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readState, writeState, applyFilters, defaultState, excerpt, thumbnail, detailHref, lacksDiacritics, loadAll, activeFilterCount, PAGE_SIZE } from '../../starter/apps/web/components/knowledge-model.ts';
+import { readState, writeState, applyFilters, defaultState, excerpt, thumbnail, detailHref, loadAll, activeFilterCount, PAGE_SIZE } from '../../starter/apps/web/components/knowledge-model.ts';
 
 const P = '11111111-1111-4111-8111-111111111111';
 const D = '22222222-2222-4222-8222-222222222222';
@@ -45,13 +45,6 @@ test('Trích đoạn, ảnh minh họa theo công đoạn, đường dẫn chi t
   assert.equal(thumbnail(undefined, 'INCIDENT_GUIDE'), '/images/dashboard-demo/quality.webp');
   assert.equal(detailHref({ id: 'x', kind: 'INCIDENT_GUIDE' }), '/incidents/x');
   assert.equal(detailHref({ id: 'y', kind: 'ARTICLE' }), '/knowledge/y');
-});
-test('Nhận biết từ khóa không dấu để gợi ý gõ có dấu', () => {
-  assert.equal(lacksDiacritics('lech mau'), true);
-  assert.equal(lacksDiacritics('lệch màu'), false);
-  assert.equal(lacksDiacritics('đo'), false);
-  assert.equal(lacksDiacritics('123'), false);
-  assert.equal(lacksDiacritics('  '), false);
 });
 test('Snapshot: đọc đủ trang, từ chối khi vượt giới hạn hoặc dữ liệu đổi giữa chừng', async () => {
   const pages = { 1: { items: [item(1), item(2)], total: 3, page: 1, pageSize: 2 }, 2: { items: [item(3)], total: 3, page: 2, pageSize: 2 } };

@@ -33,16 +33,17 @@ UI-05 đã thêm 4 trường **chỉ đọc** vào `ContentView`: `process_id`, 
 
 | ID | Đề xuất ưu tiên | Thiếu hụt | Hiện trạng | Đề xuất kỹ thuật | Cần PO/JKC chốt |
 |---|---|---|---|---|---|
-| DATA-11 | P1 | **Tìm kiếm không dấu** ("lech mau" ra "lệch màu") | `ILIKE` trên tiêu đề, phân biệt dấu. Khi từ khóa không dấu không ra kết quả, UI gợi ý gõ có dấu | Extension `unaccent` + cột/biểu thức chuẩn hóa có index (`pg_trgm` đã bật); migration có downgrade; test tiếng Việt có dấu/không dấu | Không |
-| DATA-12 | P1 | **Tìm trong nội dung**, không chỉ tiêu đề | Chỉ tìm theo tiêu đề | Full-text/trigram trên `body` của phiên bản đã duyệt, vẫn qua `READ_ACL` | Có cần xếp theo mức liên quan ("Liên quan nhất" trong mockup) không |
+| DATA-11 | — | **Tìm kiếm không dấu** | **Đã làm ở UI-05 vòng 2.** Bỏ dấu ngay trong câu truy vấn bằng hàm có sẵn (`normalize` NFD, bỏ dấu kết hợp, đ→d, `lower`), không cần migration. Test pytest + E2E | Còn lại: index cho quy mô lớn (xem DATA-21) | Không |
+| DATA-12 | — | **Tìm trong nội dung** | **Đã làm ở UI-05 vòng 2.** Mỗi từ (tối đa 8) phải có trong tiêu đề **hoặc** nội dung của *phiên bản đã duyệt hiện hành*; bản nháp, bản chờ duyệt và phiên bản mới chưa duyệt không được tìm. Chưa có trường "mô tả" riêng | Xếp theo mức liên quan ("Liên quan nhất") vẫn chưa có | Có cần trường mô tả ngắn riêng không (đi cùng DATA-07) |
 | DATA-13 | P1 | **Loại kiến thức** (Kinh nghiệm / Hướng dẫn / Checklist / FAQ) | Chỉ có `kind`: Bài tri thức (ARTICLE) / Giải pháp sự cố (INCIDENT_GUIDE). UI-05 lọc theo 2 loại này | Dùng `categories` (đi cùng DATA-03), có trường chọn loại khi biên soạn | Danh mục chính thức |
-| DATA-14 | P2 | **Thiết bị / máy** | Không có trong schema. Bộ lọc đang khóa, ghi "Chưa có" | Bảng thiết bị và quan hệ nội dung–thiết bị | Danh sách thiết bị, ai quản lý |
-| DATA-15 | P2 | **Thẻ từ khóa** | Bảng `tags`/`content_tags` có sẵn nhưng rỗng, chưa có UI biên soạn thẻ. Bộ lọc đang khóa | Trả `tags` trong `ContentView`; thêm thẻ khi biên soạn | Quy tắc đặt thẻ |
+| DATA-14 | P2 | **Thiết bị / máy** | Không có trong schema. Bộ lọc **đã ẩn** (vòng 2) cho tới khi có API | Bảng thiết bị và quan hệ nội dung–thiết bị | Danh sách thiết bị, ai quản lý |
+| DATA-15 | P2 | **Thẻ từ khóa** | Bảng `tags`/`content_tags` có sẵn nhưng rỗng, chưa có UI biên soạn thẻ. Bộ lọc **đã ẩn** (vòng 2) | Trả `tags` trong `ContentView`; thêm thẻ khi biên soạn | Quy tắc đặt thẻ |
 | DATA-16 | P2 | **Người duyệt** trên card | Có `approved_by`, chưa trả về | Thêm `approver_name` (chỉ đọc) | Có cần hiển thị không |
 | DATA-17 | P3 | **Lượt xem, bình luận, lưu bài (bookmark), "nổi bật tuần"** | Không có dữ liệu. Khung bên phải đang là "Mới được duyệt" (xếp theo thời điểm duyệt) | Bảng sự kiện xem/lưu, có chính sách riêng tư | Có cần đo lượt xem không |
 | DATA-18 | P3 | **Hỏi đáp** ("Đặt câu hỏi" trong mockup) | Chưa có module/route. UI-05 thay bằng nút "Chia sẻ kiến thức" | Module Q&A riêng | Phạm vi MVP |
 | DATA-19 | P3 | **Ảnh đại diện bài viết** | Card dùng ảnh minh họa DEMO theo công đoạn (có nhãn "Ảnh minh họa"), không phải ảnh của bài | Cho chọn ảnh bìa từ tệp đính kèm đã quét sạch | Có cần không |
 | DATA-20 | P3 | **Lọc phía server theo loại/bộ phận** | UI tải toàn bộ kết quả trong phạm vi ACL (tối đa 2.000 bài/loại, quá thì báo lỗi) rồi lọc loại, bộ phận, sắp xếp và phân trang ở trình duyệt | Thêm tham số `kind`, `departmentId`, `sort` vào `/search`, phân trang server | Khi nào số bài vượt vài nghìn |
+| DATA-21 | P2 | **Index cho tìm kiếm** | Tìm không dấu và tìm trong nội dung đang quét tuần tự (biểu thức trong câu truy vấn); ổn ở quy mô DEMO / vài nghìn bài | Migration 008: hàm `IMMUTABLE` chuẩn hóa + index GIN `pg_trgm` trên tiêu đề và nội dung phiên bản; cập nhật readiness check (`main.py` đang đòi đúng `007`), `database_drill.py`, `migration_cycle.py`, runbook | Khi nào cần (ngưỡng số bài) |
 
 ## Liên quan UI (không phải API)
 
