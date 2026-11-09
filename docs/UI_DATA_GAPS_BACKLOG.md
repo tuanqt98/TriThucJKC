@@ -45,8 +45,16 @@ UI-05 đã thêm 4 trường **chỉ đọc** vào `ContentView`: `process_id`, 
 | DATA-20 | P3 | **Lọc phía server theo loại/bộ phận** | UI tải toàn bộ kết quả trong phạm vi ACL (tối đa 2.000 bài/loại, quá thì báo lỗi) rồi lọc loại, bộ phận, sắp xếp và phân trang ở trình duyệt | Thêm tham số `kind`, `departmentId`, `sort` vào `/search`, phân trang server | Khi nào số bài vượt vài nghìn |
 | DATA-21 | P2 | **Index cho tìm kiếm** | Tìm không dấu và tìm trong nội dung đang quét tuần tự (biểu thức trong câu truy vấn); ổn ở quy mô DEMO / vài nghìn bài | Migration 008: hàm `IMMUTABLE` chuẩn hóa + index GIN `pg_trgm` trên tiêu đề và nội dung phiên bản; cập nhật readiness check (`main.py` đang đòi đúng `007`), `database_drill.py`, `migration_cycle.py`, runbook | Khi nào cần (ngưỡng số bài) |
 
+## Bổ sung từ UI-05B (Chi tiết bài tri thức, đề xuất)
+
+| ID | Đề xuất ưu tiên | Thiếu hụt | Hiện trạng | Đề xuất kỹ thuật | Cần PO/JKC chốt |
+|---|---|---|---|---|---|
+| DATA-22 | P2 | **Lịch sử phiên bản bài tri thức** | `GET /articles/{id}` chỉ trả phiên bản đã duyệt hiện hành; không có danh sách phiên bản trước (DATA-05 là cho nội quy) | `GET /articles/{id}/versions`: chỉ bản `APPROVED`, theo ACL; trả `version_number`, `approved_at`, người duyệt (đi cùng DATA-16) | Nhân viên có cần xem phiên bản cũ của bài kinh nghiệm không |
+
+DATA-16 (người duyệt) cũng áp dụng cho khối "Phê duyệt & phiên bản" của trang chi tiết.
+
 ## Liên quan UI (không phải API)
 
 - Header mobile của trang chi tiết: mockup có nút quay lại + tìm kiếm; UI-04 giữ header UI-02 đã duyệt và đặt nút quay lại ở breadcrumb. PO quyết định có làm header riêng hay không.
-- UI-05 mobile có 2 ô tìm kiếm: ô trên header UI-02 đã duyệt và ô của trang (mockup chỉ có 1). Muốn bỏ ô header trên trang này thì phải sửa AppFrame dùng chung; cần PO quyết định.
+- UI-05 mobile có 2 ô tìm kiếm: **đã xử lý** ở UI-05 vòng 3 (PO chọn phương án A: AppFrame có prop `hideMobileSearch`, chỉ `/knowledge` bật).
 - Khi DATA-01/02/03 xong, UI-03/UI-04 chỉ cần nối trường. Nhãn "Đã ban hành" có thể tách thành "Hiệu lực" và "Sắp hiệu lực".
