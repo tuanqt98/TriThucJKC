@@ -6,17 +6,17 @@ import secrets
 from uuid import uuid4
 from app.config import settings
 from app.db import connection
+from app.demo_guard import require_demo_database
 from app.security import hasher
 from app.seed import uid
 
 
 def seed_uat(include_sprint1=False):
-    if settings().app_env not in ("development", "test") or len(settings().demo_password) < 12:
-        raise RuntimeError("UAT fixtures require development/test and an explicit demo password.")
+    if len(settings().demo_password) < 12:
+        raise RuntimeError("UAT fixtures require an explicit demo password.")
     result = {}
     with connection() as conn:
-        if conn.execute("SELECT 1 FROM users WHERE NOT (employee_code LIKE 'DEMO-%' OR left(username::text,4)='uat_') LIMIT 1").fetchone():
-            raise RuntimeError("Refuse UAT fixture creation: database contains accounts outside the synthetic DEMO namespace.")
+        require_demo_database(conn, "UAT fixture creation")
         for device in ["api", "desktop", "mobile"]:
             user, task, assignment = uuid4(), uuid4(), uuid4()
             name = "uat_" + device + "_" + secrets.token_hex(4)

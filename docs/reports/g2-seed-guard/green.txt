@@ -1,0 +1,5 @@
+== pytest toàn bộ (PG16 sạch)
+93 passed, 3 warnings in 29.44s
+== Như CI: app.seed sau pytest phải bị từ chối
+RuntimeError: Refuse DEMO seed: database contains accounts outside the synthetic DEMO namespace.
+→ REFUSED (exit != 0) ✔

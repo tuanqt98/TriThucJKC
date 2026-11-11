@@ -8,6 +8,15 @@ Chỉ dùng dự án/volume và dữ liệu DEMO riêng. Không production. Các
 2. Chọn localhost/loopback và port trống (18080/18443 đã kiểm thử). APP_ORIGIN=https://localhost:18443; không dùng hostname nội bộ thật khi chưa có IT DNS/trust/firewall.
 3. `docker compose --project-name jkc-staging --env-file deploy/.env -f deploy/compose.yml up -d --build --wait --wait-timeout 240`.
 4. Seed chỉ khi DB DEMO: thêm `--profile demo run --rm --no-deps seed` vào cùng bộ lệnh.
+
+### G-2 · Cấm seed DEMO ở production (bắt buộc)
+
+- Môi trường production (G-3, IT) **không** có service `seed`/`test`, **không** dùng profile `demo`/`test`, và đặt `APP_ENV=production`.
+- Ngay sau khi tạo database production, IT chạy bằng owner/DBA:
+  `ALTER DATABASE <tên_db> SET jkc.environment = 'production';`
+  Kiểm tra bằng `SHOW jkc.environment;` (phiên mới) → `production`.
+- Với dấu này, `app.seed`, `app.seed_uat` và `app.seed_incident_guides` đều từ chối **trước khi ghi**, kể cả khi compose hoặc biến môi trường bị cấu hình sai. Các seed cũng từ chối nếu DB đã có tài khoản ngoài namespace DEMO/`uat_`.
+- Không xóa dấu này để "chạy thử" seed trên production. Cần dữ liệu thử thì dùng stack staging riêng.
 5. Copy riêng public root.crt từ proxy `/data/caddy/pki/authorities/local/root.crt` vào `.local/staging-ca.crt`; không copy root.key. Chạy healthcheck với JKC_CA_CERT. IT cài trust đúng thiết bị trước dùng thật.
 6. Chỉ proxy có published ports, API/DB/scanner ở backend internal network, Caddy admin off. API readiness kiểm head 003, role không owner/superuser/BYPASSRLS, storage ghi được và ClamAV signatures <=7 ngày. `live` không phụ thuộc DB; `ready` trả 503 khi DB/storage/scanner chưa sẵn sàng.
 
