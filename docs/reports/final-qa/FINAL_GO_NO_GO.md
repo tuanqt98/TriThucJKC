@@ -61,11 +61,12 @@ Quyết định này **chưa phải lệnh merge**. Agent chỉ chuẩn bị đi
 | Điều kiện | Trạng thái | Bằng chứng |
 |---|---|---|
 | CI commit báo cáo `3d1239a` | ✅ foundation · postgres17 · staging-acceptance | run 42972378780 |
-| PO duyệt giao diện UI-09 | ⏳ **Chờ PO xác nhận** (PR #7 vòng 2 `47597a6`) | — |
+| PO duyệt giao diện UI-09 | ⏳ PO: `47597a6` **đủ điều kiện đề xuất nghiệm thu**; chờ phê duyệt chính thức rồi ghi nhận vào PR #7 | — |
 | Khóa SHA 9 bước | ✅ origin = local, khớp diễn tập | Bảng dưới |
 | Cơ chế tự động deploy | ✅ **Không có**: chỉ có workflow `ci.yml` (test); 0 webhook, 0 environment, 0 deployment | `gh api …/hooks`, `/environments`, `/deployments` |
 | Tag mốc trước merge | ✅ `pre-merge-main-20261111` → `dc47e98` (annotated, đã đẩy) | `git ls-remote --tags` |
-| Branch protection `main` | ⚠️ **Chưa bật** (API 404); không có ruleset; repo **public**; cho phép squash/rebase | Cần chủ repo quyết định bật trước khi merge |
+| Branch protection `main` | ✅ Bật ngày 11/11/2026 theo PO: bắt buộc PR (0 người duyệt, vì một chủ repo không tự duyệt được PR của mình), bắt buộc 3 check `foundation`/`postgres17`/`staging-acceptance` (strict = off để giữ SHA chuỗi PR), áp dụng cả admin, cấm force-push và xóa nhánh; repo chỉ cho **merge commit** (tắt squash/rebase) | `gh api …/branches/main/protection` |
+| Repo public → private | ⏳ PO đề nghị chủ repo xem xét. **Lưu ý:** tài khoản cá nhân gói Free **không** áp dụng branch protection cho repo private; nếu chuyển private cần GitHub Pro hoặc chuyển repo sang Organization, nếu không bảo vệ trên sẽ mất hiệu lực | — |
 
 **SHA đã khóa:**
 
@@ -82,9 +83,9 @@ Quyết định này **chưa phải lệnh merge**. Agent chỉ chuẩn bị đi
 |---|---|---|---|
 | #8 | DATA-39B: migration 008 | ✅ 3 job | Draft, chờ review |
 | #9 | G-2: guard seed DEMO | ✅ 3 job | Draft, chờ review |
-| (chưa mở) | D: vùng chạm 44px | — | CSS và đo Before xong; đo After, regression và ảnh Before/After **bị chặn do Docker Desktop treo** |
+| #10 | D: vùng chạm 44px (chỉ CSS) | ⏳ | Draft. Phần tử dưới 44px: 72 → 0 (1666 phần tử). 22/24 ảnh giống hệt; UI-03 desktop/tablet ô lọc cao thêm 6px. Regression 160/160 + 10/10 + 2/2; UI-05B có 4 lỗi **có từ trước** (bản đã duyệt cũng fail, xem RG-1) |
 
-Merge thử #8 với #9 (`git merge-tree`): không xung đột.
+Merge thử #8, #9, #10 với nhau (`git merge-tree`): không xung đột.
 
 ### C. Hạ tầng (IT/PO)
 
@@ -94,3 +95,10 @@ Chưa bắt đầu:
 - G-5: owner DB không superuser;
 - G-7: cập nhật chữ ký ClamAV;
 - G-8: UAT có biên bản ký nhận.
+
+### Phát hiện mới trong lúc làm D
+
+| ID | Mức | Phát hiện | Đề xuất |
+|---|---|---|---|
+| RG-1 | P1 đề xuất (PO quyết) | Kho tri thức (UI-05) tải **toàn bộ** kết quả về trình duyệt. Staging có **815** bài DEMO, mất khoảng **6,5 giây** mới hiện danh sách, làm UI-05B fail 4 test (cả trên bản đã duyệt) | Nâng ưu tiên **DATA-20** (lọc, sắp xếp, phân trang phía server) trước khi có nhiều bài thật. Chưa sửa |
+| OPS-1 | — | Docker Desktop treo do ổ máy còn 2,8 GB; cache **BuildKit** (`cache.db`) hỏng làm `dockerd` panic khi build | Đã xử lý: xóa cache npm (10 GB), dừng/khởi động lại Docker, **đổi tên** (không xóa) `cache.db` hỏng. PostgreSQL staging tự phục hồi bằng WAL; dữ liệu đủ (92 tài khoản, 1797 nội dung, 1792 tệp, khớp ổ đĩa); **không đụng volume** |
