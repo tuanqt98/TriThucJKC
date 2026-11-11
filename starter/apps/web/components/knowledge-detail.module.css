@@ -1,0 +1,639 @@
+/* UI-05B · Chi tiết bài tri thức. Reuses UI-02 tokens (--primary, --ink, --muted, --border, --shadow)
+   and the UI-04 detail rhythm (crumbs, head card, numbered sections, 340px side column). */
+.main {
+  padding: 14px 24px 28px;
+  max-width: 1700px;
+  margin: auto;
+  min-width: 0;
+}
+.main svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+.crumbs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 12px;
+  min-width: 0;
+}
+.crumbs a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 32px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+.crumbs span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+}
+.crumbs span::before {
+  content: "›";
+  margin-right: 8px;
+}
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  gap: 18px;
+  align-items: start;
+}
+.column,
+.side {
+  display: grid;
+  gap: 14px;
+  min-width: 0;
+}
+.card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  min-width: 0;
+  padding: 18px 20px;
+}
+.card h2 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  color: #06224d;
+  margin: 0 0 12px;
+}
+
+/* Head */
+.top {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+.icon {
+  width: 54px;
+  height: 60px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  color: white;
+  background: linear-gradient(150deg, #2f8cff, #0a5fd0);
+  box-shadow: 0 6px 16px #0a5fd030;
+}
+.main .icon svg {
+  width: 30px;
+  height: 30px;
+}
+.headText {
+  min-width: 0;
+}
+.code {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  color: #476282;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-bottom: 2px;
+}
+.head h1 {
+  font-size: 24px;
+  line-height: 1.3;
+  color: #06224d;
+  margin: 0 0 10px;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.chips > span,
+.chipOk {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 999px;
+  line-height: 1.5;
+}
+.main .chips svg,
+.main .chipOk svg {
+  width: 13px;
+  height: 13px;
+}
+.chipOk {
+  color: #157347;
+  background: #e5f6ec;
+}
+.chipVersion {
+  color: var(--primary);
+  background: #e8f2fd;
+}
+.chipKind {
+  color: #1d4f91;
+  background: #e9f0fb;
+}
+.chipProcess {
+  color: #7b3fc4;
+  background: #f2eafd;
+}
+.cover {
+  margin: 16px 0 0;
+}
+.cover img {
+  width: 100%;
+  max-height: 340px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  display: block;
+  background: #f2f5f9;
+}
+.cover figcaption,
+.inlineFigure figcaption,
+.gallery figcaption {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 6px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.meta {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px 0;
+  margin: 16px 0 0;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+.meta > div {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 8px;
+  align-content: start;
+  padding: 0 12px;
+  border-left: 1px solid var(--border);
+  min-width: 0;
+}
+.meta > div:nth-child(3n + 1) {
+  border-left: 0;
+  padding-left: 0;
+}
+.meta svg {
+  grid-row: span 2;
+  color: #5c7594;
+  margin-top: 2px;
+}
+.meta dt {
+  font-size: 11px;
+  color: var(--muted);
+}
+.meta dd {
+  margin: 2px 0 0;
+  font-size: 13px;
+  font-weight: 700;
+  color: #102b50;
+  overflow-wrap: anywhere;
+}
+
+/* Tabs (mobile only) */
+.tabs {
+  display: none;
+}
+
+/* Body */
+.body {
+  padding: 8px 24px;
+}
+.body section {
+  padding: 16px 0;
+  border-top: 1px solid var(--border);
+}
+.body section:first-of-type {
+  border-top: 0;
+}
+.coverMobile,
+.metaCompact {
+  display: none;
+}
+.body h2 {
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+.num {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--primary);
+  color: white;
+  font-size: 13px;
+  flex-shrink: 0;
+}
+.body p,
+.body li {
+  font-size: 14px;
+  line-height: 1.65;
+  color: #24405f;
+  margin: 0 0 4px;
+}
+.sectionBody,
+.caution {
+  margin-left: 34px;
+}
+.body ul,
+.body ol {
+  padding-left: 18px;
+  margin: 0 0 4px;
+}
+.caution {
+  display: flex;
+  gap: 12px;
+  padding: 12px 14px;
+  background: #fff8e6;
+  border: 1px solid #f4d48a;
+  border-radius: 10px;
+}
+.main .caution > svg {
+  width: 28px;
+  height: 28px;
+  color: #e08a00;
+}
+.inlineFigure {
+  margin: 10px 0 8px;
+  max-width: 420px;
+}
+.inlineFigure img,
+.gallery img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  display: block;
+  background: #f2f5f9;
+}
+.gallery > div {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 12px;
+}
+.gallery figure {
+  margin: 0;
+}
+
+/* Side */
+.timeline {
+  list-style: none;
+  margin: 0 0 12px;
+  padding: 0 0 0 18px;
+  border-left: 2px solid #d6e4f5;
+}
+.timeline li {
+  position: relative;
+}
+.timeline li::before {
+  content: "";
+  position: absolute;
+  left: -25px;
+  top: 3px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--primary);
+  box-shadow: 0 0 0 3px #d9eafd;
+}
+.timeline div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.timeline small {
+  display: block;
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 4px;
+}
+.kv {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+}
+.kv div {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 13px;
+}
+.kv dt {
+  color: var(--muted);
+}
+.kv dd {
+  margin: 0;
+  font-weight: 600;
+  color: #102b50;
+  text-align: right;
+}
+.okText {
+  color: #157347;
+}
+.files ul,
+.related ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.files li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+  border-top: 1px solid var(--border);
+}
+.files li:first-child {
+  border-top: 0;
+}
+.thumb,
+.fileIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+.thumb {
+  object-fit: cover;
+  border: 1px solid var(--border);
+}
+.fileIcon {
+  display: grid;
+  place-items: center;
+  font-size: 10px;
+  font-weight: 800;
+  background: #eef2f7;
+  color: #476282;
+}
+.pdf {
+  background: #fde7e9;
+  color: #d0293c;
+}
+.sheet {
+  background: #e6f6ec;
+  color: #157347;
+}
+.fileName {
+  min-width: 0;
+  flex: 1;
+  display: grid;
+}
+.fileName b {
+  font-size: 13px;
+  color: #102b50;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.fileName small {
+  font-size: 11px;
+  color: var(--muted);
+}
+.download {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  color: var(--primary);
+  flex-shrink: 0;
+}
+.related a {
+  display: grid;
+  gap: 2px;
+  padding: 8px 0;
+  border-top: 1px solid var(--border);
+  color: inherit;
+  min-height: 44px;
+}
+.related li:first-child a {
+  border-top: 0;
+}
+.related b {
+  font-size: 13px;
+  color: #102b50;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+.related small {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+/* States (same as UI-04) */
+.muted {
+  display: block;
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.5;
+  margin: 0;
+}
+.error {
+  font-size: 12px;
+  color: #b4233b;
+  background: #fff0f2;
+  border: 1px solid #ffd0d8;
+  border-radius: 8px;
+  padding: 8px 10px;
+  margin: 0;
+}
+.error button {
+  border: 0;
+  background: transparent;
+  color: var(--primary);
+  font-weight: 600;
+  padding: 0;
+  min-height: 0;
+}
+.stateCard {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  max-width: 560px;
+  margin: 40px auto;
+  padding: 32px;
+  text-align: center;
+}
+.stateCard h1 {
+  font-size: 22px;
+  white-space: normal;
+}
+.stateCard p {
+  color: var(--muted);
+}
+.stateCard > div {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.stateCard a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+.stateIcon {
+  display: inline-grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #fff0f2;
+  color: #c3233e;
+  margin-bottom: 12px;
+}
+.main .stateIcon svg {
+  width: 28px;
+  height: 28px;
+}
+.loading {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+  color: var(--muted);
+  font-size: 13px;
+}
+.loading div {
+  height: 40px;
+  margin-bottom: 14px;
+  border-radius: 8px;
+  background: linear-gradient(100deg, #f2f5f9, #e7edf5, #f2f5f9);
+}
+
+/* Tablet: one column, side cards below (2 per row, related full width). */
+@media (max-width: 1100px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .side {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }
+  .related {
+    grid-column: 1 / -1;
+  }
+}
+@media (min-width: 768px) and (max-width: 1100px) {
+  .main {
+    padding: 14px 16px 24px;
+  }
+}
+
+/* Mobile: one column, 3 tabs (Nội dung / Ảnh & tệp / Phê duyệt); head card stays visible. */
+@media (max-width: 767px) {
+  .main {
+    padding: 4px 14px 24px;
+  }
+  .crumbs {
+    margin-bottom: 8px;
+  }
+  .layout,
+  .column,
+  .side {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+  .card {
+    padding: 14px 16px;
+  }
+  .top {
+    gap: 12px;
+  }
+  .icon {
+    width: 42px;
+    height: 48px;
+  }
+  .main .icon svg {
+    width: 24px;
+    height: 24px;
+  }
+  .head h1 {
+    font-size: 20px;
+  }
+  /* PO round 2: tabs directly after title + compact metadata; cover moves into the "Nội dung" tab. */
+  .coverWide,
+  .meta {
+    display: none;
+  }
+  .coverMobile {
+    display: block;
+    margin: 12px 0 4px;
+  }
+  .cover img {
+    max-height: 200px;
+  }
+  .metaCompact {
+    display: block;
+    margin: 10px 0 0;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+    font-size: 12px;
+    color: #476282;
+    line-height: 1.5;
+  }
+  .tabs {
+    display: flex;
+    border-bottom: 1px solid var(--border);
+  }
+  .tabs button {
+    flex: 1;
+    min-height: 44px;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--muted);
+    border-bottom: 3px solid transparent;
+    padding: 0 4px;
+  }
+  .tabs [aria-selected="true"] {
+    color: var(--primary);
+    border-bottom-color: var(--primary);
+  }
+  .layout[data-tab="content"] [data-panel]:not([data-panel="content"]),
+  .layout[data-tab="files"] [data-panel]:not([data-panel="files"]),
+  .layout[data-tab="approval"] [data-panel]:not([data-panel="approval"]) {
+    display: none;
+  }
+  .body {
+    padding: 4px 16px;
+  }
+  .sectionBody,
+  .caution {
+    margin-left: 0;
+  }
+  .gallery > div {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .stateCard {
+    margin: 20px 0;
+    padding: 24px 16px;
+  }
+}

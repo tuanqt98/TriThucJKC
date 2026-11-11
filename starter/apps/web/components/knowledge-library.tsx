@@ -12,6 +12,7 @@ import {
   type User,
 } from "./api";
 import { AppFrame } from "./app-frame";
+import { LIBRARY_FROM_KEY, LIBRARY_QUERY_KEY } from "./knowledge-detail-model";
 import { Icon } from "./icon";
 import {
   activeFilterCount,
@@ -63,6 +64,13 @@ const glyphs = {
   check: "M20 6 9 17l-5-5",
   share: "M12 5v14M5 12h14",
 };
+
+/** UI-05B: lets the article page return with history.back() (exact list + scroll) when it was opened from here. */
+function rememberOrigin(id: string) {
+  try {
+    sessionStorage.setItem(LIBRARY_FROM_KEY, id);
+  } catch {}
+}
 
 export function KnowledgeLibrary() {
   const router = useRouter();
@@ -173,6 +181,10 @@ export function KnowledgeLibrary() {
     // Native history API is supported by the App Router and avoids a server round trip.
     if (`${window.location.pathname}${window.location.search}` !== next)
       window.history.replaceState(window.history.state, "", next);
+    // UI-05B: per-tab fallback so the article's "Kho tri thức" link returns to this exact list.
+    try {
+      sessionStorage.setItem(LIBRARY_QUERY_KEY, qs);
+    } catch {}
   }, [state]);
 
   // Escape closes the mobile filter sheet.
@@ -513,7 +525,11 @@ export function KnowledgeLibrary() {
                 >
                   {result.items.map((item) => (
                     <li key={item.id}>
-                      <Link className={styles.card} href={detailHref(item)}>
+                      <Link
+                        className={styles.card}
+                        href={detailHref(item)}
+                        onClick={() => rememberOrigin(item.id)}
+                      >
                         <span className={styles.thumb}>
                           <Image
                             src={thumbnail(
@@ -629,7 +645,10 @@ export function KnowledgeLibrary() {
                 <ul>
                   {recent.map((r) => (
                     <li key={r.id}>
-                      <Link href={detailHref(r)}>
+                      <Link
+                        href={detailHref(r)}
+                        onClick={() => rememberOrigin(r.id)}
+                      >
                         <span className={styles.recentThumb}>
                           <Image
                             src={thumbnail(

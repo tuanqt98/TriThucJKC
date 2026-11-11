@@ -80,6 +80,7 @@ class ContentView(BaseModel):
     created_at: datetime
     approved_at: Optional[datetime] = None
     author_name: Optional[str] = None
+    approver_name: Optional[str] = None
     process_id: Optional[UUID] = None
     process_name: Optional[str] = None
 
