@@ -1,0 +1,925 @@
+{
+  "config": {
+    "argv": [
+      "/Users/quoctuan8386/.nvm/versions/node/v24.20.0/bin/node",
+      "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/node_modules/.bin/playwright",
+      "test",
+      "-c",
+      "playwright.knowledge-detail.config.ts"
+    ],
+    "configFile": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/playwright.knowledge-detail.config.ts",
+    "rootDir": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/knowledge-detail-tests",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "desktop",
+        "name": "desktop",
+        "testDir": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/knowledge-detail-tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 90000
+      },
+      {
+        "outputDir": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "tablet",
+        "name": "tablet",
+        "testDir": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/knowledge-detail-tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 90000
+      },
+      {
+        "outputDir": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "mobile390",
+        "name": "mobile390",
+        "testDir": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/knowledge-detail-tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 90000
+      },
+      {
+        "outputDir": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "mobile375",
+        "name": "mobile375",
+        "testDir": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/knowledge-detail-tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 90000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "desktop",
+        "testDir": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/knowledge-detail-tests",
+        "snapshotDir": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/knowledge-detail-tests",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 90000,
+        "use": {
+          "baseURL": "https://localhost:18444",
+          "ignoreHTTPSErrors": true,
+          "locale": "vi-VN",
+          "timezoneId": "Asia/Ho_Chi_Minh",
+          "trace": "off",
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          }
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "desktop"
+      },
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "tablet",
+        "testDir": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/knowledge-detail-tests",
+        "snapshotDir": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/knowledge-detail-tests",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 90000,
+        "use": {
+          "baseURL": "https://localhost:18444",
+          "ignoreHTTPSErrors": true,
+          "locale": "vi-VN",
+          "timezoneId": "Asia/Ho_Chi_Minh",
+          "trace": "off",
+          "viewport": {
+            "width": 768,
+            "height": 1024
+          }
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "tablet"
+      },
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "mobile390",
+        "testDir": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/knowledge-detail-tests",
+        "snapshotDir": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/knowledge-detail-tests",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 90000,
+        "use": {
+          "baseURL": "https://localhost:18444",
+          "ignoreHTTPSErrors": true,
+          "locale": "vi-VN",
+          "timezoneId": "Asia/Ho_Chi_Minh",
+          "trace": "off",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "isMobile": true,
+          "hasTouch": true
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "mobile390"
+      },
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "mobile375",
+        "testDir": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/knowledge-detail-tests",
+        "snapshotDir": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/knowledge-detail-tests",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 90000,
+        "use": {
+          "baseURL": "https://localhost:18444",
+          "ignoreHTTPSErrors": true,
+          "locale": "vi-VN",
+          "timezoneId": "Asia/Ho_Chi_Minh",
+          "trace": "off",
+          "viewport": {
+            "width": 375,
+            "height": 812
+          },
+          "isMobile": true,
+          "hasTouch": true
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "mobile375"
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "../../../docs/reports/ui-05b/test-results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.1",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "knowledge-detail.spec.ts",
+      "file": "knowledge-detail.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "UI-05B: dữ liệu thật từ API, thứ tự mục, ảnh đại diện + ảnh theo bước, tệp, người duyệt, ẩn mã kỹ thuật",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2479,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T08:03:25.542Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6901f8d002831a014472-ca426c969b4089296cdd",
+          "file": "knowledge-detail.spec.ts",
+          "line": 55,
+          "column": 5
+        },
+        {
+          "title": "UI-05B: quay lại Kho tri thức giữ từ khóa, bộ lọc, trang, kiểu xem (cả sau reload, mở trực tiếp, nhiều tab)",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 5290,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveCount\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('main [aria-busy=true]')\nExpected: \u001b[32m0\u001b[39m\nReceived: \u001b[31m1\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveCount\" locator('main [aria-busy=true]') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('main [aria-busy=true]')\u001b[22m\n\u001b[2m    14 × locator resolved to 1 element\u001b[22m\n\u001b[2m       - unexpected value \"1\"\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveCount\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('main [aria-busy=true]')\nExpected: \u001b[32m0\u001b[39m\nReceived: \u001b[31m1\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveCount\" locator('main [aria-busy=true]') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('main [aria-busy=true]')\u001b[22m\n\u001b[2m    14 × locator resolved to 1 element\u001b[22m\n\u001b[2m       - unexpected value \"1\"\u001b[22m\n\n    at libraryReady (/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/knowledge-detail-tests/knowledge-detail.spec.ts:41:55)\n    at /Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/knowledge-detail-tests/knowledge-detail.spec.ts:197:9",
+                    "location": {
+                      "file": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/knowledge-detail-tests/knowledge-detail.spec.ts",
+                      "column": 55,
+                      "line": 41
+                    },
+                    "snippet": "  39 | }\n  40 | async function libraryReady(page: Page) {\n> 41 |   await expect(page.locator(\"main [aria-busy=true]\")).toHaveCount(0);\n     |                                                       ^\n  42 |   await expect(page.locator(\"main p[role=status]\")).not.toHaveText(\"Đang tìm…\");\n  43 | }\n  44 | async function noHorizontalOverflow(page: Page) {"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/knowledge-detail-tests/knowledge-detail.spec.ts",
+                        "column": 55,
+                        "line": 41
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveCount\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('main [aria-busy=true]')\nExpected: \u001b[32m0\u001b[39m\nReceived: \u001b[31m1\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveCount\" locator('main [aria-busy=true]') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('main [aria-busy=true]')\u001b[22m\n\u001b[2m    14 × locator resolved to 1 element\u001b[22m\n\u001b[2m       - unexpected value \"1\"\u001b[22m\n\n\n  39 | }\n  40 | async function libraryReady(page: Page) {\n> 41 |   await expect(page.locator(\"main [aria-busy=true]\")).toHaveCount(0);\n     |                                                       ^\n  42 |   await expect(page.locator(\"main p[role=status]\")).not.toHaveText(\"Đang tìm…\");\n  43 | }\n  44 | async function noHorizontalOverflow(page: Page) {\n    at libraryReady (/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/knowledge-detail-tests/knowledge-detail.spec.ts:41:55)\n    at /Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/knowledge-detail-tests/knowledge-detail.spec.ts:197:9"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T08:03:28.265Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/test-results/knowledge-detail-UI-05B-qu-43b26-oad-mở-trực-tiếp-nhiều-tab--desktop/error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/knowledge-detail-tests/knowledge-detail.spec.ts",
+                    "column": 55,
+                    "line": 41
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "6901f8d002831a014472-a6f3da530abfbcabd9e1",
+          "file": "knowledge-detail.spec.ts",
+          "line": 191,
+          "column": 5
+        },
+        {
+          "title": "UI-05B: chỉ bài đã duyệt trong phạm vi; nháp, chờ duyệt, ngoài phạm vi và chưa đăng nhập bị chặn",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1591,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T08:03:33.763Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6901f8d002831a014472-2b053cf0b9c282d55448",
+          "file": "knowledge-detail.spec.ts",
+          "line": 249,
+          "column": 5
+        },
+        {
+          "title": "UI-05B: trạng thái đang tải, lỗi + thử lại, 403, lỗi tệp không chặn nội dung, không tồn tại",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2042,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T08:03:35.446Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6901f8d002831a014472-534ded23fb1cf7fcb46e",
+          "file": "knowledge-detail.spec.ts",
+          "line": 289,
+          "column": 5
+        },
+        {
+          "title": "UI-05B: dữ liệu thật từ API, thứ tự mục, ảnh đại diện + ảnh theo bước, tệp, người duyệt, ẩn mã kỹ thuật",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "tablet",
+              "projectName": "tablet",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2147,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T08:03:37.690Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6901f8d002831a014472-3a7109b3015bcb2d3f45",
+          "file": "knowledge-detail.spec.ts",
+          "line": 55,
+          "column": 5
+        },
+        {
+          "title": "UI-05B: quay lại Kho tri thức giữ từ khóa, bộ lọc, trang, kiểu xem (cả sau reload, mở trực tiếp, nhiều tab)",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "tablet",
+              "projectName": "tablet",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 5294,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveCount\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('main [aria-busy=true]')\nExpected: \u001b[32m0\u001b[39m\nReceived: \u001b[31m1\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveCount\" locator('main [aria-busy=true]') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('main [aria-busy=true]')\u001b[22m\n\u001b[2m    14 × locator resolved to 1 element\u001b[22m\n\u001b[2m       - unexpected value \"1\"\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveCount\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('main [aria-busy=true]')\nExpected: \u001b[32m0\u001b[39m\nReceived: \u001b[31m1\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveCount\" locator('main [aria-busy=true]') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('main [aria-busy=true]')\u001b[22m\n\u001b[2m    14 × locator resolved to 1 element\u001b[22m\n\u001b[2m       - unexpected value \"1\"\u001b[22m\n\n    at libraryReady (/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/knowledge-detail-tests/knowledge-detail.spec.ts:41:55)\n    at /Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/knowledge-detail-tests/knowledge-detail.spec.ts:197:9",
+                    "location": {
+                      "file": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/knowledge-detail-tests/knowledge-detail.spec.ts",
+                      "column": 55,
+                      "line": 41
+                    },
+                    "snippet": "  39 | }\n  40 | async function libraryReady(page: Page) {\n> 41 |   await expect(page.locator(\"main [aria-busy=true]\")).toHaveCount(0);\n     |                                                       ^\n  42 |   await expect(page.locator(\"main p[role=status]\")).not.toHaveText(\"Đang tìm…\");\n  43 | }\n  44 | async function noHorizontalOverflow(page: Page) {"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/knowledge-detail-tests/knowledge-detail.spec.ts",
+                        "column": 55,
+                        "line": 41
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveCount\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('main [aria-busy=true]')\nExpected: \u001b[32m0\u001b[39m\nReceived: \u001b[31m1\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveCount\" locator('main [aria-busy=true]') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('main [aria-busy=true]')\u001b[22m\n\u001b[2m    14 × locator resolved to 1 element\u001b[22m\n\u001b[2m       - unexpected value \"1\"\u001b[22m\n\n\n  39 | }\n  40 | async function libraryReady(page: Page) {\n> 41 |   await expect(page.locator(\"main [aria-busy=true]\")).toHaveCount(0);\n     |                                                       ^\n  42 |   await expect(page.locator(\"main p[role=status]\")).not.toHaveText(\"Đang tìm…\");\n  43 | }\n  44 | async function noHorizontalOverflow(page: Page) {\n    at libraryReady (/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/knowledge-detail-tests/knowledge-detail.spec.ts:41:55)\n    at /Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/knowledge-detail-tests/knowledge-detail.spec.ts:197:9"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T08:03:39.915Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/test-results/knowledge-detail-UI-05B-qu-43b26-oad-mở-trực-tiếp-nhiều-tab--tablet/error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/knowledge-detail-tests/knowledge-detail.spec.ts",
+                    "column": 55,
+                    "line": 41
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "6901f8d002831a014472-0eedafa5663b769171de",
+          "file": "knowledge-detail.spec.ts",
+          "line": 191,
+          "column": 5
+        },
+        {
+          "title": "UI-05B: chỉ bài đã duyệt trong phạm vi; nháp, chờ duyệt, ngoài phạm vi và chưa đăng nhập bị chặn",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "tablet",
+              "projectName": "tablet",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1592,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T08:03:45.419Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6901f8d002831a014472-9cc0588d76cf36978a7e",
+          "file": "knowledge-detail.spec.ts",
+          "line": 249,
+          "column": 5
+        },
+        {
+          "title": "UI-05B: trạng thái đang tải, lỗi + thử lại, 403, lỗi tệp không chặn nội dung, không tồn tại",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "tablet",
+              "projectName": "tablet",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1955,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T08:03:47.106Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6901f8d002831a014472-48fd9ccdb0ac16f81c95",
+          "file": "knowledge-detail.spec.ts",
+          "line": 289,
+          "column": 5
+        },
+        {
+          "title": "UI-05B: dữ liệu thật từ API, thứ tự mục, ảnh đại diện + ảnh theo bước, tệp, người duyệt, ẩn mã kỹ thuật",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile390",
+              "projectName": "mobile390",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2119,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T08:03:49.260Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6901f8d002831a014472-da4b2e0ec6889b844417",
+          "file": "knowledge-detail.spec.ts",
+          "line": 55,
+          "column": 5
+        },
+        {
+          "title": "UI-05B: quay lại Kho tri thức giữ từ khóa, bộ lọc, trang, kiểu xem (cả sau reload, mở trực tiếp, nhiều tab)",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile390",
+              "projectName": "mobile390",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 5287,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveCount\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('main [aria-busy=true]')\nExpected: \u001b[32m0\u001b[39m\nReceived: \u001b[31m1\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveCount\" locator('main [aria-busy=true]') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('main [aria-busy=true]')\u001b[22m\n\u001b[2m    14 × locator resolved to 1 element\u001b[22m\n\u001b[2m       - unexpected value \"1\"\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveCount\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('main [aria-busy=true]')\nExpected: \u001b[32m0\u001b[39m\nReceived: \u001b[31m1\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveCount\" locator('main [aria-busy=true]') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('main [aria-busy=true]')\u001b[22m\n\u001b[2m    14 × locator resolved to 1 element\u001b[22m\n\u001b[2m       - unexpected value \"1\"\u001b[22m\n\n    at libraryReady (/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/knowledge-detail-tests/knowledge-detail.spec.ts:41:55)\n    at /Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/knowledge-detail-tests/knowledge-detail.spec.ts:197:9",
+                    "location": {
+                      "file": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/knowledge-detail-tests/knowledge-detail.spec.ts",
+                      "column": 55,
+                      "line": 41
+                    },
+                    "snippet": "  39 | }\n  40 | async function libraryReady(page: Page) {\n> 41 |   await expect(page.locator(\"main [aria-busy=true]\")).toHaveCount(0);\n     |                                                       ^\n  42 |   await expect(page.locator(\"main p[role=status]\")).not.toHaveText(\"Đang tìm…\");\n  43 | }\n  44 | async function noHorizontalOverflow(page: Page) {"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/knowledge-detail-tests/knowledge-detail.spec.ts",
+                        "column": 55,
+                        "line": 41
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveCount\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('main [aria-busy=true]')\nExpected: \u001b[32m0\u001b[39m\nReceived: \u001b[31m1\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveCount\" locator('main [aria-busy=true]') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('main [aria-busy=true]')\u001b[22m\n\u001b[2m    14 × locator resolved to 1 element\u001b[22m\n\u001b[2m       - unexpected value \"1\"\u001b[22m\n\n\n  39 | }\n  40 | async function libraryReady(page: Page) {\n> 41 |   await expect(page.locator(\"main [aria-busy=true]\")).toHaveCount(0);\n     |                                                       ^\n  42 |   await expect(page.locator(\"main p[role=status]\")).not.toHaveText(\"Đang tìm…\");\n  43 | }\n  44 | async function noHorizontalOverflow(page: Page) {\n    at libraryReady (/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/knowledge-detail-tests/knowledge-detail.spec.ts:41:55)\n    at /Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/knowledge-detail-tests/knowledge-detail.spec.ts:197:9"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T08:03:51.458Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/test-results/knowledge-detail-UI-05B-qu-43b26-oad-mở-trực-tiếp-nhiều-tab--mobile390/error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/knowledge-detail-tests/knowledge-detail.spec.ts",
+                    "column": 55,
+                    "line": 41
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "6901f8d002831a014472-a1d13260fb32f6586856",
+          "file": "knowledge-detail.spec.ts",
+          "line": 191,
+          "column": 5
+        },
+        {
+          "title": "UI-05B: chỉ bài đã duyệt trong phạm vi; nháp, chờ duyệt, ngoài phạm vi và chưa đăng nhập bị chặn",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile390",
+              "projectName": "mobile390",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1532,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T08:03:56.948Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6901f8d002831a014472-2a133df7df7d035d3c05",
+          "file": "knowledge-detail.spec.ts",
+          "line": 249,
+          "column": 5
+        },
+        {
+          "title": "UI-05B: trạng thái đang tải, lỗi + thử lại, 403, lỗi tệp không chặn nội dung, không tồn tại",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile390",
+              "projectName": "mobile390",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1970,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T08:03:58.573Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6901f8d002831a014472-ffa20e782625cde70ddf",
+          "file": "knowledge-detail.spec.ts",
+          "line": 289,
+          "column": 5
+        },
+        {
+          "title": "UI-05B: dữ liệu thật từ API, thứ tự mục, ảnh đại diện + ảnh theo bước, tệp, người duyệt, ẩn mã kỹ thuật",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile375",
+              "projectName": "mobile375",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2138,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T08:04:00.747Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6901f8d002831a014472-49426eab4f5eac2e4306",
+          "file": "knowledge-detail.spec.ts",
+          "line": 55,
+          "column": 5
+        },
+        {
+          "title": "UI-05B: quay lại Kho tri thức giữ từ khóa, bộ lọc, trang, kiểu xem (cả sau reload, mở trực tiếp, nhiều tab)",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile375",
+              "projectName": "mobile375",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 5284,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveCount\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('main [aria-busy=true]')\nExpected: \u001b[32m0\u001b[39m\nReceived: \u001b[31m1\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveCount\" locator('main [aria-busy=true]') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('main [aria-busy=true]')\u001b[22m\n\u001b[2m    14 × locator resolved to 1 element\u001b[22m\n\u001b[2m       - unexpected value \"1\"\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveCount\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('main [aria-busy=true]')\nExpected: \u001b[32m0\u001b[39m\nReceived: \u001b[31m1\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveCount\" locator('main [aria-busy=true]') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('main [aria-busy=true]')\u001b[22m\n\u001b[2m    14 × locator resolved to 1 element\u001b[22m\n\u001b[2m       - unexpected value \"1\"\u001b[22m\n\n    at libraryReady (/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/knowledge-detail-tests/knowledge-detail.spec.ts:41:55)\n    at /Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/knowledge-detail-tests/knowledge-detail.spec.ts:197:9",
+                    "location": {
+                      "file": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/knowledge-detail-tests/knowledge-detail.spec.ts",
+                      "column": 55,
+                      "line": 41
+                    },
+                    "snippet": "  39 | }\n  40 | async function libraryReady(page: Page) {\n> 41 |   await expect(page.locator(\"main [aria-busy=true]\")).toHaveCount(0);\n     |                                                       ^\n  42 |   await expect(page.locator(\"main p[role=status]\")).not.toHaveText(\"Đang tìm…\");\n  43 | }\n  44 | async function noHorizontalOverflow(page: Page) {"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/knowledge-detail-tests/knowledge-detail.spec.ts",
+                        "column": 55,
+                        "line": 41
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveCount\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('main [aria-busy=true]')\nExpected: \u001b[32m0\u001b[39m\nReceived: \u001b[31m1\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveCount\" locator('main [aria-busy=true]') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('main [aria-busy=true]')\u001b[22m\n\u001b[2m    14 × locator resolved to 1 element\u001b[22m\n\u001b[2m       - unexpected value \"1\"\u001b[22m\n\n\n  39 | }\n  40 | async function libraryReady(page: Page) {\n> 41 |   await expect(page.locator(\"main [aria-busy=true]\")).toHaveCount(0);\n     |                                                       ^\n  42 |   await expect(page.locator(\"main p[role=status]\")).not.toHaveText(\"Đang tìm…\");\n  43 | }\n  44 | async function noHorizontalOverflow(page: Page) {\n    at libraryReady (/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/knowledge-detail-tests/knowledge-detail.spec.ts:41:55)\n    at /Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/knowledge-detail-tests/knowledge-detail.spec.ts:197:9"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T08:04:02.963Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/test-results/knowledge-detail-UI-05B-qu-43b26-oad-mở-trực-tiếp-nhiều-tab--mobile375/error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/quoctuan8386/Documents/JKC_AI_AGENT_PROJECT/starter/apps/web/knowledge-detail-tests/knowledge-detail.spec.ts",
+                    "column": 55,
+                    "line": 41
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "6901f8d002831a014472-4a155d4595502be85e63",
+          "file": "knowledge-detail.spec.ts",
+          "line": 191,
+          "column": 5
+        },
+        {
+          "title": "UI-05B: chỉ bài đã duyệt trong phạm vi; nháp, chờ duyệt, ngoài phạm vi và chưa đăng nhập bị chặn",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile375",
+              "projectName": "mobile375",
+              "results": [
+                {
+                  "workerIndex": 7,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1354,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T08:04:08.446Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6901f8d002831a014472-444ef3b1aa495b5d3b1b",
+          "file": "knowledge-detail.spec.ts",
+          "line": 249,
+          "column": 5
+        },
+        {
+          "title": "UI-05B: trạng thái đang tải, lỗi + thử lại, 403, lỗi tệp không chặn nội dung, không tồn tại",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile375",
+              "projectName": "mobile375",
+              "results": [
+                {
+                  "workerIndex": 7,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2023,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T08:04:09.880Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6901f8d002831a014472-01d431d94228c0169ac9",
+          "file": "knowledge-detail.spec.ts",
+          "line": 289,
+          "column": 5
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-11-11T08:03:25.312Z",
+    "duration": 46625.808999999994,
+    "expected": 12,
+    "skipped": 0,
+    "unexpected": 4,
+    "flaky": 0
+  }
+}
