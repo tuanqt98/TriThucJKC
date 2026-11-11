@@ -19,6 +19,12 @@ export type Content = {
   body: Record<string, string>;
   status: string;
   created_at: string;
+  owner_department_id?: string | null;
+  /** UI-05 read-only display fields; optional for older API builds. */
+  approved_at?: string | null;
+  author_name?: string | null;
+  process_id?: string | null;
+  process_name?: string | null;
 };
 export type ContentPage = {
   items: Content[];
