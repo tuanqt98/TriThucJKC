@@ -219,7 +219,8 @@ def test_quiz_grades_server_history_and_limit(runtime_client, learner):
     assert "is_correct" not in before.text and "right" not in before.text
     assert client.post(path + "/quiz-attempts").status_code == 409
     finish_lesson(client, learner)
-    for index, right in enumerate([False, True, False], 1):
+    # DATA-39: fail, then pass; after a pass no further attempt may be opened (limit covered separately).
+    for index, right in enumerate([False, True], 1):
         attempt = client.post(path + "/quiz-attempts")
         assert attempt.status_code == 200, attempt.text
         assert client.post(path + "/quiz-attempts").json()["id"] == attempt.json()["id"]
@@ -233,9 +234,10 @@ def test_quiz_grades_server_history_and_limit(runtime_client, learner):
         assert float(result.json()["score"]) == (100 if right else 0)
         assert result.json()["passed"] == right
         assert client.post(target, json=answers(right)).status_code == 409
-    assert client.post(path + "/quiz-attempts").status_code == 409
+    blocked = client.post(path + "/quiz-attempts")
+    assert blocked.status_code == 409 and blocked.json()["error"]["code"] == "QUIZ_ALREADY_PASSED", blocked.text
     detail = client.get(path).json()
-    assert len(detail["attempts"]) == 3
+    assert len(detail["attempts"]) == 2
     assert detail["completed_at"] and detail["attempts"][1]["pass_score_snapshot"] == "70.00"
     signin(client, "admin")
     assert client.get(path).status_code == 404
@@ -465,3 +467,54 @@ def test_uat_seeding_refuses_non_demo_accounts():
     finally:
         with owner() as conn:
             conn.execute("DELETE FROM users WHERE id=%s", (marker,))
+
+
+# --- DATA-39 (PO 11/11/2026): no new quiz attempt once the assignment is passed --------------------------------
+
+
+def test_quiz_after_pass_is_blocked_and_history_is_kept(runtime_client, learner):
+    client = runtime_client
+    path = f"{PREFIX}/my/learning/{learner['assignment']}"
+    finish_lesson(client, learner)
+    first = client.post(path + "/quiz-attempts").json()["id"]
+    assert client.post(f"{PREFIX}/quiz-attempts/{first}/submit", json=answers(True)).json()["passed"] is True
+    before = client.get(path).json()
+    status_before = next(i for i in client.get(PREFIX + "/my/learning").json() if i["id"] == str(learner["assignment"]))
+    for _ in range(2):  # repeated tries stay rejected and never insert anything
+        r = client.post(path + "/quiz-attempts")
+        assert r.status_code == 409, r.text
+        assert r.json()["error"]["code"] == "QUIZ_ALREADY_PASSED"
+        assert "đã đạt" in r.json()["error"]["message"]
+    after = client.get(path).json()
+    assert after["attempts"] == before["attempts"] and len(after["attempts"]) == 1
+    assert after["completed_at"] == before["completed_at"] is not None
+    status_after = next(i for i in client.get(PREFIX + "/my/learning").json() if i["id"] == str(learner["assignment"]))
+    assert status_after == status_before and status_after["status"] == "COMPLETED"
+    with owner() as conn:
+        assert conn.execute("SELECT count(*) AS n FROM quiz_attempts WHERE assignment_id=%s", (learner["assignment"],)).fetchone()["n"] == 1
+
+
+def test_failed_attempts_still_allow_retry_until_limit(runtime_client, learner):
+    client = runtime_client
+    path = f"{PREFIX}/my/learning/{learner['assignment']}"
+    finish_lesson(client, learner)
+    for _ in range(3):  # s01-cv1 allows 3 attempts; not passed, so each new attempt opens
+        attempt = client.post(path + "/quiz-attempts")
+        assert attempt.status_code == 200, attempt.text
+        assert client.post(f"{PREFIX}/quiz-attempts/{attempt.json()['id']}/submit", json=answers(False)).json()["passed"] is False
+    limit = client.post(path + "/quiz-attempts")
+    assert limit.status_code == 409 and limit.json()["error"]["code"] == "VERSION_CONFLICT"
+    assert next(i for i in client.get(PREFIX + "/my/learning").json() if i["id"] == str(learner["assignment"]))["status"] == "FAILED"
+
+
+def test_passed_assignment_does_not_hand_out_a_leftover_open_attempt(runtime_client, learner):
+    # Data from before DATA-39 may hold an attempt opened after a pass; the start endpoint must not return it.
+    client = runtime_client
+    path = f"{PREFIX}/my/learning/{learner['assignment']}"
+    finish_lesson(client, learner)
+    first = client.post(path + "/quiz-attempts").json()["id"]
+    client.post(f"{PREFIX}/quiz-attempts/{first}/submit", json=answers(True))
+    with owner() as conn:
+        conn.execute("INSERT INTO quiz_attempts(assignment_id,attempt_no) VALUES (%s,2)", (learner["assignment"],))
+    r = client.post(path + "/quiz-attempts")
+    assert r.status_code == 409 and r.json()["error"]["code"] == "QUIZ_ALREADY_PASSED"

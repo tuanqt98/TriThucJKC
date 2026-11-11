@@ -38,19 +38,24 @@ test("Login thiết kế 09: hero hiện trên mobile, nút đỏ và hiện m�
   );
   const hero = page.locator(".login-story");
   await expect(hero).toBeVisible();
-  await expect(hero).toHaveCSS("background-image", /login-approved\/background\.jpg/);
+  await expect(hero).toHaveCSS(
+    "background-image",
+    /login-approved\/background\.jpg/,
+  );
   expect(
     await hero.evaluate((e) => (e as HTMLElement).offsetHeight),
   ).toBeGreaterThan(150);
   await expect(
     page.getByRole("button", { name: "Đăng nhập", exact: true }),
   ).toHaveCSS("background-color", "rgb(201, 35, 49)");
-  await page.getByRole("button",{name:"Hiện mật khẩu",exact:true}).click();
+  await page
+    .getByRole("button", { name: "Hiện mật khẩu", exact: true })
+    .click();
   await expect(page.getByLabel("Mật khẩu", { exact: true })).toHaveAttribute(
     "type",
     "text",
   );
-  await page.getByRole("button",{name:"Ẩn mật khẩu",exact:true}).click();
+  await page.getByRole("button", { name: "Ẩn mật khẩu", exact: true }).click();
   await screenshot(page, `login-${info.project.name}`);
   const noJs = await browser.newContext({
     javaScriptEnabled: false,
@@ -334,10 +339,12 @@ test("Sprint 1: HR ban hành/giao đọc, sửa tri thức, hồ sơ sự cố v
   await logout(page);
   await login(page, learner.username);
   await page.goto("/learning");
+  // UI-08: course cards are list items; the action label depends on progress.
   await page
-    .locator("article")
+    .getByRole("list", { name: "Danh sách khóa học" })
+    .getByRole("listitem")
     .filter({ hasText: course })
-    .getByRole("link", { name: "Mở khóa học" })
+    .getByRole("link", { name: /Bắt đầu học|Tiếp tục học/ })
     .click();
   await page
     .getByRole("button", { name: "Tôi đã hoàn thành bài học này" })
@@ -349,8 +356,10 @@ test("Sprint 1: HR ban hành/giao đọc, sửa tri thức, hồ sơ sự cố v
   await page
     .getByRole("button", { name: "Nộp bài kiểm tra", exact: true })
     .click();
-  await expect(page.getByRole("status")).toContainText("100");
+  await expect(page.locator("main").getByRole("status")).toContainText("100");
   await page.reload();
-  await expect(page.locator(".history-table")).toContainText("100");
+  await expect(
+    page.getByRole("table", { name: "Lịch sử làm bài" }),
+  ).toContainText("100");
   expect(errors).toEqual([]);
 });
