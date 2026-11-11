@@ -83,7 +83,7 @@ Quyết định này **chưa phải lệnh merge**. Agent chỉ chuẩn bị đi
 |---|---|---|---|
 | #8 | DATA-39B: migration 008 | ✅ 3 job | Draft, chờ review |
 | #9 | G-2: guard seed DEMO | ✅ 3 job | Draft, chờ review |
-| #10 | D: vùng chạm 44px (chỉ CSS) | ⏳ | Draft. Phần tử dưới 44px: 72 → 0 (1666 phần tử). 22/24 ảnh giống hệt; UI-03 desktop/tablet ô lọc cao thêm 6px. Regression 160/160 + 10/10 + 2/2; UI-05B có 4 lỗi **có từ trước** (bản đã duyệt cũng fail, xem RG-1) |
+| #10 | D: vùng chạm 44px (chỉ CSS) | ✅ 3 job (`1e0e44a`) | Draft. Phần tử dưới 44px: 72 → 0 (1666 phần tử). 22/24 ảnh giống hệt; UI-03 desktop/tablet ô lọc cao thêm 6px. Regression 160/160 + 10/10 + 2/2; UI-05B có 4 lỗi **có từ trước** (bản đã duyệt cũng fail, xem RG-1) |
 
 Merge thử #8, #9, #10 với nhau (`git merge-tree`): không xung đột.
 
