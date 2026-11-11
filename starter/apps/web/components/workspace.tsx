@@ -22,6 +22,9 @@ const navigation = [
   ["/incidents", "Sự cố", "incident"],
   ["/learning", "Đào tạo", "learning"],
   ["/approvals", "Phê duyệt", "approval"],
+  ["/workspace", "Biên soạn / phiên bản", "document"],
+  ["/incidents/manage", "Hồ sơ / tái diễn", "incident"],
+  ["/learning/manage", "Quản lý đào tạo", "learning"],
 ];
 const titles: Record<string, string> = {
   "/": "Chào anh/chị,\nhôm nay bạn cần gì?",
@@ -337,6 +340,11 @@ export function Workspace({
               </b>
             </div>
           </section>
+          <nav className="management-links" aria-label="Quản lý nội dung">
+            <Link href="/workspace">Biên soạn / phiên bản</Link>
+            <Link href="/incidents/manage">Hồ sơ sự cố / tái diễn</Link>
+            <Link href="/learning/manage">Quản lý đào tạo</Link>
+          </nav>
           {error && (
             <div className="error" role="alert">
               {error}{" "}
@@ -470,10 +478,9 @@ export function Workspace({
                               <Icon name="arrow" />
                             </Link>
                           )}
-                          <p className="subtle">
-                            Nhiệm vụ xác nhận đã đọc sẽ được bổ sung trong
-                            sprint tiếp theo.
-                          </p>
+                          <Link href="/documents">
+                            Xem nội quy và xác nhận đã đọc
+                          </Link>
                         </section>
                         <section className="share-panel">
                           <span className="badge">CÙNG NHAU TỐT HƠN</span>
@@ -710,9 +717,15 @@ export function Workspace({
                             <h3>{c.title}</h3>
                             <p className="subtle">
                               {c.completed_lessons}/{c.total_lessons} bài học ·{" "}
-                              {c.completed_at
-                                ? "Đã hoàn thành"
-                                : "Chưa hoàn thành"}
+                              {(
+                                {
+                                  NOT_STARTED: "Chưa học",
+                                  IN_PROGRESS: "Đang học",
+                                  COMPLETED: "Hoàn thành",
+                                  FAILED: "Không đạt",
+                                  OVERDUE: "Quá hạn",
+                                } as Record<string, string>
+                              )[c.status] || c.status}
                             </p>
                             <progress
                               max={c.total_lessons || 1}
@@ -736,8 +749,9 @@ export function Workspace({
                 {path === "/approvals" && (
                   <>
                     <p className="notice">
-                      Sprint 0 hỗ trợ xem và duyệt bài tri thức. Trả bài, từ
-                      chối và ban hành nội quy đang chờ triển khai.
+                      Xem và duyệt bài tri thức trong phạm vi. Để yêu cầu chỉnh
+                      sửa, từ chối hoặc ban hành nội quy theo quyền HR, mở{" "}
+                      <Link href="/workspace">Biên soạn / phiên bản</Link>.
                     </p>
                     <div className="approval-grid">
                       <div>
@@ -833,7 +847,7 @@ export function Workspace({
             )
           )}
           <footer className="footer">
-            Tri Thức JKC · Sprint 0 / Nền tảng nội bộ{" "}
+            Tri Thức JKC · Môi trường DEMO{" "}
             <span>Chia sẻ tri thức · Nâng tầm chất lượng</span>
           </footer>
         </main>

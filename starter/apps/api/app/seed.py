@@ -71,7 +71,10 @@ def seed():
                     uid("head"),
                 ),
             )
-            conn.execute("UPDATE contents SET current_published_version_id=%s WHERE id=%s", (uid(code + "v1"), uid(code)))
+            conn.execute(
+                "UPDATE contents SET current_published_version_id=%s WHERE id=%s AND current_published_version_id IS NULL",
+                (uid(code + "v1"), uid(code)),
+            )
         for code in ["doc", "article", "incident", "restricted", "cross"]:
             conn.execute(
                 "INSERT INTO content_processes(content_id,process_id) VALUES (%s,%s) ON CONFLICT DO NOTHING", (uid(code), uid("OFFSET"))
@@ -97,8 +100,8 @@ def seed():
             (uid("assignment"), uid("coursev1"), uid("employee")),
         )
         conn.execute(
-            "INSERT INTO incidents(id,code,title,process_id,reporter_id,severity,symptoms) VALUES (%s,'DEMO-INCIDENT','DEMO · Hồ sơ sự cố để thực hành tra cứu',%s,%s,'LOW','Tình huống giả lập; không phải hướng dẫn xử lý máy.') ON CONFLICT DO NOTHING",
-            (uid("incident"), uid("OFFSET"), uid("employee")),
+            "INSERT INTO incidents(id,code,title,process_id,reporter_id,owner_department_id,severity,symptoms) VALUES (%s,'DEMO-INCIDENT','DEMO · Hồ sơ sự cố để thực hành tra cứu',%s,%s,%s,'LOW','Tình huống giả lập; không phải hướng dẫn xử lý máy.') ON CONFLICT DO NOTHING",
+            (uid("incident"), uid("OFFSET"), uid("employee"), uid("PRODUCTION")),
         )
         from app.seed_sprint01 import seed_sprint01
 

@@ -1,8 +1,9 @@
 openapi: 3.1.0
 info:
   title: Tri Thức JKC API
-  description: 'Sprint 0.1: chỉ các endpoint đã triển khai. Nội dung seed là DEMO.'
-  version: 0.3.0
+  description: 'Sprint 1: authoring/version/review, hồ sơ sự cố và đào tạo. Nội dung
+    seed là DEMO; chưa nghiệm thu production.'
+  version: 0.4.0
 paths:
   /api/v1/health/live:
     get:
@@ -2768,6 +2769,1599 @@ paths:
           description: Service Unavailable
       security:
       - sessionCookie: []
+  /api/v1/workspace/contents:
+    get:
+      tags:
+      - Authoring
+      summary: Contents
+      operationId: contents_api_v1_workspace_contents_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ContentWorkspace'
+                type: array
+                title: Response Contents Api V1 Workspace Contents Get
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '413':
+          description: Request Entity Too Large
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - sessionCookie: []
+    put:
+      tags:
+      - Authoring
+      summary: Save
+      operationId: save_api_v1_workspace_contents_put
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SaveContent'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VersionResult'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '413':
+          description: Request Entity Too Large
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - sessionCookie: []
+      parameters:
+      - name: Origin
+        in: header
+        required: true
+        schema:
+          type: string
+        description: Phải bằng APP_ORIGIN.
+      - name: X-CSRF-Token
+        in: header
+        required: true
+        schema:
+          type: string
+        description: Lấy từ login hoặc auth/me.
+    post:
+      tags:
+      - Authoring
+      summary: Create
+      operationId: create_api_v1_workspace_contents_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateContent'
+        required: true
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VersionResult'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '413':
+          description: Request Entity Too Large
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - sessionCookie: []
+      parameters:
+      - name: Origin
+        in: header
+        required: true
+        schema:
+          type: string
+        description: Phải bằng APP_ORIGIN.
+      - name: X-CSRF-Token
+        in: header
+        required: true
+        schema:
+          type: string
+        description: Lấy từ login hoặc auth/me.
+  /api/v1/workspace/contents/{action}:
+    post:
+      tags:
+      - Authoring
+      summary: Transition
+      operationId: transition_api_v1_workspace_contents__action__post
+      parameters:
+      - name: action
+        in: path
+        required: true
+        schema:
+          enum:
+          - fork
+          - submit
+          - approve
+          - request-changes
+          - reject
+          type: string
+          title: Action
+      - name: Origin
+        in: header
+        required: true
+        schema:
+          type: string
+        description: Phải bằng APP_ORIGIN.
+      - name: X-CSRF-Token
+        in: header
+        required: true
+        schema:
+          type: string
+        description: Lấy từ login hoặc auth/me.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReviewContent'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VersionResult'
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad Request
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not Found
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Conflict
+        '413':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Request Entity Too Large
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unprocessable Entity
+        '429':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too Many Requests
+        '503':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Service Unavailable
+      security:
+      - sessionCookie: []
+  /api/v1/workspace/people:
+    get:
+      tags:
+      - Authoring
+      summary: People
+      operationId: people_api_v1_workspace_people_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/PersonView'
+                type: array
+                title: Response People Api V1 Workspace People Get
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '413':
+          description: Request Entity Too Large
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - sessionCookie: []
+  /api/v1/workspace/reading:
+    get:
+      tags:
+      - Authoring
+      summary: Reading
+      operationId: reading_api_v1_workspace_reading_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ReadingProgress'
+                type: array
+                title: Response Reading Api V1 Workspace Reading Get
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '413':
+          description: Request Entity Too Large
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - sessionCookie: []
+    post:
+      tags:
+      - Authoring
+      summary: Assign Reading
+      operationId: assign_reading_api_v1_workspace_reading_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssignReading'
+        required: true
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+                title: Response Assign Reading Api V1 Workspace Reading Post
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '413':
+          description: Request Entity Too Large
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - sessionCookie: []
+      parameters:
+      - name: Origin
+        in: header
+        required: true
+        schema:
+          type: string
+        description: Phải bằng APP_ORIGIN.
+      - name: X-CSRF-Token
+        in: header
+        required: true
+        schema:
+          type: string
+        description: Lấy từ login hoặc auth/me.
+  /api/v1/workspace/incidents:
+    get:
+      tags:
+      - Incident records
+      summary: Records
+      operationId: records_api_v1_workspace_incidents_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/IncidentWorkspace'
+                type: array
+                title: Response Records Api V1 Workspace Incidents Get
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '413':
+          description: Request Entity Too Large
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - sessionCookie: []
+    put:
+      tags:
+      - Incident records
+      summary: Update
+      operationId: update_api_v1_workspace_incidents_put
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IncidentUpdate'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IncidentResult'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '413':
+          description: Request Entity Too Large
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - sessionCookie: []
+      parameters:
+      - name: Origin
+        in: header
+        required: true
+        schema:
+          type: string
+        description: Phải bằng APP_ORIGIN.
+      - name: X-CSRF-Token
+        in: header
+        required: true
+        schema:
+          type: string
+        description: Lấy từ login hoặc auth/me.
+    post:
+      tags:
+      - Incident records
+      summary: Create
+      operationId: create_api_v1_workspace_incidents_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IncidentInput'
+        required: true
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IncidentResult'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '413':
+          description: Request Entity Too Large
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - sessionCookie: []
+      parameters:
+      - name: Origin
+        in: header
+        required: true
+        schema:
+          type: string
+        description: Phải bằng APP_ORIGIN.
+      - name: X-CSRF-Token
+        in: header
+        required: true
+        schema:
+          type: string
+        description: Lấy từ login hoặc auth/me.
+  /api/v1/workspace/incidents/solutions:
+    post:
+      tags:
+      - Incident records
+      summary: Propose
+      operationId: propose_api_v1_workspace_incidents_solutions_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SolutionInput'
+        required: true
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IncidentResult'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '413':
+          description: Request Entity Too Large
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - sessionCookie: []
+      parameters:
+      - name: Origin
+        in: header
+        required: true
+        schema:
+          type: string
+        description: Phải bằng APP_ORIGIN.
+      - name: X-CSRF-Token
+        in: header
+        required: true
+        schema:
+          type: string
+        description: Lấy từ login hoặc auth/me.
+  /api/v1/workspace/incidents/verify:
+    post:
+      tags:
+      - Incident records
+      summary: Verify
+      operationId: verify_api_v1_workspace_incidents_verify_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VerifyInput'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IncidentResult'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '413':
+          description: Request Entity Too Large
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - sessionCookie: []
+      parameters:
+      - name: Origin
+        in: header
+        required: true
+        schema:
+          type: string
+        description: Phải bằng APP_ORIGIN.
+      - name: X-CSRF-Token
+        in: header
+        required: true
+        schema:
+          type: string
+        description: Lấy từ login hoặc auth/me.
+  /api/v1/workspace/incidents/occurrences:
+    post:
+      tags:
+      - Incident records
+      summary: Occur
+      operationId: occur_api_v1_workspace_incidents_occurrences_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OccurrenceInput'
+        required: true
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IncidentResult'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '413':
+          description: Request Entity Too Large
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - sessionCookie: []
+      parameters:
+      - name: Origin
+        in: header
+        required: true
+        schema:
+          type: string
+        description: Phải bằng APP_ORIGIN.
+      - name: X-CSRF-Token
+        in: header
+        required: true
+        schema:
+          type: string
+        description: Lấy từ login hoặc auth/me.
+  /api/v1/workspace/courses:
+    get:
+      tags:
+      - Training authoring
+      summary: Courses
+      operationId: courses_api_v1_workspace_courses_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/CourseWorkspace'
+                type: array
+                title: Response Courses Api V1 Workspace Courses Get
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '413':
+          description: Request Entity Too Large
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - sessionCookie: []
+    put:
+      tags:
+      - Training authoring
+      summary: Save
+      operationId: save_api_v1_workspace_courses_put
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CourseSave'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VersionResult'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '413':
+          description: Request Entity Too Large
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - sessionCookie: []
+      parameters:
+      - name: Origin
+        in: header
+        required: true
+        schema:
+          type: string
+        description: Phải bằng APP_ORIGIN.
+      - name: X-CSRF-Token
+        in: header
+        required: true
+        schema:
+          type: string
+        description: Lấy từ login hoặc auth/me.
+    post:
+      tags:
+      - Training authoring
+      summary: Create
+      operationId: create_api_v1_workspace_courses_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CourseCreate'
+        required: true
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VersionResult'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '413':
+          description: Request Entity Too Large
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - sessionCookie: []
+      parameters:
+      - name: Origin
+        in: header
+        required: true
+        schema:
+          type: string
+        description: Phải bằng APP_ORIGIN.
+      - name: X-CSRF-Token
+        in: header
+        required: true
+        schema:
+          type: string
+        description: Lấy từ login hoặc auth/me.
+  /api/v1/workspace/courses/progress:
+    get:
+      tags:
+      - Training authoring
+      summary: Progress
+      operationId: progress_api_v1_workspace_courses_progress_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/TrainingProgress'
+                type: array
+                title: Response Progress Api V1 Workspace Courses Progress Get
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '413':
+          description: Request Entity Too Large
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - sessionCookie: []
+  /api/v1/workspace/courses/assign:
+    post:
+      tags:
+      - Training authoring
+      summary: Assign
+      operationId: assign_api_v1_workspace_courses_assign_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CourseAssign'
+        required: true
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VersionResult'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '413':
+          description: Request Entity Too Large
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - sessionCookie: []
+      parameters:
+      - name: Origin
+        in: header
+        required: true
+        schema:
+          type: string
+        description: Phải bằng APP_ORIGIN.
+      - name: X-CSRF-Token
+        in: header
+        required: true
+        schema:
+          type: string
+        description: Lấy từ login hoặc auth/me.
+  /api/v1/workspace/courses/{action}:
+    post:
+      tags:
+      - Training authoring
+      summary: Transition
+      operationId: transition_api_v1_workspace_courses__action__post
+      parameters:
+      - name: action
+        in: path
+        required: true
+        schema:
+          enum:
+          - submit
+          - approve
+          - fork
+          type: string
+          title: Action
+      - name: Origin
+        in: header
+        required: true
+        schema:
+          type: string
+        description: Phải bằng APP_ORIGIN.
+      - name: X-CSRF-Token
+        in: header
+        required: true
+        schema:
+          type: string
+        description: Lấy từ login hoặc auth/me.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CourseVersionInput'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VersionResult'
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad Request
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not Found
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Conflict
+        '413':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Request Entity Too Large
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unprocessable Entity
+        '429':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too Many Requests
+        '503':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Service Unavailable
+      security:
+      - sessionCookie: []
 components:
   schemas:
     AcknowledgeInput:
@@ -2877,6 +4471,40 @@ components:
       - version_id
       - user_id
       title: AssignInput
+    AssignReading:
+      properties:
+        content_id:
+          type: string
+          format: uuid
+          title: Content Id
+        version_id:
+          type: string
+          format: uuid
+          title: Version Id
+        user_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: User Id
+        department_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Department Id
+        due_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Due At
+      additionalProperties: false
+      type: object
+      required:
+      - content_id
+      - version_id
+      title: AssignReading
     Attachment:
       properties:
         id:
@@ -2965,6 +4593,34 @@ components:
       - submitted_at
       - pass_score_snapshot
       title: Attempt
+    AuthorOption:
+      properties:
+        answer_text:
+          type: string
+          title: Answer Text
+        is_correct:
+          type: boolean
+          title: Is Correct
+      type: object
+      required:
+      - answer_text
+      - is_correct
+      title: AuthorOption
+    AuthorQuestion:
+      properties:
+        question:
+          type: string
+          title: Question
+        options:
+          items:
+            $ref: '#/components/schemas/AuthorOption'
+          type: array
+          title: Options
+      type: object
+      required:
+      - question
+      - options
+      title: AuthorQuestion
     Body_upload_api_v1_content_versions__id__attachments_post:
       properties:
         file:
@@ -3056,6 +4712,137 @@ components:
       - status
       - created_at
       title: ContentView
+    ContentWorkspace:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        version_id:
+          type: string
+          format: uuid
+          title: Version Id
+        version_number:
+          type: integer
+          title: Version Number
+        revision:
+          type: integer
+          title: Revision
+        status:
+          type: string
+          title: Status
+        title:
+          type: string
+          title: Title
+        kind:
+          type: string
+          title: Kind
+        visibility:
+          type: string
+          title: Visibility
+        creator_id:
+          type: string
+          format: uuid
+          title: Creator Id
+        owner_department_id:
+          type: string
+          format: uuid
+          title: Owner Department Id
+        body:
+          additionalProperties: true
+          type: object
+          title: Body
+        process_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Process Id
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+        can_edit:
+          type: boolean
+          title: Can Edit
+        can_review:
+          type: boolean
+          title: Can Review
+        remark:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Remark
+      type: object
+      required:
+      - id
+      - version_id
+      - version_number
+      - revision
+      - status
+      - title
+      - kind
+      - visibility
+      - creator_id
+      - owner_department_id
+      - body
+      - process_id
+      - created_at
+      - can_edit
+      - can_review
+      - remark
+      title: ContentWorkspace
+    CourseAssign:
+      properties:
+        course_id:
+          type: string
+          format: uuid
+          title: Course Id
+        version_id:
+          type: string
+          format: uuid
+          title: Version Id
+        revision:
+          type: integer
+          minimum: 1.0
+          title: Revision
+        user_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: User Id
+        department_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Department Id
+        due_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Due At
+      additionalProperties: false
+      type: object
+      required:
+      - course_id
+      - version_id
+      - revision
+      title: CourseAssign
+    CourseCreate:
+      properties:
+        title:
+          type: string
+          maxLength: 200
+          minLength: 1
+          title: Title
+      additionalProperties: false
+      type: object
+      required:
+      - title
+      title: CourseCreate
     CourseDetail:
       properties:
         id:
@@ -3115,6 +4902,186 @@ components:
       - questions
       - attempts
       title: CourseDetail
+    CourseSave:
+      properties:
+        course_id:
+          type: string
+          format: uuid
+          title: Course Id
+        version_id:
+          type: string
+          format: uuid
+          title: Version Id
+        revision:
+          type: integer
+          minimum: 1.0
+          title: Revision
+        pass_score:
+          type: integer
+          maximum: 100.0
+          minimum: 1.0
+          title: Pass Score
+        max_attempts:
+          type: integer
+          maximum: 10.0
+          minimum: 1.0
+          title: Max Attempts
+        lessons:
+          items:
+            $ref: '#/components/schemas/LessonInput'
+          type: array
+          maxItems: 100
+          minItems: 1
+          title: Lessons
+        questions:
+          items:
+            $ref: '#/components/schemas/QuestionInput'
+          type: array
+          maxItems: 100
+          minItems: 1
+          title: Questions
+      additionalProperties: false
+      type: object
+      required:
+      - course_id
+      - version_id
+      - revision
+      - pass_score
+      - max_attempts
+      - lessons
+      - questions
+      title: CourseSave
+    CourseVersionInput:
+      properties:
+        course_id:
+          type: string
+          format: uuid
+          title: Course Id
+        version_id:
+          type: string
+          format: uuid
+          title: Version Id
+        revision:
+          type: integer
+          minimum: 1.0
+          title: Revision
+      additionalProperties: false
+      type: object
+      required:
+      - course_id
+      - version_id
+      - revision
+      title: CourseVersionInput
+    CourseWorkspace:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        version_id:
+          type: string
+          format: uuid
+          title: Version Id
+        version_number:
+          type: integer
+          title: Version Number
+        revision:
+          type: integer
+          title: Revision
+        status:
+          type: string
+          title: Status
+        title:
+          type: string
+          title: Title
+        created_by:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Created By
+        owner_department_id:
+          type: string
+          format: uuid
+          title: Owner Department Id
+        pass_score:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Pass Score
+        max_attempts:
+          type: integer
+          title: Max Attempts
+        can_edit:
+          type: boolean
+          title: Can Edit
+        can_review:
+          type: boolean
+          title: Can Review
+        lessons:
+          items:
+            $ref: '#/components/schemas/LessonAuthoring'
+          type: array
+          title: Lessons
+        questions:
+          items:
+            $ref: '#/components/schemas/AuthorQuestion'
+          type: array
+          title: Questions
+      type: object
+      required:
+      - id
+      - version_id
+      - version_number
+      - revision
+      - status
+      - title
+      - created_by
+      - owner_department_id
+      - pass_score
+      - max_attempts
+      - can_edit
+      - can_review
+      - lessons
+      - questions
+      title: CourseWorkspace
+    CreateContent:
+      properties:
+        kind:
+          type: string
+          enum:
+          - DOCUMENT
+          - ARTICLE
+          title: Kind
+        title:
+          type: string
+          maxLength: 200
+          minLength: 1
+          title: Title
+        body:
+          additionalProperties: true
+          type: object
+          title: Body
+        visibility:
+          type: string
+          enum:
+          - COMPANY
+          - DEPARTMENT
+          title: Visibility
+          default: DEPARTMENT
+        process_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Process Id
+      additionalProperties: false
+      type: object
+      required:
+      - kind
+      - title
+      - body
+      title: CreateContent
     DashboardView:
       properties:
         documents:
@@ -3220,8 +5187,284 @@ components:
       required:
       - status
       title: Health
+    IncidentInput:
+      properties:
+        title:
+          type: string
+          maxLength: 200
+          minLength: 1
+          title: Title
+        process_id:
+          type: string
+          format: uuid
+          title: Process Id
+        severity:
+          type: string
+          enum:
+          - LOW
+          - MEDIUM
+          - HIGH
+          - CRITICAL
+          title: Severity
+        symptoms:
+          type: string
+          maxLength: 10000
+          minLength: 1
+          title: Symptoms
+        conditions:
+          additionalProperties: true
+          type: object
+          title: Conditions
+        occurred_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Occurred At
+      additionalProperties: false
+      type: object
+      required:
+      - title
+      - process_id
+      - severity
+      - symptoms
+      - conditions
+      title: IncidentInput
+    IncidentResult:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        revision:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Revision
+        solution_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Solution Id
+        solution_revision:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Solution Revision
+        occurrence_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Occurrence Id
+      type: object
+      required:
+      - id
+      title: IncidentResult
+    IncidentSolution:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        proposed_by:
+          type: string
+          format: uuid
+          title: Proposed By
+        cause_hypothesis:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Cause Hypothesis
+        steps:
+          items:
+            type: string
+          type: array
+          title: Steps
+        outcome:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Outcome
+        status:
+          type: string
+          title: Status
+        revision:
+          type: integer
+          title: Revision
+        verified_cause:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Verified Cause
+        verified_by:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Verified By
+        verified_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Verified At
+      type: object
+      required:
+      - id
+      - proposed_by
+      - cause_hypothesis
+      - steps
+      - outcome
+      - status
+      - revision
+      - verified_cause
+      - verified_by
+      - verified_at
+      title: IncidentSolution
+    IncidentUpdate:
+      properties:
+        title:
+          type: string
+          maxLength: 200
+          minLength: 1
+          title: Title
+        process_id:
+          type: string
+          format: uuid
+          title: Process Id
+        severity:
+          type: string
+          enum:
+          - LOW
+          - MEDIUM
+          - HIGH
+          - CRITICAL
+          title: Severity
+        symptoms:
+          type: string
+          maxLength: 10000
+          minLength: 1
+          title: Symptoms
+        conditions:
+          additionalProperties: true
+          type: object
+          title: Conditions
+        occurred_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Occurred At
+        incident_id:
+          type: string
+          format: uuid
+          title: Incident Id
+        revision:
+          type: integer
+          minimum: 1.0
+          title: Revision
+      additionalProperties: false
+      type: object
+      required:
+      - title
+      - process_id
+      - severity
+      - symptoms
+      - conditions
+      - incident_id
+      - revision
+      title: IncidentUpdate
+    IncidentWorkspace:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        code:
+          type: string
+          title: Code
+        title:
+          type: string
+          title: Title
+        process_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Process Id
+        reporter_id:
+          type: string
+          format: uuid
+          title: Reporter Id
+        owner_department_id:
+          type: string
+          format: uuid
+          title: Owner Department Id
+        severity:
+          type: string
+          title: Severity
+        symptoms:
+          type: string
+          title: Symptoms
+        conditions:
+          additionalProperties: true
+          type: object
+          title: Conditions
+        occurred_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Occurred At
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+        revision:
+          type: integer
+          title: Revision
+        can_edit:
+          type: boolean
+          title: Can Edit
+        can_verify:
+          type: boolean
+          title: Can Verify
+        solutions:
+          items:
+            $ref: '#/components/schemas/IncidentSolution'
+          type: array
+          title: Solutions
+        occurrences:
+          items:
+            $ref: '#/components/schemas/OccurrenceView'
+          type: array
+          title: Occurrences
+      type: object
+      required:
+      - id
+      - code
+      - title
+      - process_id
+      - reporter_id
+      - owner_department_id
+      - severity
+      - symptoms
+      - conditions
+      - occurred_at
+      - created_at
+      - revision
+      - can_edit
+      - can_verify
+      - solutions
+      - occurrences
+      title: IncidentWorkspace
     LearningView:
       properties:
+        status:
+          type: string
+          title: Status
         id:
           type: string
           format: uuid
@@ -3252,6 +5495,7 @@ components:
           title: Total Lessons
       type: object
       required:
+      - status
       - id
       - title
       - version_number
@@ -3283,6 +5527,46 @@ components:
       - body
       - completed
       title: Lesson
+    LessonAuthoring:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        title:
+          type: string
+          title: Title
+        body:
+          additionalProperties: true
+          type: object
+          title: Body
+        order_no:
+          type: integer
+          title: Order No
+      type: object
+      required:
+      - id
+      - title
+      - body
+      - order_no
+      title: LessonAuthoring
+    LessonInput:
+      properties:
+        title:
+          type: string
+          maxLength: 200
+          minLength: 1
+          title: Title
+        body:
+          additionalProperties: true
+          type: object
+          title: Body
+      additionalProperties: false
+      type: object
+      required:
+      - title
+      - body
+      title: LessonInput
     LoginInput:
       properties:
         username:
@@ -3309,6 +5593,71 @@ components:
       required:
       - message
       title: Message
+    OccurrenceInput:
+      properties:
+        incident_id:
+          type: string
+          format: uuid
+          title: Incident Id
+        request_key:
+          type: string
+          format: uuid
+          title: Request Key
+        note:
+          type: string
+          maxLength: 10000
+          minLength: 1
+          title: Note
+        outcome:
+          type: string
+          maxLength: 10000
+          title: Outcome
+          default: ''
+        occurred_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Occurred At
+      additionalProperties: false
+      type: object
+      required:
+      - incident_id
+      - request_key
+      - note
+      title: OccurrenceInput
+    OccurrenceView:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        reported_by:
+          type: string
+          format: uuid
+          title: Reported By
+        occurred_at:
+          type: string
+          format: date-time
+          title: Occurred At
+        note:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Note
+        outcome:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Outcome
+      type: object
+      required:
+      - id
+      - reported_by
+      - occurred_at
+      - note
+      - outcome
+      title: OccurrenceView
     OdooStatus:
       properties:
         configured:
@@ -3342,6 +5691,22 @@ components:
       - id
       - answer_text
       title: Option
+    OptionInput:
+      properties:
+        answer_text:
+          type: string
+          maxLength: 2000
+          minLength: 1
+          title: Answer Text
+        is_correct:
+          type: boolean
+          title: Is Correct
+      additionalProperties: false
+      type: object
+      required:
+      - answer_text
+      - is_correct
+      title: OptionInput
     PasswordInput:
       properties:
         current_password:
@@ -3358,6 +5723,29 @@ components:
       - current_password
       - new_password
       title: PasswordInput
+    PersonView:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        full_name:
+          type: string
+          title: Full Name
+        department_id:
+          type: string
+          format: uuid
+          title: Department Id
+        department_name:
+          type: string
+          title: Department Name
+      type: object
+      required:
+      - id
+      - full_name
+      - department_id
+      - department_name
+      title: PersonView
     ProcessView:
       properties:
         id:
@@ -3396,6 +5784,95 @@ components:
       - question
       - options
       title: Question
+    QuestionInput:
+      properties:
+        question:
+          type: string
+          maxLength: 2000
+          minLength: 1
+          title: Question
+        options:
+          items:
+            $ref: '#/components/schemas/OptionInput'
+          type: array
+          maxItems: 10
+          minItems: 2
+          title: Options
+      additionalProperties: false
+      type: object
+      required:
+      - question
+      - options
+      title: QuestionInput
+    ReadingProgress:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        user_id:
+          type: string
+          format: uuid
+          title: User Id
+        full_name:
+          type: string
+          title: Full Name
+        department_id:
+          type: string
+          format: uuid
+          title: Department Id
+        content_id:
+          type: string
+          format: uuid
+          title: Content Id
+        title:
+          type: string
+          title: Title
+        version_id:
+          type: string
+          format: uuid
+          title: Version Id
+        version_number:
+          type: integer
+          title: Version Number
+        due_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Due At
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+        acknowledged_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Acknowledged At
+        is_current:
+          type: boolean
+          title: Is Current
+        status:
+          type: string
+          title: Status
+      type: object
+      required:
+      - id
+      - user_id
+      - full_name
+      - department_id
+      - content_id
+      - title
+      - version_id
+      - version_number
+      - due_at
+      - created_at
+      - acknowledged_at
+      - is_current
+      - status
+      title: ReadingProgress
     ReadingTask:
       properties:
         id:
@@ -3459,6 +5936,32 @@ components:
       - token
       - new_password
       title: ResetInput
+    ReviewContent:
+      properties:
+        content_id:
+          type: string
+          format: uuid
+          title: Content Id
+        version_id:
+          type: string
+          format: uuid
+          title: Version Id
+        revision:
+          type: integer
+          minimum: 1.0
+          title: Revision
+        remark:
+          type: string
+          maxLength: 4000
+          title: Remark
+          default: ''
+      additionalProperties: false
+      type: object
+      required:
+      - content_id
+      - version_id
+      - revision
+      title: ReviewContent
     RoleView:
       properties:
         code:
@@ -3475,6 +5978,76 @@ components:
       - code
       - scope_department_id
       title: RoleView
+    SaveContent:
+      properties:
+        content_id:
+          type: string
+          format: uuid
+          title: Content Id
+        version_id:
+          type: string
+          format: uuid
+          title: Version Id
+        revision:
+          type: integer
+          minimum: 1.0
+          title: Revision
+        title:
+          anyOf:
+          - type: string
+            maxLength: 200
+            minLength: 1
+          - type: 'null'
+          title: Title
+        body:
+          additionalProperties: true
+          type: object
+          title: Body
+        process_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Process Id
+      additionalProperties: false
+      type: object
+      required:
+      - content_id
+      - version_id
+      - revision
+      - body
+      title: SaveContent
+    SolutionInput:
+      properties:
+        incident_id:
+          type: string
+          format: uuid
+          title: Incident Id
+        cause:
+          type: string
+          maxLength: 10000
+          minLength: 1
+          title: Cause
+        steps:
+          items:
+            type: string
+          type: array
+          maxItems: 100
+          minItems: 1
+          title: Steps
+        outcome:
+          type: string
+          maxLength: 10000
+          minLength: 1
+          title: Outcome
+      additionalProperties: false
+      type: object
+      required:
+      - incident_id
+      - cause
+      - steps
+      - outcome
+      title: SolutionInput
     Submission:
       properties:
         answers:
@@ -3489,6 +6062,51 @@ components:
       required:
       - answers
       title: Submission
+    TrainingProgress:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        user_id:
+          type: string
+          format: uuid
+          title: User Id
+        full_name:
+          type: string
+          title: Full Name
+        title:
+          type: string
+          title: Title
+        version_number:
+          type: integer
+          title: Version Number
+        due_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Due At
+        completed_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Completed At
+        status:
+          type: string
+          title: Status
+      type: object
+      required:
+      - id
+      - user_id
+      - full_name
+      - title
+      - version_number
+      - due_at
+      - completed_at
+      - status
+      title: TrainingProgress
     UserInput:
       properties:
         username:
@@ -3563,6 +6181,65 @@ components:
       - roles
       - csrf_token
       title: UserView
+    VerifyInput:
+      properties:
+        incident_revision:
+          type: integer
+          minimum: 1.0
+          title: Incident Revision
+        incident_id:
+          type: string
+          format: uuid
+          title: Incident Id
+        solution_id:
+          type: string
+          format: uuid
+          title: Solution Id
+        revision:
+          type: integer
+          minimum: 1.0
+          title: Revision
+        verified_cause:
+          type: string
+          maxLength: 10000
+          minLength: 1
+          title: Verified Cause
+      additionalProperties: false
+      type: object
+      required:
+      - incident_revision
+      - incident_id
+      - solution_id
+      - revision
+      - verified_cause
+      title: VerifyInput
+    VersionResult:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        version_id:
+          type: string
+          format: uuid
+          title: Version Id
+        version_number:
+          type: integer
+          title: Version Number
+        revision:
+          type: integer
+          title: Revision
+        status:
+          type: string
+          title: Status
+      type: object
+      required:
+      - id
+      - version_id
+      - version_number
+      - revision
+      - status
+      title: VersionResult
   securitySchemes:
     sessionCookie:
       type: apiKey
