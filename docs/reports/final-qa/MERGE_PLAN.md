@@ -59,11 +59,14 @@ Nhánh `integration/final-qa-dryrun` chỉ dùng diễn tập. Commit báo cáo 
 
 | Điều kiện | Trạng thái |
 |---|---|
-| PO GO cho hợp nhất | Chờ |
+| PO GO cho hợp nhất | ✅ GO có điều kiện (11/11/2026), phương án A; chờ xác nhận cuối trước thao tác |
 | CI xanh trên đầu chuỗi và snapshot tích hợp | ✅ (#42960562796/#42960567568 · #42970185474) |
 | Không xung đột, cây đúng | ✅ (diễn tập) |
-| Tag mốc trước merge | Làm khi GO |
-| Branch protection `main` | Đề xuất, cần quản trị repo |
+| Tag mốc trước merge | ✅ `pre-merge-main-20261111` → `dc47e98` |
+| Branch protection `main` | ⚠️ Chưa bật, cần chủ repo quyết định |
+| CI commit báo cáo `3d1239a` | ✅ run 42972378780 |
+| PO duyệt UI-09 | ⏳ Chờ |
+| Không có auto-deploy | ✅ |
 
 ## 4. Điều kiện trước production (khác với merge)
 

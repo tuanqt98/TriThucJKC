@@ -1,4 +1,4 @@
-# Đề xuất GO / NO-GO — chờ PO quyết định
+# GO / NO-GO — PO đã quyết định 11/11/2026
 
 Ngày 11/11/2026 · Snapshot tích hợp `integration/final-qa-dryrun` @ `a5b8ee8` (cây = UI-09 `47597a6`).
 
@@ -16,8 +16,8 @@ Ngày 11/11/2026 · Snapshot tích hợp `integration/final-qa-dryrun` @ `a5b8ee
 
 | ID | Mức | Nội dung | Chủ trì | Tài liệu |
 |---|---|---|---|---|
-| G-1 / DATA-39B | **P0** | Chặn nộp lần làm cũ sau khi đạt; cần migration `jkc_submit_quiz` | PO duyệt → Dev | SECURITY §1 |
-| G-2 | **P0** | Seed DEMO (owner, ép `APP_ENV=development`) có thể chạy vào DB thật; tách cấu hình production và thêm chặn namespace cho `app.seed` | PO/IT → Dev | SECURITY §1 |
+| G-1 / DATA-39B | **P0** | Chặn nộp lần làm cũ sau khi đạt; cần migration `jkc_submit_quiz` | PO duyệt → Dev | SECURITY §1 · **Đã sửa: PR #8 (migration 008), CI xanh, chờ review/merge sau bước 9** |
+| G-2 | **P0** | Seed DEMO (owner, ép `APP_ENV=development`) có thể chạy vào DB thật; tách cấu hình production và thêm chặn namespace cho `app.seed` | PO/IT → Dev | SECURITY §1 · **Phần Dev đã sửa: PR #9, CI xanh. Còn IT: cấu hình production không có seed/test + đánh dấu DB `jkc.environment=production`** |
 | G-3 | **P0** | Chưa có môi trường production (tên miền, TLS/CA thật, secret, sizing) | IT | SECURITY §1 |
 | G-4 | **P0** | Backup định kỳ, lưu ngoài máy, diễn tập restore trên hạ tầng thật (RTO/RPO) | IT | SECURITY §1, ROLLBACK |
 | G-5 | P1 | Owner DB không phải superuser ở production | IT | SECURITY §3 |
@@ -26,7 +26,7 @@ Ngày 11/11/2026 · Snapshot tích hợp `integration/final-qa-dryrun` @ `a5b8ee
 | G-8 | P1 | UAT người dùng thật ký nhận | PO | E2E E2E-1 |
 | RA-1 | P1 | Sprint 1 và UI-03 chưa có PR vào `main` | PO duyệt kế hoạch | REPOSITORY_AUDIT, MERGE_PLAN |
 | DATA-41/42/44, DATA-31, DATA-24/25, DATA-01…05 | P1 | Hoàn thiện API theo backlog | PO ưu tiên | DATA_GAPS_REVIEW |
-| VQ-1/VQ-2, G-9…G-12, RA-2/3/5/6 | P2 | Vùng chạm 36/32px, HSTS, RLS phòng thủ thêm, header lặp, nhánh UI-01/02 chỉ local, CI `main` đỏ cũ… | Dev/IT | VISUAL, SECURITY, AUDIT |
+| VQ-1/VQ-2, G-9…G-12, RA-2/3/5/6 | P2 | Vùng chạm 36/32px (**VQ: PO cho sửa; CSS xong trên `fix/touch-targets-44`, chờ đo After/regression**), HSTS, RLS phòng thủ thêm, header lặp, nhánh UI-01/02 chỉ local, CI `main` đỏ cũ… | Dev/IT | VISUAL, SECURITY, AUDIT |
 
 ## Bằng chứng tóm tắt (trên snapshot)
 
@@ -47,3 +47,50 @@ Ngày 11/11/2026 · Snapshot tích hợp `integration/final-qa-dryrun` @ `a5b8ee
 3. **Giao IT** G-3, G-4, G-5, G-7; lịch **UAT** người dùng thật (G-8).
 4. Có cho sửa P2 trên màn đã duyệt không (VQ-1, VQ-2: vùng chạm 44px).
 5. Giữ hay xóa nhánh tạm `integration/final-qa-dryrun` sau khi quyết định (hiện giữ, không xóa).
+
+## Quyết định PO 11/11/2026 và theo dõi gate
+
+**Quyết định:**
+- Hợp nhất `main`: **GO có điều kiện**, theo phương án A (9 bước, merge commit).
+- Production: **NO-GO**.
+
+Quyết định này **chưa phải lệnh merge**. Agent chỉ chuẩn bị điều kiện và chờ xác nhận cuối của PO.
+
+### A. Điều kiện trước merge thật
+
+| Điều kiện | Trạng thái | Bằng chứng |
+|---|---|---|
+| CI commit báo cáo `3d1239a` | ✅ foundation · postgres17 · staging-acceptance | run 42972378780 |
+| PO duyệt giao diện UI-09 | ⏳ **Chờ PO xác nhận** (PR #7 vòng 2 `47597a6`) | — |
+| Khóa SHA 9 bước | ✅ origin = local, khớp diễn tập | Bảng dưới |
+| Cơ chế tự động deploy | ✅ **Không có**: chỉ có workflow `ci.yml` (test); 0 webhook, 0 environment, 0 deployment | `gh api …/hooks`, `/environments`, `/deployments` |
+| Tag mốc trước merge | ✅ `pre-merge-main-20261111` → `dc47e98` (annotated, đã đẩy) | `git ls-remote --tags` |
+| Branch protection `main` | ⚠️ **Chưa bật** (API 404); không có ruleset; repo **public**; cho phép squash/rebase | Cần chủ repo quyết định bật trước khi merge |
+
+**SHA đã khóa:**
+
+| Bước | Nhánh | SHA |
+|---|---|---|
+| 0 | `main` | `dc47e98` |
+| 1 | `feature/sprint-1-mvp` | `461a19a` |
+| 2 | `feature/ui-documents-fidelity` | `30aaf53` |
+| 3–9 | PR #1…#7 | `5348aff` · `08e337e` · `a3c3b93` · `e2bcaba` · `5a3af00` · `6fabca0` · `47597a6` |
+
+### B/D. PR xử lý (không thuộc 9 bước; base `feature/ui-approvals`, đổi sang `main` sau bước 9)
+
+| PR | Nội dung | CI | Trạng thái |
+|---|---|---|---|
+| #8 | DATA-39B: migration 008 | ✅ 3 job | Draft, chờ review |
+| #9 | G-2: guard seed DEMO | ✅ 3 job | Draft, chờ review |
+| (chưa mở) | D: vùng chạm 44px | — | CSS và đo Before xong; đo After, regression và ảnh Before/After **bị chặn do Docker Desktop treo** |
+
+Merge thử #8 với #9 (`git merge-tree`): không xung đột.
+
+### C. Hạ tầng (IT/PO)
+
+Chưa bắt đầu:
+- G-3: môi trường production, tên miền, TLS, secrets, sizing, và dấu DB `jkc.environment=production`;
+- G-4: backup định kỳ, restore drill, RTO/RPO;
+- G-5: owner DB không superuser;
+- G-7: cập nhật chữ ký ClamAV;
+- G-8: UAT có biên bản ký nhận.
