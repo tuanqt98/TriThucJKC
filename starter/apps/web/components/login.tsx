@@ -1,7 +1,8 @@
 "use client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState, useSyncExternalStore } from "react";
+import { useState, useSyncExternalStore, type FormEvent } from "react";
+import { LoginFidelity } from "./login-fidelity";
 import { api, type User } from "./api";
 import { Icon } from "./icon";
 const subscribe = () => () => {};
@@ -14,6 +15,48 @@ export function Login({ reset = false }: { reset?: boolean }) {
   const [message, setMessage] = useState("");
   const [busy, setBusy] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  async function submit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setBusy(true);
+    setError("");
+    const f = new FormData(e.currentTarget);
+    try {
+      if (reset) {
+        await api("/auth/reset", {
+          method: "POST",
+          body: JSON.stringify({
+            token: f.get("token"),
+            new_password: f.get("password"),
+          }),
+        });
+        setMessage("Đã đặt lại mật khẩu. Vui lòng đăng nhập.");
+      } else {
+        const me = await api<User>("/auth/login", {
+          method: "POST",
+          body: JSON.stringify({
+            username: f.get("username"),
+            password: f.get("password"),
+          }),
+        });
+        router.replace(me.must_change_password ? "/account" : "/");
+      }
+    } catch (e) {
+      setError((e as Error).message);
+    } finally {
+      setBusy(false);
+    }
+  }
+  if (!reset)
+    return (
+      <LoginFidelity
+        ready={ready}
+        busy={busy}
+        error={error}
+        showPassword={showPassword}
+        togglePassword={() => setShowPassword((v) => !v)}
+        onSubmit={submit}
+      />
+    );
   return (
     <main className="login-page login-approved">
       <section className="login-story">
@@ -55,41 +98,7 @@ export function Login({ reset = false }: { reset?: boolean }) {
               ? "Nhập mã được quản trị viên cung cấp qua kênh an toàn."
               : "Đăng nhập để tra cứu, học tập và chia sẻ tri thức."}
           </p>
-          <form
-            method="post"
-            aria-busy={!ready || busy}
-            onSubmit={async (e) => {
-              e.preventDefault();
-              setBusy(true);
-              setError("");
-              const f = new FormData(e.currentTarget);
-              try {
-                if (reset) {
-                  await api("/auth/reset", {
-                    method: "POST",
-                    body: JSON.stringify({
-                      token: f.get("token"),
-                      new_password: f.get("password"),
-                    }),
-                  });
-                  setMessage("Đã đặt lại mật khẩu. Vui lòng đăng nhập.");
-                } else {
-                  const me = await api<User>("/auth/login", {
-                    method: "POST",
-                    body: JSON.stringify({
-                      username: f.get("username"),
-                      password: f.get("password"),
-                    }),
-                  });
-                  router.replace(me.must_change_password ? "/account" : "/");
-                }
-              } catch (e) {
-                setError((e as Error).message);
-              } finally {
-                setBusy(false);
-              }
-            }}
-          >
+          <form method="post" aria-busy={!ready || busy} onSubmit={submit}>
             {reset ? (
               <label>
                 Mã đặt lại mật khẩu

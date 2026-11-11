@@ -13,6 +13,9 @@ import {
   type Approval,
 } from "./api";
 import { Icon } from "./icon";
+import { AppFrame } from "./app-frame";
+import { DashboardFidelity, DashboardHero } from "./dashboard-fidelity";
+import dashboardStyles from "./dashboard-fidelity.module.css";
 import { AttachmentsPanel, ReadingPanel, CoursePlayer } from "./sprint01";
 
 const navigation = [
@@ -208,108 +211,28 @@ export function Workspace({
       setBusy(false);
     }
   }
-  const canApprove = user?.roles.some((r) => r.code === "DEPARTMENT_HEAD");
-  const nav = navigation.filter(([href]) => href != "/approvals" || canApprove);
   return (
-    <div className="app-shell">
-      <a className="skip" href="#main">
-        Chuyển đến nội dung
-      </a>
-      <aside className="sidebar">
-        <Link className="brand" href="/">
-          <strong className="brand-mark">
-            JKC
-            <span />
-          </strong>
-          <b>TRI THỨC JKC</b>
-          <small>Cổng tri thức nội bộ ngành in</small>
-        </Link>
-        <div className="nav-caption">KHÔNG GIAN LÀM VIỆC</div>
-        <nav aria-label="Điều hướng chính">
-          {nav.map(([href, label, icon]) => (
-            <Link
-              key={href}
-              href={href}
-              aria-current={
-                (href === "/" ? path === "/" : path.startsWith(href))
-                  ? "page"
-                  : undefined
-              }
-            >
-              <Icon name={icon} />
-              {label}
-            </Link>
-          ))}
-        </nav>
-        <div className="sidebar-note">
-          <div className="cmyk">
-            <i />
-            <i />
-            <i />
-            <i />
-          </div>
-          <b>
-            Kiến thức tạo nên
-            <br />
-            giá trị bền vững.
-          </b>
-          <p>
-            Chia sẻ hôm nay,
-            <br />
-            nâng tầm chất lượng ngày mai.
-          </p>
+    <AppFrame
+      user={user}
+      path={path}
+      title={path === "/" ? "Trang chủ" : title}
+      onSearch={(e) => {
+        e.preventDefault();
+        const value = new FormData(e.currentTarget).get("q")?.toString() || "";
+        if (path === "/knowledge") {
+          setPage(1);
+          setQuery(value);
+        } else router.push("/knowledge?q=" + encodeURIComponent(value));
+      }}
+    >
+      <main id="main" className={dashboardStyles.main}>
+        <div className={dashboardStyles.demoNotice}>
+          <span className="demo-dot" /> Môi trường DEMO · Nội dung minh họa,
+          chưa phải tài liệu vận hành được ban hành.
         </div>
-        <Link className="account-link" href="/account">
-          <Icon name="user" />
-          Tài khoản & bảo mật
-        </Link>
-      </aside>
-      <div className="workspace">
-        <header className="topbar">
-          <Link href="/" className="mobile-brand">
-            JKC <b>Tri Thức JKC</b>
-          </Link>
-          <form
-            className="global-search"
-            onSubmit={(e) => {
-              e.preventDefault();
-              const value =
-                new FormData(e.currentTarget).get("q")?.toString() || "";
-              if (path === "/knowledge") {
-                setPage(1);
-                setQuery(value);
-              } else router.push("/knowledge?q=" + encodeURIComponent(value));
-            }}
-          >
-            <Icon name="search" />
-            <input
-              name="q"
-              aria-label="Tìm trong kho tri thức"
-              placeholder="Tìm bài, quy trình, kinh nghiệm…"
-            />
-            <button aria-label="Tìm kiếm">
-              <Icon name="arrow" />
-            </button>
-          </form>
-          <Link href="/account" className="user-chip">
-            <span className="avatar">{user?.full_name.charAt(0) || "J"}</span>
-            <span>
-              <b>{user?.full_name || "Đang tải…"}</b>
-              <small>
-                {canApprove
-                  ? "Trưởng bộ phận"
-                  : user?.roles.some((r) => r.code === "TECH_ADMIN")
-                    ? "Quản trị kỹ thuật"
-                    : "Tài khoản nội bộ"}
-              </small>
-            </span>
-          </Link>
-        </header>
-        <main id="main">
-          <div className="demo-notice">
-            <span className="demo-dot" /> Môi trường DEMO · Nội dung minh họa,
-            chưa phải tài liệu vận hành được ban hành.
-          </div>
+        {path === "/" ? (
+          <DashboardHero />
+        ) : (
           <section className="hero">
             <div className="hero-icon">
               <Icon
@@ -340,541 +263,388 @@ export function Workspace({
               </b>
             </div>
           </section>
+        )}
+        {path !== "/" && user?.department_id && (
           <nav className="management-links" aria-label="Quản lý nội dung">
             <Link href="/workspace">Biên soạn / phiên bản</Link>
             <Link href="/incidents/manage">Hồ sơ sự cố / tái diễn</Link>
             <Link href="/learning/manage">Quản lý đào tạo</Link>
           </nav>
-          {error && (
-            <div className="error" role="alert">
-              {error}{" "}
-              <button onClick={() => setRevision((v) => v + 1)}>Thử lại</button>
-            </div>
-          )}
-          {notice && (
-            <div role="status" className="notice">
-              {notice}
-            </div>
-          )}
-          {loading ? (
-            <div
-              aria-busy="true"
-              aria-label="Đang tải dữ liệu"
-              className="skeleton-grid"
-            >
-              {[1, 2, 3].map((i) => (
-                <div className="skeleton" key={i} />
-              ))}
-            </div>
-          ) : (
-            !error && (
-              <>
-                {path === "/" && dashboard && (
-                  <>
-                    <div className="stats">
-                      {[
-                        [
-                          "document",
-                          "Tài liệu được xem",
-                          dashboard.documents,
-                          "blue",
-                          "/documents",
-                        ],
-                        [
-                          "learning",
-                          "Khóa học được giao",
-                          dashboard.learning,
-                          "orange",
-                          "/learning",
-                        ],
-                        [
-                          "incident",
-                          "Hồ sơ sự cố",
-                          dashboard.incidents,
-                          "pink",
-                          "/incidents",
-                        ],
-                      ].map(([icon, label, count, color, href]) => (
-                        <Link
-                          href={String(href)}
-                          className="stat panel"
-                          key={String(label)}
-                        >
-                          <span className={`stat-icon ${color}`}>
-                            <Icon name={String(icon)} />
-                          </span>
-                          <div>
-                            <span>{label}</span>
-                            <strong>{count}</strong>
-                            <small>Trong phạm vi của bạn</small>
-                          </div>
-                          <Icon name="arrow" />
-                        </Link>
-                      ))}
-                    </div>
-                    <div className="dashboard-grid">
-                      <div>
-                        <div className="section-heading">
-                          <h2>Truy cập nhanh theo công đoạn</h2>
-                          <span className="subtle">5 công đoạn sản xuất</span>
-                        </div>
-                        <div className="process-grid">
-                          {dashboard.processes.map((p, i) => (
-                            <Link
-                              href={`/knowledge?processId=${p.id}`}
-                              className={`process process-${i}`}
-                              key={p.id}
-                            >
-                              <span className="process-number">0{i + 1}</span>
-                              <Icon name="print" />
-                              <b>{p.name}</b>
-                            </Link>
-                          ))}
-                        </div>
-                        <div className="section-heading">
-                          <h2>Tri thức nổi bật</h2>
-                          <Link href="/knowledge">
-                            Xem thêm <Icon name="arrow" />
-                          </Link>
-                        </div>
-                        <div className="cards">
-                          {dashboard.featured.length ? (
-                            dashboard.featured.map((c, i) => (
-                              <ContentCard key={c.id} item={c} index={i} />
-                            ))
-                          ) : (
-                            <Empty />
-                          )}
-                        </div>
-                      </div>
-                      <aside className="dashboard-aside">
-                        <section className="panel">
-                          <div className="section-heading">
-                            <h2>Việc cần làm</h2>
-                            <span className="badge">Của bạn</span>
-                          </div>
-                          <Link className="task" href="/learning">
-                            <span className="task-icon orange">
-                              <Icon name="learning" />
-                            </span>
-                            <span>
-                              <b>{dashboard.learning} khóa học được giao</b>
-                              <small>Xem tiến độ học tập</small>
-                            </span>
-                            <Icon name="arrow" />
-                          </Link>
-                          {canApprove && (
-                            <Link className="task" href="/approvals">
-                              <span className="task-icon blue">
-                                <Icon name="approval" />
-                              </span>
-                              <span>
-                                <b>
-                                  {dashboard.pending_approvals} bài đang chờ
-                                  duyệt
-                                </b>
-                                <small>Trong phạm vi bộ phận</small>
-                              </span>
-                              <Icon name="arrow" />
-                            </Link>
-                          )}
-                          <Link href="/documents">
-                            Xem nội quy và xác nhận đã đọc
-                          </Link>
-                        </section>
-                        <section className="share-panel">
-                          <span className="badge">CÙNG NHAU TỐT HƠN</span>
-                          <h2>
-                            Mỗi bài học nhỏ,
-                            <br />
-                            một giá trị lớn.
-                          </h2>
-                          <p>
-                            Ghi lại kinh nghiệm và gửi trưởng bộ phận xác minh.
-                          </p>
-                          <Link className="button" href="/knowledge/new">
-                            <Icon name="plus" />
-                            Chia sẻ kinh nghiệm
-                          </Link>
-                        </section>
-                      </aside>
-                    </div>
-                  </>
-                )}
-                {isList && (
-                  <>
-                    <div className="toolbar">
-                      <form
-                        onSubmit={(e) => {
-                          e.preventDefault();
-                          setPage(1);
-                          setQuery(
-                            new FormData(e.currentTarget)
-                              .get("filter")
-                              ?.toString() || "",
-                          );
-                        }}
-                        className="filter-search"
-                      >
-                        <Icon name="search" />
-                        <input
-                          name="filter"
-                          defaultValue={query}
-                          placeholder="Nhập từ khóa trong tiêu đề…"
-                          aria-label="Lọc theo tiêu đề"
-                        />
-                        <button className="button">Tìm kiếm</button>
-                      </form>
-                      {path === "/knowledge" && (
-                        <Link className="button" href="/knowledge/new">
-                          <Icon name="plus" />
-                          Tạo bài chia sẻ
-                        </Link>
-                      )}
-                    </div>
-                    <label className="process-filter">
-                      Công đoạn
-                      <select
-                        aria-label="Lọc công đoạn"
-                        value={process}
-                        onChange={(e) => {
-                          setProcess(e.target.value);
-                          setPage(1);
-                        }}
-                      >
-                        <option value="">Tất cả công đoạn</option>
-                        {processes.map((p) => (
-                          <option key={p.id} value={p.id}>
-                            {p.name}
-                          </option>
-                        ))}
-                      </select>
-                    </label>
-                    <div className="section-heading">
-                      <h2>{list?.total || 0} nội dung được quyền xem</h2>
-                      <span className="subtle">
-                        Đã duyệt · Phiên bản hiện hành
-                      </span>
-                    </div>
-                    {list?.items.length ? (
-                      <div
-                        className={`library-view ${path === "/documents" ? "documents-view" : "knowledge-view"}`}
-                      >
-                        {path === "/documents" && (
-                          <div className="document-table">
-                            <table>
-                              <caption className="visually-hidden">
-                                Danh sách tài liệu đã duyệt trong phạm vi của
-                                bạn
-                              </caption>
-                              <thead>
-                                <tr>
-                                  <th>Mã tài liệu</th>
-                                  <th>Tên tài liệu</th>
-                                  <th>Bộ phận</th>
-                                  <th>Phiên bản</th>
-                                  <th>Trạng thái</th>
-                                  <th>Thao tác</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                {list.items.map((c) => (
-                                  <tr key={c.id}>
-                                    <td>{c.code}</td>
-                                    <td>
-                                      <Link href={routeFor(c)}>{c.title}</Link>
-                                    </td>
-                                    <td>{c.department_name}</td>
-                                    <td>v{c.version_number}</td>
-                                    <td>
-                                      <span className="badge success">
-                                        Đã duyệt
-                                      </span>
-                                    </td>
-                                    <td>
-                                      <Link
-                                        className="secondary table-action"
-                                        href={routeFor(c)}
-                                      >
-                                        Xem tài liệu
-                                      </Link>
-                                    </td>
-                                  </tr>
-                                ))}
-                              </tbody>
-                            </table>
-                          </div>
-                        )}
-                        <div className="cards library">
-                          {list.items.map((c, i) => (
-                            <ContentCard key={c.id} item={c} index={i} />
-                          ))}
-                        </div>
-                      </div>
-                    ) : (
-                      <Empty
-                        message={
-                          query ? "Không tìm thấy kết quả phù hợp." : undefined
-                        }
-                      />
-                    )}
-                    <div className="pagination">
-                      <button
-                        disabled={page === 1}
-                        onClick={() => setPage((v) => v - 1)}
-                      >
-                        Trang trước
-                      </button>
-                      <span>Trang {page}</span>
-                      <button
-                        disabled={page * 9 >= (list?.total || 0)}
-                        onClick={() => setPage((v) => v + 1)}
-                      >
-                        Trang sau
-                      </button>
-                    </div>
-                  </>
-                )}
-                {isDetail && detail && (
-                  <>
-                    <Link
-                      className="back-link"
-                      href={
-                        path.startsWith("/documents")
-                          ? "/documents"
-                          : path.startsWith("/incidents")
-                            ? "/incidents"
-                            : "/knowledge"
-                      }
+        )}
+        {error && (
+          <div className="error" role="alert">
+            {error}{" "}
+            <button onClick={() => setRevision((v) => v + 1)}>Thử lại</button>
+          </div>
+        )}
+        {notice && (
+          <div role="status" className="notice">
+            {notice}
+          </div>
+        )}
+        {loading ? (
+          <div
+            aria-busy="true"
+            aria-label="Đang tải dữ liệu"
+            className="skeleton-grid"
+          >
+            {[1, 2, 3].map((i) => (
+              <div className="skeleton" key={i} />
+            ))}
+          </div>
+        ) : (
+          !error && (
+            <>
+              {path === "/" && dashboard && user && (
+                <DashboardFidelity data={dashboard} user={user} />
+              )}
+              {isList && (
+                <>
+                  <div className="toolbar">
+                    <form
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                        setPage(1);
+                        setQuery(
+                          new FormData(e.currentTarget)
+                            .get("filter")
+                            ?.toString() || "",
+                        );
+                      }}
+                      className="filter-search"
                     >
-                      ← Quay lại thư viện
-                    </Link>
-                    <div className="detail-grid">
-                      <article className="panel document-body">
-                        <div className="badge-row">
-                          <span className="badge success">Đã duyệt</span>
-                          <span className="badge">
-                            Phiên bản {detail.version_number}
-                          </span>
-                          <span className="badge">
-                            {detail.department_name}
-                          </span>
+                      <Icon name="search" />
+                      <input
+                        name="filter"
+                        defaultValue={query}
+                        placeholder="Nhập từ khóa trong tiêu đề…"
+                        aria-label="Lọc theo tiêu đề"
+                      />
+                      <button className="button">Tìm kiếm</button>
+                    </form>
+                    {path === "/knowledge" && (
+                      <Link className="button" href="/knowledge/new">
+                        <Icon name="plus" />
+                        Tạo bài chia sẻ
+                      </Link>
+                    )}
+                  </div>
+                  <label className="process-filter">
+                    Công đoạn
+                    <select
+                      aria-label="Lọc công đoạn"
+                      value={process}
+                      onChange={(e) => {
+                        setProcess(e.target.value);
+                        setPage(1);
+                      }}
+                    >
+                      <option value="">Tất cả công đoạn</option>
+                      {processes.map((p) => (
+                        <option key={p.id} value={p.id}>
+                          {p.name}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                  <div className="section-heading">
+                    <h2>{list?.total || 0} nội dung được quyền xem</h2>
+                    <span className="subtle">
+                      Đã duyệt · Phiên bản hiện hành
+                    </span>
+                  </div>
+                  {list?.items.length ? (
+                    <div
+                      className={`library-view ${path === "/documents" ? "documents-view" : "knowledge-view"}`}
+                    >
+                      {path === "/documents" && (
+                        <div className="document-table">
+                          <table>
+                            <caption className="visually-hidden">
+                              Danh sách tài liệu đã duyệt trong phạm vi của bạn
+                            </caption>
+                            <thead>
+                              <tr>
+                                <th>Mã tài liệu</th>
+                                <th>Tên tài liệu</th>
+                                <th>Bộ phận</th>
+                                <th>Phiên bản</th>
+                                <th>Trạng thái</th>
+                                <th>Thao tác</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {list.items.map((c) => (
+                                <tr key={c.id}>
+                                  <td>{c.code}</td>
+                                  <td>
+                                    <Link href={routeFor(c)}>{c.title}</Link>
+                                  </td>
+                                  <td>{c.department_name}</td>
+                                  <td>v{c.version_number}</td>
+                                  <td>
+                                    <span className="badge success">
+                                      Đã duyệt
+                                    </span>
+                                  </td>
+                                  <td>
+                                    <Link
+                                      className="secondary table-action"
+                                      href={routeFor(c)}
+                                    >
+                                      Xem tài liệu
+                                    </Link>
+                                  </td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
                         </div>
-                        <h2>{detail.title}</h2>
-                        <p className="subtle">Mã: {detail.code}</p>
-                        {Object.entries(detail.body).map(([key, value], i) => (
-                          <section key={key}>
-                            <h3>
-                              <span className="number">{i + 1}</span>
-                              {key}
-                            </h3>
-                            <p>{value}</p>
-                          </section>
+                      )}
+                      <div className="cards library">
+                        {list.items.map((c, i) => (
+                          <ContentCard key={c.id} item={c} index={i} />
                         ))}
-                      </article>
-                      <aside className="panel">
-                        <h2>Thông tin phiên bản</h2>
-                        <p>Nội dung DEMO để kiểm thử.</p>
-                        {user && (
-                          <>
-                            {detail.kind === "DOCUMENT" && (
-                              <ReadingPanel
-                                user={user}
-                                contentId={detail.id}
-                                versionId={detail.version_id}
-                              />
-                            )}
-                            <AttachmentsPanel
+                      </div>
+                    </div>
+                  ) : (
+                    <Empty
+                      message={
+                        query ? "Không tìm thấy kết quả phù hợp." : undefined
+                      }
+                    />
+                  )}
+                  <div className="pagination">
+                    <button
+                      disabled={page === 1}
+                      onClick={() => setPage((v) => v - 1)}
+                    >
+                      Trang trước
+                    </button>
+                    <span>Trang {page}</span>
+                    <button
+                      disabled={page * 9 >= (list?.total || 0)}
+                      onClick={() => setPage((v) => v + 1)}
+                    >
+                      Trang sau
+                    </button>
+                  </div>
+                </>
+              )}
+              {isDetail && detail && (
+                <>
+                  <Link
+                    className="back-link"
+                    href={
+                      path.startsWith("/documents")
+                        ? "/documents"
+                        : path.startsWith("/incidents")
+                          ? "/incidents"
+                          : "/knowledge"
+                    }
+                  >
+                    ← Quay lại thư viện
+                  </Link>
+                  <div className="detail-grid">
+                    <article className="panel document-body">
+                      <div className="badge-row">
+                        <span className="badge success">Đã duyệt</span>
+                        <span className="badge">
+                          Phiên bản {detail.version_number}
+                        </span>
+                        <span className="badge">{detail.department_name}</span>
+                      </div>
+                      <h2>{detail.title}</h2>
+                      <p className="subtle">Mã: {detail.code}</p>
+                      {Object.entries(detail.body).map(([key, value], i) => (
+                        <section key={key}>
+                          <h3>
+                            <span className="number">{i + 1}</span>
+                            {key}
+                          </h3>
+                          <p>{value}</p>
+                        </section>
+                      ))}
+                    </article>
+                    <aside className="panel">
+                      <h2>Thông tin phiên bản</h2>
+                      <p>Nội dung DEMO để kiểm thử.</p>
+                      {user && (
+                        <>
+                          {detail.kind === "DOCUMENT" && (
+                            <ReadingPanel
                               user={user}
+                              contentId={detail.id}
                               versionId={detail.version_id}
                             />
-                          </>
-                        )}
-                        <p className="subtle">
-                          Lịch sử xác nhận được giữ riêng theo phiên bản được
-                          giao.
-                        </p>
-                      </aside>
-                    </div>
-                  </>
-                )}
-                {path === "/learning" && (
-                  <>
-                    <div className="section-heading">
-                      <h2>Được giao ({courses.length})</h2>
-                      <span className="badge">Theo phiên bản khóa học</span>
-                    </div>
-                    {courses.length ? (
-                      courses.map((c) => (
-                        <article className="panel course-row" key={c.id}>
-                          <span className="course-art">
-                            <Icon name="learning" />
-                          </span>
-                          <div>
-                            <span className="badge">
-                              DEMO · v{c.version_number}
-                            </span>
-                            <h3>{c.title}</h3>
-                            <p className="subtle">
-                              {c.completed_lessons}/{c.total_lessons} bài học ·{" "}
-                              {(
-                                {
-                                  NOT_STARTED: "Chưa học",
-                                  IN_PROGRESS: "Đang học",
-                                  COMPLETED: "Hoàn thành",
-                                  FAILED: "Không đạt",
-                                  OVERDUE: "Quá hạn",
-                                } as Record<string, string>
-                              )[c.status] || c.status}
-                            </p>
-                            <progress
-                              max={c.total_lessons || 1}
-                              value={c.completed_lessons}
-                              aria-label={`Tiến độ ${c.title}`}
-                            />
-                          </div>
-                          <Link className="button" href={`/learning/${c.id}`}>
-                            Mở khóa học
-                          </Link>
-                        </article>
-                      ))
-                    ) : (
-                      <Empty message="Bạn chưa được giao khóa học." />
-                    )}
-                  </>
-                )}
-                {path.startsWith("/learning/") && user && (
-                  <CoursePlayer user={user} assignmentId={path.split("/")[2]} />
-                )}
-                {path === "/approvals" && (
-                  <>
-                    <p className="notice">
-                      Xem và duyệt bài tri thức trong phạm vi. Để yêu cầu chỉnh
-                      sửa, từ chối hoặc ban hành nội quy theo quyền HR, mở{" "}
-                      <Link href="/workspace">Biên soạn / phiên bản</Link>.
-                    </p>
-                    <div className="approval-grid">
-                      <div>
-                        {approvals.length ? (
-                          approvals.map((a) => (
-                            <button
-                              className={`panel approval-row ${selected?.id === a.id ? "selected" : ""}`}
-                              key={a.id}
-                              onClick={() => setSelected(a)}
-                            >
-                              <span
-                                className={`badge ${a.status === "APPROVED" ? "success" : "warning"}`}
-                              >
-                                {a.status === "APPROVED"
-                                  ? "Đã duyệt"
-                                  : "Chờ duyệt"}
-                              </span>
-                              <h3>{a.title}</h3>
-                              <p>
-                                {a.author} · v{a.version_number}
-                              </p>
-                              <small>
-                                {new Date(a.requested_at).toLocaleDateString(
-                                  "vi-VN",
-                                )}
-                              </small>
-                            </button>
-                          ))
-                        ) : (
-                          <Empty message="Không có yêu cầu trong phạm vi của bạn." />
-                        )}
-                      </div>
-                      <aside className="panel approval-preview">
-                        {selected ? (
-                          <>
-                            <h2>{selected.title}</h2>
-                            <p className="subtle">
-                              Người gửi: {selected.author} · v
-                              {selected.version_number}
-                            </p>
-                            {Object.entries(selected.body).map(([k, v]) => (
-                              <section key={k}>
-                                <h3>{k}</h3>
-                                <p>{v}</p>
-                              </section>
-                            ))}
-                            <button
-                              className="button"
-                              onClick={approve}
-                              disabled={busy || selected.status !== "PENDING"}
-                            >
-                              <Icon name="check" />
-                              {busy
-                                ? "Đang phê duyệt…"
-                                : "Phê duyệt phiên bản này"}
-                            </button>
-                          </>
-                        ) : (
-                          <p className="subtle">
-                            Chọn một bài để đọc nội dung trước khi duyệt.
-                          </p>
-                        )}
-                      </aside>
-                    </div>
-                  </>
-                )}
-                {path === "/knowledge/new" && user && <DraftForm user={user} />}
-                {path === "/account" && user && (
-                  <section className="panel account-panel">
-                    <h2>{user.full_name}</h2>
-                    <p>Tên đăng nhập: {user.username}</p>
-                    <p className="subtle">
-                      {user.roles.map((r) => r.code).join(" · ")}
-                    </p>
-                    {user.must_change_password && (
-                      <p className="notice">
-                        Bạn cần đổi mật khẩu lần đầu trước khi truy cập nội
-                        dung.
+                          )}
+                          <AttachmentsPanel
+                            user={user}
+                            versionId={detail.version_id}
+                          />
+                        </>
+                      )}
+                      <p className="subtle">
+                        Lịch sử xác nhận được giữ riêng theo phiên bản được
+                        giao.
                       </p>
-                    )}
-                    <PasswordForm user={user} />
-                    <button
-                      className="secondary"
-                      disabled={busy}
-                      onClick={logout}
-                    >
-                      <Icon name="logout" />
-                      Đăng xuất khỏi thiết bị này
-                    </button>
-                  </section>
-                )}
-              </>
-            )
-          )}
-          <footer className="footer">
-            Tri Thức JKC · Môi trường DEMO{" "}
-            <span>Chia sẻ tri thức · Nâng tầm chất lượng</span>
-          </footer>
-        </main>
-      </div>
-      <nav className="bottom-nav" aria-label="Điều hướng di động">
-        {[
-          ["/", "Trang chủ", "home"],
-          ["/documents", "Nội quy", "document"],
-          ["/knowledge", "Tra cứu", "search"],
-          ["/learning", "Học tập", "learning"],
-          ["/account", "Tài khoản", "user"],
-        ].map(([href, label, icon]) => (
-          <Link
-            key={href}
-            href={href}
-            aria-current={
-              (href === "/" ? path === "/" : path.startsWith(href))
-                ? "page"
-                : undefined
-            }
-          >
-            <Icon name={icon} />
-            <span>{label}</span>
-          </Link>
-        ))}
-      </nav>
-    </div>
+                    </aside>
+                  </div>
+                </>
+              )}
+              {path === "/learning" && (
+                <>
+                  <div className="section-heading">
+                    <h2>Được giao ({courses.length})</h2>
+                    <span className="badge">Theo phiên bản khóa học</span>
+                  </div>
+                  {courses.length ? (
+                    courses.map((c) => (
+                      <article className="panel course-row" key={c.id}>
+                        <span className="course-art">
+                          <Icon name="learning" />
+                        </span>
+                        <div>
+                          <span className="badge">
+                            DEMO · v{c.version_number}
+                          </span>
+                          <h3>{c.title}</h3>
+                          <p className="subtle">
+                            {c.completed_lessons}/{c.total_lessons} bài học ·{" "}
+                            {(
+                              {
+                                NOT_STARTED: "Chưa học",
+                                IN_PROGRESS: "Đang học",
+                                COMPLETED: "Hoàn thành",
+                                FAILED: "Không đạt",
+                                OVERDUE: "Quá hạn",
+                              } as Record<string, string>
+                            )[c.status] || c.status}
+                          </p>
+                          <progress
+                            max={c.total_lessons || 1}
+                            value={c.completed_lessons}
+                            aria-label={`Tiến độ ${c.title}`}
+                          />
+                        </div>
+                        <Link className="button" href={`/learning/${c.id}`}>
+                          Mở khóa học
+                        </Link>
+                      </article>
+                    ))
+                  ) : (
+                    <Empty message="Bạn chưa được giao khóa học." />
+                  )}
+                </>
+              )}
+              {path.startsWith("/learning/") && user && (
+                <CoursePlayer user={user} assignmentId={path.split("/")[2]} />
+              )}
+              {path === "/approvals" && (
+                <>
+                  <p className="notice">
+                    Xem và duyệt bài tri thức trong phạm vi. Để yêu cầu chỉnh
+                    sửa, từ chối hoặc ban hành nội quy theo quyền HR, mở{" "}
+                    <Link href="/workspace">Biên soạn / phiên bản</Link>.
+                  </p>
+                  <div className="approval-grid">
+                    <div>
+                      {approvals.length ? (
+                        approvals.map((a) => (
+                          <button
+                            className={`panel approval-row ${selected?.id === a.id ? "selected" : ""}`}
+                            key={a.id}
+                            onClick={() => setSelected(a)}
+                          >
+                            <span
+                              className={`badge ${a.status === "APPROVED" ? "success" : "warning"}`}
+                            >
+                              {a.status === "APPROVED"
+                                ? "Đã duyệt"
+                                : "Chờ duyệt"}
+                            </span>
+                            <h3>{a.title}</h3>
+                            <p>
+                              {a.author} · v{a.version_number}
+                            </p>
+                            <small>
+                              {new Date(a.requested_at).toLocaleDateString(
+                                "vi-VN",
+                              )}
+                            </small>
+                          </button>
+                        ))
+                      ) : (
+                        <Empty message="Không có yêu cầu trong phạm vi của bạn." />
+                      )}
+                    </div>
+                    <aside className="panel approval-preview">
+                      {selected ? (
+                        <>
+                          <h2>{selected.title}</h2>
+                          <p className="subtle">
+                            Người gửi: {selected.author} · v
+                            {selected.version_number}
+                          </p>
+                          {Object.entries(selected.body).map(([k, v]) => (
+                            <section key={k}>
+                              <h3>{k}</h3>
+                              <p>{v}</p>
+                            </section>
+                          ))}
+                          <button
+                            className="button"
+                            onClick={approve}
+                            disabled={busy || selected.status !== "PENDING"}
+                          >
+                            <Icon name="check" />
+                            {busy
+                              ? "Đang phê duyệt…"
+                              : "Phê duyệt phiên bản này"}
+                          </button>
+                        </>
+                      ) : (
+                        <p className="subtle">
+                          Chọn một bài để đọc nội dung trước khi duyệt.
+                        </p>
+                      )}
+                    </aside>
+                  </div>
+                </>
+              )}
+              {path === "/knowledge/new" && user && <DraftForm user={user} />}
+              {path === "/account" && user && (
+                <section className="panel account-panel">
+                  <h2>{user.full_name}</h2>
+                  <p>Tên đăng nhập: {user.username}</p>
+                  <p className="subtle">
+                    {user.roles.map((r) => r.code).join(" · ")}
+                  </p>
+                  {user.must_change_password && (
+                    <p className="notice">
+                      Bạn cần đổi mật khẩu lần đầu trước khi truy cập nội dung.
+                    </p>
+                  )}
+                  <PasswordForm user={user} />
+                  <button
+                    className="secondary"
+                    disabled={busy}
+                    onClick={logout}
+                  >
+                    <Icon name="logout" />
+                    Đăng xuất khỏi thiết bị này
+                  </button>
+                </section>
+              )}
+            </>
+          )
+        )}
+        <footer className="footer">
+          Tri Thức JKC · Môi trường DEMO{" "}
+          <span>Chia sẻ tri thức · Nâng tầm chất lượng</span>
+        </footer>
+      </main>
+    </AppFrame>
   );
 }
 

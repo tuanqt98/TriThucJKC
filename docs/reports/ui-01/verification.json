@@ -1,0 +1,23 @@
+{
+  "date": "2026-10-31",
+  "base": "461a19a",
+  "branch": "feature/ui-login-fidelity",
+  "checks": {
+    "npm run lint": "PASS",
+    "npm run typecheck": "PASS",
+    "npm run build": "PASS",
+    "compose build web": "PASS",
+    "compose up --no-deps --wait web": "PASS; healthy",
+    "playwright.login.config.ts": "9 passed, 0 failed, 0 skipped",
+    "existing Login thiết kế 09 regression": "2 passed, 0 failed",
+    "submit_handler_equal_to_base": true,
+    "reset_jsx_equal_to_base": true,
+    "approved_asset_bytes_unchanged": true
+  },
+  "limits": [
+    "Chromium automated viewports, not physical phone keyboard UAT",
+    "Local test CA ignored in browser tests; no new TLS chain certification",
+    "No full backend or other module regression rerun for UI-only change",
+    "GitHub CI for this branch not yet run; PO approval pending"
+  ]
+}

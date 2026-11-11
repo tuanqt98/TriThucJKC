@@ -31,26 +31,26 @@ test("Login thiết kế 09: hero hiện trên mobile, nút đỏ và hiện m�
   browser,
 }, info) => {
   await page.goto("/login");
-  const asset = await page.request.get("/images/login-hero.png");
+  const asset = await page.request.get("/images/login-approved/background.jpg");
   expect(asset.status()).toBe(200);
-  expect((await asset.body()).subarray(0, 8)).toEqual(
-    Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]),
+  expect((await asset.body()).subarray(0, 3)).toEqual(
+    Buffer.from([255, 216, 255]),
   );
   const hero = page.locator(".login-story");
   await expect(hero).toBeVisible();
-  await expect(hero).toHaveCSS("background-image", /login-hero\.png/);
+  await expect(hero).toHaveCSS("background-image", /login-approved\/background\.jpg/);
   expect(
     await hero.evaluate((e) => (e as HTMLElement).offsetHeight),
   ).toBeGreaterThan(150);
   await expect(
     page.getByRole("button", { name: "Đăng nhập", exact: true }),
   ).toHaveCSS("background-color", "rgb(201, 35, 49)");
-  await page.getByLabel("Hiện mật khẩu").check();
+  await page.getByRole("button",{name:"Hiện mật khẩu",exact:true}).click();
   await expect(page.getByLabel("Mật khẩu", { exact: true })).toHaveAttribute(
     "type",
     "text",
   );
-  await page.getByLabel("Hiện mật khẩu").uncheck();
+  await page.getByRole("button",{name:"Ẩn mật khẩu",exact:true}).click();
   await screenshot(page, `login-${info.project.name}`);
   const noJs = await browser.newContext({
     javaScriptEnabled: false,
