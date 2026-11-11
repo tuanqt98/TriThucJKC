@@ -40,7 +40,7 @@ Ngày 11/11/2026. Nhánh `feature/ui-approvals`, tách từ `feature/ui-my-cours
 - **Đầu trang:** tiêu đề, mô tả và khung cảnh báo đỏ "Không tự duyệt nội dung do chính mình tạo".
 - **Thẻ thống kê** (bấm để chuyển tab):
   - **Chờ duyệt:** số mục máy chủ cho phép người này duyệt;
-  - **Đã duyệt (bài tri thức trong phạm vi):** tổng thật từ `GET /approvals`, chỉ hiện với trưởng bộ phận.
+  - **Đã duyệt (tổng):** tổng thật từ `GET /approvals`, chỉ hiện với trưởng bộ phận. Có ghi chú phạm vi: "Bài tri thức đã duyệt trong phạm vi bạn được xem; không gồm tài liệu, nội quy hay sự cố" (vòng 2).
 - **Hàng đợi:**
   - chip loại **Tất cả / Tri thức / Tài liệu** có số đếm; lọc **bộ phận**; **tìm** tiêu đề và người gửi (không dấu); phân trang 10;
   - sắp **mới nhất trước** như mockup;
@@ -145,3 +145,27 @@ cd starter/apps/web && UI_TEST_LOCAL_CA=true UI_DEMO_PASSWORD=… UI_UAT_FIXTURE
 - Trang "Biên soạn / phiên bản" (`/workspace`) và `/learning/manage` vẫn là giao diện cũ.
 - Badge số thông báo ở header (UI-02) không đổi.
 - Không merge PR #1–#6; không deploy.
+
+## 7. Vòng 2 (11/11/2026): theo quyết định PO
+
+1. **Giao diện giữ nguyên** để nghiệm thu. Chỉ làm rõ nhãn thống kê: **"Đã duyệt (tổng)"** kèm dòng phạm vi "Bài tri thức đã duyệt trong phạm vi bạn được xem; không gồm tài liệu, nội quy hay sự cố". Ghi chú ở tab lịch sử cũng nêu rõ: 50 bài mới nhất, không gồm tài liệu, nội quy, sự cố. Playwright kiểm tra dòng phạm vi này.
+2. **Backlog:**
+   - DATA-41, DATA-42, DATA-44 → **P1** (hoàn thiện API và lịch sử phê duyệt);
+   - DATA-43, DATA-45, DATA-46 → **P2**; **chưa làm duyệt hàng loạt**;
+   - **DATA-39B giữ P0, bắt buộc trước production.**
+3. **Quy tắc giữ nguyên:** mỗi quyết định chỉ báo thành công khi máy chủ xác nhận. Đã có test cho mất mạng và xung đột 409.
+4. **Kiểm thử vòng 2:**
+
+| Kiểm tra | Kết quả |
+|---|---|
+| ESLint / TypeScript / Prettier | PASS |
+| Unit test | 50/50 PASS |
+| UI-09 Playwright (4 viewport) | **16/16 PASS** |
+| `smoke` + `sprint1` (dùng `/approvals`) | **10/10 PASS** |
+| Regression UI-01 → UI-08 | Không chạy lại: vòng 2 chỉ đổi text/CSS trong component UI-09 (CSS module riêng). Kết quả gần nhất là vòng 1, tất cả PASS |
+
+**Ảnh nghiệm thu cuối:**
+- Desktop 1440×900: [hàng đợi](after-desktop.png) · [chi tiết](after-desktop-open.png) · [so sánh mockup](comparison-desktop.png)
+- Mobile 390×844: [hàng đợi](after-mobile390.png) · [bottom sheet](after-mobile390-open.png) · [so sánh](comparison-mobile390.png)
+- Mobile 375×812: [hàng đợi](after-mobile375.png) · [bottom sheet](after-mobile375-open.png) · [so sánh](comparison-mobile375.png)
+- Tablet 768×1024: [hàng đợi](after-tablet.png) · [bottom sheet](after-tablet-open.png)

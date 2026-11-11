@@ -115,6 +115,10 @@ test("UI-09: hàng đợi theo mockup 08 — người gửi, bộ phận, nội 
   const published = await page.request.get(`/api/v1/articles/${id}`);
   expect(published.status()).toBe(200);
   expect((await published.json()).approver_name).toBe("Trưởng bộ phận demo");
+  // PO: the approved total is scoped (articles the API lets this reviewer see), not the whole system.
+  await expect(
+    page.getByRole("button", { name: /^Đã duyệt \(tổng\)/ }),
+  ).toContainText("không gồm tài liệu, nội quy hay sự cố");
   await page.getByRole("button", { name: /^Đã duyệt/ }).click();
   await expect(
     page.getByRole("region", { name: "Đã duyệt gần đây" }),

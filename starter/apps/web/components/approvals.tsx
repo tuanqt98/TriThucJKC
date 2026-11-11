@@ -523,8 +523,13 @@ export function Approvals() {
                     <Glyph d={glyphs.check} />
                   </span>
                   <span>
-                    <small>Đã duyệt (bài tri thức trong phạm vi)</small>
+                    <small>Đã duyệt (tổng)</small>
                     <b>{approvedTotal}</b>
+                    {/* PO 11/11/2026: make the scope explicit (not all content of the system). */}
+                    <em className={styles.statNote}>
+                      Bài tri thức đã duyệt trong phạm vi bạn được xem; không
+                      gồm tài liệu, nội quy hay sự cố
+                    </em>
                   </span>
                 </button>
               )}
@@ -561,8 +566,8 @@ export function Approvals() {
                   ))}
                 </ul>
                 <p className={styles.muted}>
-                  Chỉ hiện bài tri thức đã duyệt trong phạm vi bộ phận (tối đa
-                  50).
+                  Chỉ hiện bài tri thức đã duyệt trong phạm vi bạn được xem (50
+                  bài mới nhất). Không gồm tài liệu, nội quy hay sự cố.
                 </p>
               </section>
             ) : (
