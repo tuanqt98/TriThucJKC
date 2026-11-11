@@ -471,6 +471,10 @@ export function KnowledgeCreate() {
               chất lượng sản xuất.
             </p>
           </div>
+          <Link className={styles.mineLink} href="/knowledge/mine">
+            <Glyph d={glyphs.doc} />
+            Bài viết của tôi
+          </Link>
           <Link className={styles.backLink} href="/knowledge">
             <Glyph d={glyphs.back} />
             Quay lại danh sách

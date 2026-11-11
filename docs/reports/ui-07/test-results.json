@@ -262,12 +262,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 4889,
+                  "duration": 4446,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-09T09:38:09.278Z",
+                  "startTime": "2026-11-11T01:21:23.830Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -296,12 +296,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1735,
+                  "duration": 1799,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-09T09:38:14.420Z",
+                  "startTime": "2026-11-11T01:21:28.519Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -311,7 +311,7 @@
           ],
           "id": "5bd49fb341e1309bf36e-3bc7cbb1cfed2d3a8e4f",
           "file": "knowledge-create.spec.ts",
-          "line": 243,
+          "line": 241,
           "column": 5
         },
         {
@@ -330,12 +330,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1484,
+                  "duration": 1528,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-09T09:38:16.160Z",
+                  "startTime": "2026-11-11T01:21:30.324Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -345,7 +345,7 @@
           ],
           "id": "5bd49fb341e1309bf36e-07b9bab2c5eab9278fc4",
           "file": "knowledge-create.spec.ts",
-          "line": 347,
+          "line": 345,
           "column": 5
         },
         {
@@ -364,12 +364,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 325,
+                  "duration": 1092,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-09T09:38:17.648Z",
+                  "startTime": "2026-11-11T01:21:31.858Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -379,7 +379,7 @@
           ],
           "id": "5bd49fb341e1309bf36e-a207cca5cb13240debe5",
           "file": "knowledge-create.spec.ts",
-          "line": 388,
+          "line": 386,
           "column": 5
         },
         {
@@ -398,12 +398,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 3814,
+                  "duration": 3949,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-09T09:38:18.182Z",
+                  "startTime": "2026-11-11T01:21:38.059Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -432,12 +432,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 2459,
+                  "duration": 1763,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-09T09:38:22.083Z",
+                  "startTime": "2026-11-11T01:21:42.099Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -447,7 +447,7 @@
           ],
           "id": "5bd49fb341e1309bf36e-e991ffec5d2196de7bef",
           "file": "knowledge-create.spec.ts",
-          "line": 243,
+          "line": 241,
           "column": 5
         },
         {
@@ -466,12 +466,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1487,
+                  "duration": 1514,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-09T09:38:24.551Z",
+                  "startTime": "2026-11-11T01:21:43.867Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -481,7 +481,7 @@
           ],
           "id": "5bd49fb341e1309bf36e-e13c60a43d25c13f1029",
           "file": "knowledge-create.spec.ts",
-          "line": 347,
+          "line": 345,
           "column": 5
         },
         {
@@ -500,12 +500,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 325,
+                  "duration": 1093,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-09T09:38:26.042Z",
+                  "startTime": "2026-11-11T01:21:45.386Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -515,7 +515,7 @@
           ],
           "id": "5bd49fb341e1309bf36e-d4432a3378469e34a1c7",
           "file": "knowledge-create.spec.ts",
-          "line": 388,
+          "line": 386,
           "column": 5
         },
         {
@@ -534,12 +534,12 @@
                   "workerIndex": 2,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 3767,
+                  "duration": 4705,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-09T09:38:26.573Z",
+                  "startTime": "2026-11-11T01:21:52.586Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -568,12 +568,12 @@
                   "workerIndex": 2,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1671,
+                  "duration": 1747,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-09T09:38:30.428Z",
+                  "startTime": "2026-11-11T01:21:57.384Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -583,7 +583,7 @@
           ],
           "id": "5bd49fb341e1309bf36e-86709a8594da73d9896d",
           "file": "knowledge-create.spec.ts",
-          "line": 243,
+          "line": 241,
           "column": 5
         },
         {
@@ -602,12 +602,12 @@
                   "workerIndex": 2,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1393,
+                  "duration": 1467,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-09T09:38:32.105Z",
+                  "startTime": "2026-11-11T01:21:59.136Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -617,7 +617,7 @@
           ],
           "id": "5bd49fb341e1309bf36e-d79fcf688cf606fbb992",
           "file": "knowledge-create.spec.ts",
-          "line": 347,
+          "line": 345,
           "column": 5
         },
         {
@@ -636,12 +636,12 @@
                   "workerIndex": 2,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 350,
+                  "duration": 355,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-09T09:38:33.503Z",
+                  "startTime": "2026-11-11T01:22:00.607Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -651,7 +651,7 @@
           ],
           "id": "5bd49fb341e1309bf36e-1a21785cc0ea59759e3e",
           "file": "knowledge-create.spec.ts",
-          "line": 388,
+          "line": 386,
           "column": 5
         },
         {
@@ -670,12 +670,12 @@
                   "workerIndex": 3,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 3809,
+                  "duration": 4084,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-09T09:38:34.062Z",
+                  "startTime": "2026-11-11T01:22:06.312Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -704,12 +704,12 @@
                   "workerIndex": 3,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1695,
+                  "duration": 1831,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-09T09:38:37.958Z",
+                  "startTime": "2026-11-11T01:22:10.486Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -719,7 +719,7 @@
           ],
           "id": "5bd49fb341e1309bf36e-45bc45119586473138d5",
           "file": "knowledge-create.spec.ts",
-          "line": 243,
+          "line": 241,
           "column": 5
         },
         {
@@ -738,12 +738,12 @@
                   "workerIndex": 3,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1499,
+                  "duration": 1492,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-09T09:38:39.660Z",
+                  "startTime": "2026-11-11T01:22:12.321Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -753,7 +753,7 @@
           ],
           "id": "5bd49fb341e1309bf36e-6ff9ff9f328040cf4de6",
           "file": "knowledge-create.spec.ts",
-          "line": 347,
+          "line": 345,
           "column": 5
         },
         {
@@ -772,12 +772,12 @@
                   "workerIndex": 3,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1116,
+                  "duration": 368,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-09T09:38:41.163Z",
+                  "startTime": "2026-11-11T01:22:13.817Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -787,7 +787,287 @@
           ],
           "id": "5bd49fb341e1309bf36e-3b03bd83adba00ccfd3c",
           "file": "knowledge-create.spec.ts",
-          "line": 388,
+          "line": 386,
+          "column": 5
+        }
+      ]
+    },
+    {
+      "title": "knowledge-mine.spec.ts",
+      "file": "knowledge-mine.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "DATA-33: Bài viết của tôi — đủ 5 trạng thái, đếm, lọc trên URL, hành động hợp lệ theo trạng thái",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2092,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T01:21:32.957Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "ae2d31a2988da2605715-18bcbe6945806d906d5a",
+          "file": "knowledge-mine.spec.ts",
+          "line": 100,
+          "column": 5
+        },
+        {
+          "title": "DATA-33: chỉ bài của chính mình; trống, không khớp, lỗi + thử lại; bố cục không tràn, vùng chạm ≥ 44px",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2780,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T01:21:35.056Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "ae2d31a2988da2605715-abaaf2e6f6df7220d723",
+          "file": "knowledge-mine.spec.ts",
+          "line": 199,
+          "column": 5
+        },
+        {
+          "title": "DATA-33: Bài viết của tôi — đủ 5 trạng thái, đếm, lọc trên URL, hành động hợp lệ theo trạng thái",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "tablet",
+              "projectName": "tablet",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3117,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T01:21:46.486Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "ae2d31a2988da2605715-890e760359bbed6c53ec",
+          "file": "knowledge-mine.spec.ts",
+          "line": 100,
+          "column": 5
+        },
+        {
+          "title": "DATA-33: chỉ bài của chính mình; trống, không khớp, lỗi + thử lại; bố cục không tràn, vùng chạm ≥ 44px",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "tablet",
+              "projectName": "tablet",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2761,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T01:21:49.610Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "ae2d31a2988da2605715-20b252a78ed7d4c78985",
+          "file": "knowledge-mine.spec.ts",
+          "line": 199,
+          "column": 5
+        },
+        {
+          "title": "DATA-33: Bài viết của tôi — đủ 5 trạng thái, đếm, lọc trên URL, hành động hợp lệ theo trạng thái",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile390",
+              "projectName": "mobile390",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2346,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T01:22:00.971Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "ae2d31a2988da2605715-ffe7d1282028e69d0444",
+          "file": "knowledge-mine.spec.ts",
+          "line": 100,
+          "column": 5
+        },
+        {
+          "title": "DATA-33: chỉ bài của chính mình; trống, không khớp, lỗi + thử lại; bố cục không tràn, vùng chạm ≥ 44px",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile390",
+              "projectName": "mobile390",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2773,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T01:22:03.327Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "ae2d31a2988da2605715-6a5d3cc55add6b6b25bd",
+          "file": "knowledge-mine.spec.ts",
+          "line": 199,
+          "column": 5
+        },
+        {
+          "title": "DATA-33: Bài viết của tôi — đủ 5 trạng thái, đếm, lọc trên URL, hành động hợp lệ theo trạng thái",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile375",
+              "projectName": "mobile375",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2512,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T01:22:14.195Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "ae2d31a2988da2605715-44f128ba39adbe9f5f82",
+          "file": "knowledge-mine.spec.ts",
+          "line": 100,
+          "column": 5
+        },
+        {
+          "title": "DATA-33: chỉ bài của chính mình; trống, không khớp, lỗi + thử lại; bố cục không tràn, vùng chạm ≥ 44px",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile375",
+              "projectName": "mobile375",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2788,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T01:22:16.714Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "ae2d31a2988da2605715-6c10ec099e7b79da7956",
+          "file": "knowledge-mine.spec.ts",
+          "line": 199,
           "column": 5
         }
       ]
@@ -795,9 +1075,9 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-11-09T09:38:09.076Z",
-    "duration": 33232.989,
-    "expected": 16,
+    "startTime": "2026-11-11T01:21:23.633Z",
+    "duration": 55897.644,
+    "expected": 24,
     "skipped": 0,
     "unexpected": 0,
     "flaky": 0

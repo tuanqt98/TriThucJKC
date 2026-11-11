@@ -58,6 +58,17 @@
   font-size: 13px;
   background: white;
 }
+.mineLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 0 14px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--primary);
+}
 .layout {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 300px;
@@ -594,6 +605,17 @@
   }
   .backLink {
     display: none;
+  }
+  .pageHead {
+    flex-wrap: wrap;
+  }
+  .mineLink {
+    order: 3;
+    flex: 1 0 100%;
+    justify-content: flex-end;
+    min-height: 40px;
+    margin-top: -6px;
+    padding: 0 4px;
   }
   .layout,
   .column {

@@ -3,6 +3,7 @@
 Ngày 09/11/2026. Nhánh `feature/ui-knowledge-create`, tách từ `feature/ui-incident-detail` tại `e2bcaba`: commit UI-06 đã duyệt `5488a20` cộng một commit chỉ định dạng Prettier cho file test. Mockup: `design/approved_screens/06_create_knowledge.png`.
 
 **Trạng thái:**
+- **Vòng 2 (11/11/2026):** làm DATA-33 "Bài viết của tôi" theo quyết định PO (mục 7).
 - Đã triển khai `/knowledge/new` trên desktop, tablet và mobile; luồng đầy đủ từ bản nháp đến khi bài hiện trong Kho tri thức đã kiểm thử local.
 - Không đổi API, database, auth, RBAC, RLS hay workflow phê duyệt.
 - Các trường trong mockup chưa có API được để trống, không làm nút giả (mục 3).
@@ -110,13 +111,13 @@ Khi mở bản nháp cũ, các tiêu đề của form trước và mockup 06 t�
 
 | Mockup 06 | UI-07 hiện tại | Lý do | Backlog |
 |---|---|---|---|
-| Bộ phận (ô chọn) | "Bộ phận của tài khoản bạn" (chỉ đọc) | Máy chủ tự gán bộ phận; nhân viên không đọc được tên bộ phận | DATA-30 |
+| Bộ phận (ô chọn) | "Bộ phận của tài khoản bạn" (chỉ đọc) | **PO quyết định giữ bộ phận tự gán**, không thêm ô chọn | DATA-30 (đóng) |
 | Loại bài (Kinh nghiệm xử lý…) | Không hiện | Chưa có danh mục loại | DATA-13 |
 | Tag (bong mực, flexo…) | Không hiện | Chưa có API thẻ | DATA-15 |
-| Nút × xóa tệp | Không hiện; ghi "Chưa hỗ trợ xóa" | Chưa có API xóa tệp | DATA-31 |
+| Nút × xóa tệp | Không hiện; ghi "Chưa hỗ trợ xóa" | Chưa có API xóa tệp | DATA-31 (**P1**, PO 11/11) |
 | Hỗ trợ MP4 | Chỉ PNG, JPEG, PDF | API chưa nhận video | DATA-32 |
 | Ảnh gắn vào mục | Quy ước dòng "Ảnh: tên-tệp" (PO đã chấp nhận ở UI-05B) | Chưa có liên kết tệp–mục | DATA-23 |
-| Mở lại bản nháp từ danh sách | Mở bằng `?id=` (URL tự đổi khi lưu) | Chưa có danh sách "Bài của tôi" trỏ sang form mới | DATA-33 |
+| Mở lại bản nháp từ danh sách | **Đã có (vòng 2):** trang "Bài viết của tôi" `/knowledge/mine` | — | DATA-33 (xong) |
 | 6 mục | 7 mục (thêm "Nguyên nhân" theo yêu cầu UI-07) | Theo task UI-07 | — |
 
 ## 4. Kiểm thử (staging HTTPS, sau khi build lại `web`)
@@ -183,7 +184,70 @@ cd starter/apps/web && UI_TEST_LOCAL_CA=true UI_DEMO_PASSWORD=… npx playwright
 
 ## 6. Chưa làm / ngoài phạm vi
 
-- DATA-13, DATA-15, DATA-23, DATA-30 → DATA-33 (mục 3).
+- DATA-31 (P1, cần API xóa tệp), DATA-13, DATA-15, DATA-23, DATA-32 (backlog).
 - Trang "Biên soạn / phiên bản" (`/workspace`) và "Phê duyệt" (`/approvals`, mockup 08) vẫn là giao diện cũ.
 - Chưa có tự động lưu nháp (autosave); chỉ lưu khi người dùng bấm.
 - Chưa làm UI-08.
+
+## 7. Vòng 2 (11/11/2026): DATA-33 "Bài viết của tôi"
+
+### Quyết định của PO
+1. Giữ nguyên giao diện tạo bài theo mockup 06.
+2. Ưu tiên DATA-33: đường dẫn "Bài viết của tôi" và danh sách cơ bản để tìm lại bài ở các trạng thái nháp, chờ duyệt, cần chỉnh sửa, bị từ chối, đã duyệt.
+3. Chỉ dùng `GET /workspace/contents` có sẵn; không đổi DB, quyền hay workflow.
+4. Mở lại bản nháp qua `/knowledge/new?id=…`; chỉ hiện hành động hợp lệ theo trạng thái.
+5. DATA-30: giữ bộ phận tự gán theo tài khoản (không làm ô chọn).
+6. DATA-31 lên P1; DATA-13/15, DATA-23, DATA-32 để backlog.
+
+### Triển khai
+- **Trang mới `/knowledge/mine`** (`components/knowledge-mine.tsx`, `knowledge-mine.module.css`, `knowledge-mine-model.ts`; `app/knowledge/mine/page.tsx`):
+  - lấy `GET /workspace/contents`, chỉ giữ **bài ARTICLE do chính người dùng tạo**. API này còn trả bài chờ người dùng duyệt (nếu là trưởng bộ phận); các bài đó **không** hiện ở đây. Nội quy (DOCUMENT) cũng không hiện;
+  - **mỗi bài một dòng** = phiên bản mới nhất (bản mà workflow đang xử lý), hiện trạng thái, số phiên bản, ngày tạo phiên bản, công đoạn;
+  - "Cần chỉnh sửa" và "Bị từ chối" hiện **ý kiến người duyệt**;
+  - nếu bài đang có bản mới (nháp/chờ duyệt) trong khi bản cũ đã duyệt vẫn hiển thị, ghi rõ "Bản vN đã duyệt vẫn đang hiển thị trong Kho tri thức";
+  - lọc theo trạng thái (chip có số đếm), tìm theo tiêu đề (không dấu), phân trang 10 bài; bộ lọc lưu trên URL nên reload hay quay lại vẫn giữ;
+  - trạng thái: đang tải, chưa có bài (kèm "Tạo bài chia sẻ đầu tiên" khi có bộ phận), không khớp (kèm "Xóa bộ lọc"), lỗi + "Thử lại".
+- **Hành động theo trạng thái** (mọi chỉnh sửa vẫn qua form UI-07, nên workflow giữ nguyên):
+
+| Trạng thái | Hành động |
+|---|---|
+| Bản nháp | Tiếp tục soạn → `/knowledge/new?id=` |
+| Chờ duyệt | Xem bài đang chờ duyệt → form ở chế độ khóa |
+| Cần chỉnh sửa, Bị từ chối | Xem ý kiến và tạo bản sửa → form (nút "Tạo bản sửa mới" gọi `fork`) |
+| Đã duyệt | Xem trong Kho tri thức → `/knowledge/{id}` · Tạo bản sửa mới → form |
+| (thêm) Có bản cũ đã duyệt | Xem bản vN đang hiển thị → `/knowledge/{id}` |
+
+- **Lối vào:** link "Bài viết của tôi" ở đầu trang Tạo bài (desktop; trên mobile nằm hàng riêng dưới tiêu đề). Link này cũng đi qua cảnh báo khi còn thay đổi chưa lưu. Chưa thêm lối vào ở Kho tri thức hay menu tài khoản vì đó là màn hình đã duyệt (UI-02/UI-05); chờ PO quyết định.
+- **Không đổi:** API, OpenAPI, DB, auth, RBAC, RLS, workflow; UI-01 → UI-06.
+
+### Kiểm thử vòng 2
+
+| Kiểm tra | Kết quả |
+|---|---|
+| ESLint / TypeScript / Prettier / Next production build | PASS |
+| pytest backend (PostgreSQL 16 sạch) | 63/63 PASS |
+| Unit test model | **39/39 PASS** (4 mới cho "Bài viết của tôi") |
+| UI-07 Playwright (4 viewport × 6 kịch bản: 4 cũ + 2 mới) | **24/24 PASS**, [JSON](test-results.json) |
+| Regression UI-01 / 02 / 03 / 04 / 05 / 05B / 06 | **9/9 · 16/16 · 16/16 · 16/16 · 20/20 · 16/16 · 16/16 PASS** (JSON `regression-*.json` đã cập nhật) |
+| `smoke` + `sprint1` · `sprint01` (fixture mới `uat09`) | **10/10 · 2/2 PASS** |
+| CI `655a9d9` (vòng 1) | ✅ foundation · postgres17 · staging-acceptance (push + PR) |
+
+**Kịch bản mới** (`knowledge-create-tests/knowledge-mine.spec.ts`), dữ liệu tạo qua workflow thật (trưởng bộ phận yêu cầu sửa / từ chối / duyệt; tác giả tạo bản sửa):
+1. Từ trang Tạo bài bấm "Bài viết của tôi"; tìm theo mã kiểm thử ra đúng 6 bài:
+   - mỗi bài đúng trạng thái và **đúng danh sách hành động** (nhãn và đường dẫn);
+   - có ý kiến người duyệt; bài đang sửa ghi v2 và có link xem bản v1;
+   - lọc "Cần chỉnh sửa" còn 1 bài; URL có `status=`; reload vẫn giữ;
+   - bấm "Tiếp tục soạn" mở form với đúng tiêu đề và cho sửa; bài chờ duyệt mở ở chế độ khóa;
+   - không có lỗi JS.
+2. Trưởng bộ phận **không thấy bài của nhân viên** trong "Bài viết của tôi" (dù có quyền duyệt). Không khớp → "Xóa bộ lọc"; danh sách rỗng (giả lập); lỗi 500 + "Thử lại"; không tràn ngang; link hành động cao ≥ 44px; chip trên mobile ≥ 44px.
+
+### Ảnh vòng 2
+
+| Màn | Desktop | Mobile 390 | Mobile 375 |
+|---|---|---|---|
+| Bài viết của tôi (6 bài DEMO, đủ trạng thái) | [màn hình](after-desktop-mine.png) · [toàn trang](after-desktop-mine-full.png) | [màn hình](after-mobile390-mine.png) · [toàn trang](after-mobile390-mine-full.png) | [màn hình](after-mobile375-mine.png) · [toàn trang](after-mobile375-mine-full.png) |
+| Tạo bài (có link "Bài viết của tôi") | [after-desktop](after-desktop.png) | [after-mobile390](after-mobile390.png) | [after-mobile375](after-mobile375.png) |
+
+Tablet: [after-tablet-mine](after-tablet-mine.png). Dữ liệu ảnh: `UI_DEMO_PASSWORD=… node scripts/ui-knowledge-create/fixture-mine.mjs` (in mã), rồi `UI_CAPTURE_PATH="/knowledge/mine?q=<mã>" UI_CAPTURE_SUFFIX=-mine node scripts/ui-knowledge-create/capture.cjs`.
+
+Số trên chip là tổng theo trạng thái của mọi bài của người dùng (không phụ thuộc ô tìm). Trên staging, `employee` có hơn 400 bài do các bộ test tự động tạo.
