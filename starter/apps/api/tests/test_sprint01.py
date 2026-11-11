@@ -518,3 +518,74 @@ def test_passed_assignment_does_not_hand_out_a_leftover_open_attempt(runtime_cli
         conn.execute("INSERT INTO quiz_attempts(assignment_id,attempt_no) VALUES (%s,2)", (learner["assignment"],))
     r = client.post(path + "/quiz-attempts")
     assert r.status_code == 409 and r.json()["error"]["code"] == "QUIZ_ALREADY_PASSED"
+
+
+# DATA-39B (migration 008, PO 11/11/2026): an attempt opened before the pass must not be submittable afterwards.
+def history(aid):
+    with owner() as conn:
+        return {
+            "attempts": conn.execute(
+                "SELECT id,attempt_no,score,passed,submitted_at FROM quiz_attempts WHERE assignment_id=%s ORDER BY attempt_no", (aid,)
+            ).fetchall(),
+            "completed_at": conn.execute("SELECT completed_at FROM course_assignments WHERE id=%s", (aid,)).fetchone()["completed_at"],
+            "responses": conn.execute(
+                "SELECT count(*) n FROM quiz_responses r JOIN quiz_attempts a ON a.id=r.attempt_id WHERE a.assignment_id=%s", (aid,)
+            ).fetchone()["n"],
+            "audit": conn.execute(
+                "SELECT count(*) n FROM audit_logs WHERE action='QUIZ_SUBMITTED' AND entity_id IN (SELECT id FROM quiz_attempts WHERE assignment_id=%s)",
+                (aid,),
+            ).fetchone()["n"],
+        }
+
+
+def stale_attempt(aid, number=2):
+    # An attempt left open next to a passed one: opened by the API before DATA-39 shipped, or written outside the API.
+    # uq_open_attempt allows only one open attempt, so this is created after the pass (as in the Final QA probe).
+    with owner() as conn:
+        return str(
+            conn.execute("INSERT INTO quiz_attempts(assignment_id,attempt_no) VALUES (%s,%s) RETURNING id", (aid, number)).fetchone()["id"]
+        )
+
+
+def test_stale_attempt_cannot_be_submitted_after_pass_and_history_is_kept(runtime_client, learner):
+    client = runtime_client
+    aid = learner["assignment"]
+    finish_lesson(client, learner)
+    first = client.post(f"{PREFIX}/my/learning/{aid}/quiz-attempts").json()["id"]
+    passed = client.post(f"{PREFIX}/quiz-attempts/{first}/submit", json=answers(True))
+    assert passed.status_code == 200 and passed.json()["passed"] is True, passed.text
+    stale = stale_attempt(aid)
+    before = history(aid)
+    for right in (False, True):
+        r = client.post(f"{PREFIX}/quiz-attempts/{stale}/submit", json=answers(right))
+        assert r.status_code == 409, r.text
+        assert r.json()["error"]["code"] == "QUIZ_ALREADY_PASSED"
+    after = history(aid)
+    assert after == before  # no new score, response, audit row or completion change
+    assert [a["submitted_at"] is None for a in after["attempts"]] == [False, True]
+    assert client.get(f"{PREFIX}/my/learning/{aid}").json()["completed_at"]
+
+
+def test_stale_attempt_check_does_not_reveal_status_to_other_users(runtime_client, learner):
+    client = runtime_client
+    aid = learner["assignment"]
+    finish_lesson(client, learner)
+    first = client.post(f"{PREFIX}/my/learning/{aid}/quiz-attempts").json()["id"]
+    assert client.post(f"{PREFIX}/quiz-attempts/{first}/submit", json=answers(True)).status_code == 200
+    stale = stale_attempt(aid)
+    for name in ("admin", "head", "other"):
+        signin(client, name)
+        r = client.post(f"{PREFIX}/quiz-attempts/{stale}/submit", json=answers(True))
+        assert r.status_code == 404, (name, r.text)  # ownership is checked before pass state
+    assert history(aid)["attempts"][1]["submitted_at"] is None
+
+
+def test_failed_only_history_still_allows_submitting_an_open_attempt(runtime_client, learner):
+    client = runtime_client
+    aid = learner["assignment"]
+    finish_lesson(client, learner)
+    first = client.post(f"{PREFIX}/my/learning/{aid}/quiz-attempts").json()["id"]
+    assert client.post(f"{PREFIX}/quiz-attempts/{first}/submit", json=answers(False)).json()["passed"] is False
+    second = client.post(f"{PREFIX}/my/learning/{aid}/quiz-attempts").json()["id"]
+    r = client.post(f"{PREFIX}/quiz-attempts/{second}/submit", json=answers(True))
+    assert r.status_code == 200 and r.json()["passed"] is True, r.text

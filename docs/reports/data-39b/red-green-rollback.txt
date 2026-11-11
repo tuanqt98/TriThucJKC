@@ -1,0 +1,16 @@
+== RED: DB tại 007 (trước migration)
+007|f|{jkc=X/jkc}
+        passed = client.post(f"{PREFIX}/quiz-attempts/{first}/submit", json=answers(True))
+        assert passed.status_code == 200 and passed.json()["passed"] is True, passed.text
+>           assert r.status_code == 409, r.text
+E           AssertionError: {"id":"821f6380-f3e6-4af6-b2ca-a0f35cde72bd","attempt_no":2,"score":"0.00","passed":false,"correct_count":0,"question_count":2,"submitted_at":"2026-11-11T06:34:38.210146Z","pass_score_snapshot":"70.00"}
+FAILED tests/test_sprint01.py::test_stale_attempt_cannot_be_submitted_after_pass_and_history_is_kept
+1 failed, 4 passed, 17 deselected in 1.30s
+== GREEN: alembic upgrade 008
+008|t|{jkc=X/jkc}
+5 passed, 17 deselected in 1.23s
+== ROLLBACK: alembic downgrade 007
+007|f|{jkc=X/jkc}
+1 failed, 21 deselected in 0.46s
+== REAPPLY: alembic upgrade head
+008|t|{jkc=X/jkc}

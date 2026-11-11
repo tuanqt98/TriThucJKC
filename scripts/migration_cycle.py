@@ -28,7 +28,7 @@ for direction, target in [
     steps.append(
         {"direction": direction, "target": target, "actual": row[0] if row else "base"}
     )
-    assert (row[0] if row else "base") == ({"head": "007"}.get(target, target))
+    assert (row[0] if row else "base") == ({"head": "008"}.get(target, target))
 output = {
     "result": "PASS",
     "steps": steps,
