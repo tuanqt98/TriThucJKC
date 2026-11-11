@@ -156,12 +156,14 @@ test("Sprint 1: HR ban hành/giao đọc, sửa tri thức, hồ sơ sự cố v
       .filter({ hasText: document })
       .getByRole("link", { name: "Xem tài liệu", exact: true })
       .click();
-  await page.getByRole("button", { name: "Tôi đã đọc phiên bản này" }).click();
-  await expect(
-    page
-      .locator(".feature-panel")
-      .filter({ has: page.getByRole("heading", { name: "Xác nhận đã đọc" }) }),
-  ).toContainText("Đã xác nhận");
+  // UI-04: nút theo mockup 03; biên nhận ghi đúng phiên bản đã xác nhận.
+  await page
+    .getByRole("button", { name: "Xác nhận đã đọc" })
+    .locator("visible=true")
+    .click();
+  await expect(page.getByTestId("ack-receipt")).toContainText(
+    "Đã xác nhận phiên bản",
+  );
   await page.goto("/workspace");
   const form = page.locator("section").filter({
     has: page.getByRole("heading", { name: "Tạo tài liệu / bài viết" }),

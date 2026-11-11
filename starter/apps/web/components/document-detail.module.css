@@ -1,0 +1,847 @@
+/* UI-04 · Chi tiết nội quy. Reuses UI-02 tokens (--primary, --ink, --muted, --border, --shadow). */
+.main {
+  padding: 14px 24px 28px;
+  max-width: 1700px;
+  margin: auto;
+  min-width: 0;
+}
+.demo {
+  font-size: 10px;
+  color: var(--muted);
+  margin: 0 0 8px;
+}
+.crumbs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 12px;
+  min-width: 0;
+}
+.crumbs a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 32px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+.crumbs svg {
+  width: 16px;
+  height: 16px;
+}
+.crumbs span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+}
+.crumbs span::before {
+  content: "›";
+  margin-right: 8px;
+}
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  gap: 18px;
+  align-items: start;
+}
+.article,
+.ackCard,
+.filesCard,
+.historyCard,
+.stateCard {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  min-width: 0;
+}
+.article {
+  padding: 22px 24px 8px;
+}
+.head {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+.docIcon {
+  width: 54px;
+  height: 64px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  color: white;
+  background: linear-gradient(150deg, #ff5a5f, #e0263b);
+  box-shadow: 0 6px 16px #e0263b30;
+}
+.docIcon svg {
+  width: 30px;
+  height: 34px;
+}
+.headText {
+  min-width: 0;
+}
+.code {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  color: #476282;
+  letter-spacing: 0.2px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.head h1 {
+  font-size: 24px;
+  line-height: 1.3;
+  color: #06224d;
+  margin: 2px 0 10px;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.chips > span,
+.chipOk,
+.chipOld {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 999px;
+  line-height: 1.5;
+}
+.chipVersion {
+  color: var(--primary);
+  background: #e7f2ff;
+}
+.chipOk {
+  color: #118555;
+  background: #e0f7ea;
+}
+.chipOld {
+  color: #5f728a;
+  background: #edf1f6;
+}
+.chipMust {
+  color: #c32d50;
+  background: #ffe8ef;
+}
+.chipRead {
+  border: 1px solid currentColor;
+}
+.PENDING {
+  color: #a94e06;
+  background: #fff0dc;
+}
+.ACKNOWLEDGED {
+  color: #118555;
+  background: #e0f7ea;
+}
+.OVERDUE {
+  color: #c32d50;
+  background: #ffe8ef;
+}
+.NOT_ASSIGNED {
+  color: #5f728a;
+  background: #edf1f6;
+}
+.UNKNOWN {
+  color: #7b5a11;
+  background: #fff5da;
+}
+.meta {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  margin: 18px 0 6px;
+  padding: 12px 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.meta > div {
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr);
+  column-gap: 6px;
+  padding: 0 10px;
+  border-left: 1px solid var(--border);
+  min-width: 0;
+}
+.meta > div:first-child {
+  border-left: 0;
+  padding-left: 0;
+}
+.meta svg {
+  grid-row: span 2;
+  width: 20px;
+  height: 20px;
+  color: #6c84a3;
+  margin-top: 2px;
+}
+.meta dt {
+  font-size: 10px;
+  color: var(--muted);
+}
+.meta dd {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink);
+  overflow-wrap: anywhere;
+}
+.meta dd.missing {
+  font-weight: 400;
+  font-size: 11px;
+  color: #8b9bb0;
+  font-style: italic;
+}
+.meta dd.must {
+  color: #d92845;
+}
+.tabs {
+  display: none;
+}
+.sections {
+  padding: 4px 0;
+}
+.section {
+  padding: 14px 0;
+  border-bottom: 1px solid #eef3f8;
+}
+.section:last-child {
+  border-bottom: 0;
+}
+.section h2 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 17px;
+  color: #06224d;
+  margin: 0 0 6px;
+}
+.num {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  font-size: 14px;
+  color: white;
+  background: var(--primary);
+}
+.more {
+  display: none;
+}
+.sectionBody {
+  padding-left: 42px;
+  font-size: 13px;
+  color: #2b4466;
+  overflow-wrap: anywhere;
+}
+.sectionBody p {
+  margin: 0 0 6px;
+}
+.sectionBody ul {
+  margin: 4px 0 6px;
+  padding-left: 18px;
+}
+.sectionBody li {
+  margin-bottom: 3px;
+}
+.empty {
+  color: var(--muted);
+  font-size: 13px;
+  padding: 16px 0;
+}
+.side {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+}
+.banner {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: #ffe9ec;
+  border: 1px solid #ffc9d1;
+  color: #c3233e;
+}
+.banner svg {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+}
+.banner b {
+  display: block;
+  font-size: 13px;
+}
+.banner span {
+  font-size: 12px;
+}
+.mobileBanner {
+  display: none;
+}
+.ackCard,
+.filesCard,
+.historyCard {
+  padding: 16px;
+}
+.side h2 {
+  font-size: 14px;
+  color: #06224d;
+  margin: 0 0 12px;
+}
+.progress {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.progress > div {
+  flex: 1;
+  height: 8px;
+  border-radius: 999px;
+  background: #e8eef6;
+  overflow: hidden;
+}
+.progress > div span {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, #12b76a, #0b9c58);
+}
+.progress b {
+  font-size: 15px;
+}
+.ackState {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 6px;
+  margin: 8px 0 10px;
+}
+.ackDone {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  background: #effaf4;
+  border: 1px solid #c8eed8;
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #0f7a4b;
+  margin: 0 0 8px;
+}
+.ackDone svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+.ackDone small {
+  display: block;
+  font-weight: 400;
+  color: #3c6b55;
+  font-size: 11px;
+}
+.ackButton {
+  width: 100%;
+  min-height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 0;
+  border-radius: 10px;
+  background: linear-gradient(180deg, #1584f2, #0a6fe0);
+  color: white;
+  font-size: 15px;
+  font-weight: 700;
+  box-shadow: 0 6px 16px #0a6fe040;
+  margin-bottom: 8px;
+}
+.ackButton svg {
+  width: 20px;
+  height: 20px;
+}
+.stickyAck {
+  display: none;
+}
+.muted {
+  display: block;
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+.error {
+  font-size: 12px;
+  color: #b4233b;
+  background: #fff0f2;
+  border: 1px solid #ffd0d8;
+  border-radius: 8px;
+  padding: 8px 10px;
+  margin: 10px 0 0;
+}
+.notice {
+  font-size: 12px;
+  color: #0f7a4b;
+  background: #effaf4;
+  border: 1px solid #c8eed8;
+  border-radius: 8px;
+  padding: 8px 10px;
+  margin: 10px 0 0;
+}
+.linkButton {
+  min-height: 36px;
+  padding: 4px 0;
+  border: 0;
+  background: none;
+  color: var(--primary);
+  font-size: 12px;
+  font-weight: 600;
+}
+.files {
+  list-style: none;
+  margin: 0 0 8px;
+  padding: 0;
+}
+.files li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 0;
+  border-bottom: 1px solid #eef3f8;
+}
+.fileIcon {
+  width: 34px;
+  height: 40px;
+  border-radius: 6px;
+  display: grid;
+  place-items: center;
+  font-size: 9px;
+  font-weight: 800;
+  color: white;
+  background: #7d8da3;
+  flex-shrink: 0;
+}
+.fileIcon.pdf {
+  background: #e5383b;
+}
+.fileIcon.image {
+  background: #7b4dff;
+}
+.fileIcon.sheet {
+  background: #1d9a52;
+}
+.fileName {
+  flex: 1;
+  min-width: 0;
+}
+.fileName b {
+  display: block;
+  font-size: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.fileName small {
+  font-size: 11px;
+  color: var(--muted);
+}
+.download {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+.download:hover {
+  background: #eef6ff;
+}
+.download svg {
+  width: 20px;
+  height: 20px;
+}
+.timeline {
+  list-style: none;
+  margin: 0 0 10px;
+  padding: 0 0 0 18px;
+  border-left: 2px solid #e1e9f3;
+}
+.timeline li {
+  position: relative;
+  padding: 0 0 12px 8px;
+}
+.timeline li::before {
+  content: "";
+  position: absolute;
+  left: -25px;
+  top: 4px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #9fb2c8;
+  border: 2px solid white;
+  box-shadow: 0 0 0 2px #d6e1ee;
+}
+.timeline li[data-current="true"]::before {
+  background: var(--primary);
+  box-shadow: 0 0 0 3px #cfe5ff;
+}
+.timeline li > div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.timeline b {
+  font-size: 14px;
+}
+.timeline small {
+  display: block;
+  font-size: 11px;
+  color: var(--muted);
+}
+.stateCard {
+  max-width: 560px;
+  margin: 40px auto;
+  padding: 32px;
+  text-align: center;
+}
+.stateCard h1 {
+  font-size: 22px;
+  white-space: normal;
+}
+.stateCard p {
+  color: var(--muted);
+}
+.stateCard > div {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.stateCard a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+.stateIcon {
+  display: inline-grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #fff0f2;
+  color: #c3233e;
+  margin-bottom: 12px;
+}
+.stateIcon svg {
+  width: 28px;
+  height: 28px;
+}
+.loading {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+  color: var(--muted);
+  font-size: 13px;
+}
+.loading div {
+  height: 40px;
+  margin-bottom: 14px;
+  border-radius: 8px;
+  background: linear-gradient(100deg, #f2f5f9, #e7edf5, #f2f5f9);
+}
+.footer {
+  font-size: 11px;
+  color: var(--muted);
+  padding: 20px 0 0;
+}
+
+@media (min-width: 768px) and (max-width: 1200px) {
+  .main {
+    padding: 14px 16px 24px;
+  }
+  .layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .meta {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    row-gap: 12px;
+  }
+  .meta > div:nth-child(4) {
+    border-left: 0;
+    padding-left: 0;
+  }
+  .side {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .ackCard {
+    grid-column: 1 / -1;
+  }
+  .desktopBanner {
+    display: none;
+  }
+  .mobileBanner {
+    display: block;
+    margin: 4px 0 8px;
+  }
+  .mobileBanner:empty {
+    display: none;
+  }
+  .ackCard .ackButton {
+    display: none;
+  }
+  .stickyAck {
+    display: block;
+    position: sticky;
+    bottom: 0;
+    z-index: 5;
+    margin: 12px -16px 0;
+    padding: 10px 16px;
+    background: linear-gradient(#f6f8fc00, #f6f8fc 30%);
+  }
+  .stickyButton {
+    margin: 0;
+    max-width: 520px;
+    margin-inline: auto;
+  }
+}
+
+@media (max-width: 767px) {
+  .main {
+    padding: 4px 14px 24px;
+  }
+  .demo {
+    font-size: 9px;
+  }
+  .crumbs {
+    margin-bottom: 8px;
+  }
+  .layout {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+  .docIcon {
+    width: 40px;
+    height: 48px;
+  }
+  .docIcon svg {
+    width: 22px;
+    height: 26px;
+  }
+  .head {
+    gap: 12px;
+  }
+  .head h1 {
+    font-size: 18px;
+    margin-bottom: 8px;
+  }
+  .meta {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: 10px;
+    margin: 0;
+    padding: 10px 0;
+  }
+  .meta > div {
+    border-left: 0;
+    padding: 0;
+  }
+  .meta dd {
+    font-size: 12px;
+  }
+  .tabs {
+    display: flex;
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    margin: 0;
+  }
+  .tabs button {
+    flex: 1;
+    min-height: 46px;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    font-size: 13px;
+    color: #4b6283;
+    padding: 6px 4px;
+    border-bottom: 3px solid transparent;
+  }
+  .tabs button[aria-selected="true"] {
+    color: var(--primary);
+    font-weight: 700;
+    border-bottom-color: var(--primary);
+  }
+  .mobileBanner {
+    display: block;
+  }
+  .mobileBanner:empty {
+    display: none;
+  }
+  .desktopBanner {
+    display: none;
+  }
+  .sections {
+    padding: 0;
+  }
+  .sections {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .section {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px;
+  }
+  .section:last-child {
+    border-bottom: 1px solid var(--border);
+  }
+  .section h2 {
+    font-size: 15px;
+    gap: 10px;
+  }
+  .num {
+    width: 26px;
+    height: 26px;
+    font-size: 13px;
+  }
+  .more {
+    display: grid;
+    place-items: center;
+    margin-left: auto;
+    width: 44px;
+    height: 44px;
+    min-height: 44px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: #4b6283;
+    flex-shrink: 0;
+  }
+  .more svg {
+    width: 20px;
+    height: 20px;
+    transition: transform 0.15s;
+  }
+  .more[aria-expanded="true"] svg {
+    transform: rotate(180deg);
+  }
+  .sectionBody {
+    padding-left: 36px;
+    font-size: 13px;
+  }
+  .section[data-open="false"] .sectionBody {
+    max-height: 4.6em;
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(#000 55%, transparent);
+    mask-image: linear-gradient(#000 55%, transparent);
+  }
+  /* Tabs only switch panels on mobile; desktop shows everything. */
+  .layout:not([data-tab="content"]) .sections,
+  .layout:not([data-tab="content"]) .mobileBanner,
+  .layout:not([data-tab="content"]) .ackCard,
+  .layout:not([data-tab="files"]) .filesCard,
+  .layout:not([data-tab="history"]) .historyCard {
+    display: none;
+  }
+  /* Flatten article/aside so the mobile order follows the mockup. */
+  .article,
+  .side {
+    display: contents;
+  }
+  .head {
+    order: 1;
+  }
+  .meta {
+    order: 2;
+  }
+  .tabs {
+    order: 3;
+  }
+  .mobileBanner {
+    order: 4;
+  }
+  .ackCard {
+    order: 5;
+  }
+  .sections {
+    order: 6;
+  }
+  .filesCard {
+    order: 7;
+  }
+  .historyCard {
+    order: 8;
+  }
+  .side {
+    gap: 12px;
+  }
+  .filesCard,
+  .historyCard {
+    padding: 14px;
+  }
+  /* Mobile mockup has no progress card: keep only receipt/notes/errors near the top. */
+  .ackCard {
+    padding: 0;
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+  }
+  .ackCard h2,
+  .ackCard .progress,
+  .ackCard .ackState {
+    display: none;
+  }
+  .ackCard .ackDone {
+    margin: 0;
+  }
+  .stickyAck {
+    display: block;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: calc(64px + env(safe-area-inset-bottom));
+    z-index: 29;
+    padding: 8px 14px;
+    background: linear-gradient(#f6f8fc00, #f6f8fc 30%);
+  }
+  .stickyButton {
+    margin: 0;
+    min-height: 50px;
+    font-size: 16px;
+  }
+  .ackCard .ackButton {
+    display: none;
+  }
+  .main:has(.stickyAck) {
+    padding-bottom: 96px;
+  }
+  .download {
+    width: 48px;
+    height: 48px;
+  }
+  .stateCard {
+    margin: 20px 0;
+    padding: 24px 16px;
+  }
+}
