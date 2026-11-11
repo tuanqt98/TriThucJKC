@@ -53,6 +53,19 @@ UI-05 đã thêm 4 trường **chỉ đọc** vào `ContentView`: `process_id`, 
 
 | DATA-23 | P2 | **Ảnh gắn với từng mục nội dung** | Tệp gắn với phiên bản, không gắn với mục. UI-05B tạm dùng quy ước: một dòng trong mục **đúng bằng tên tệp ảnh đã quét sạch của phiên bản** (có thể thêm tiền tố "Ảnh:") thì hiện ảnh tại chỗ đó; ảnh đầu tiên chưa gắn mục là ảnh đại diện; ảnh còn lại ở "Hình ảnh khác" | Thêm `section_key` (hoặc thứ tự mục) cho tệp đính kèm, đi cùng DATA-04; trình biên soạn cho chọn ảnh theo mục | Có giữ quy ước tên tệp không, hay chờ làm DATA-04/DATA-23 |
 
+## Bổ sung từ UI-06 (Chi tiết sự cố & giải pháp)
+
+Trang `/incidents/[id]` hiển thị **hướng dẫn xử lý đã duyệt** (`contents.kind = INCIDENT_GUIDE`, `GET /incidents/{id}`). Dữ liệu mức độ, xác minh và tái diễn nằm ở **hồ sơ sự cố** (`incidents`, `incident_solutions`, `incident_occurrences`, `/workspace/incidents`). Cột `incident_solutions.approved_content_version_id` có trong schema nhưng chưa được ghi, nên hai bên **chưa liên kết**.
+
+| ID | Đề xuất ưu tiên | Thiếu hụt | Hiện trạng | Đề xuất kỹ thuật | Cần PO/JKC chốt |
+|---|---|---|---|---|---|
+| DATA-24 | P1 | **Liên kết hướng dẫn ↔ hồ sơ sự cố** (mức độ, người/ngày báo cáo, người/ngày xác minh, nguyên nhân đã xác minh, số lần tái diễn) | Không có liên kết; UI-06 ghi "Chưa liên kết hồ sơ", không hiện mức độ hay "Đã xác minh" | Khi trưởng bộ phận xác minh giải pháp: tạo bản nháp INCIDENT_GUIDE từ hồ sơ, duyệt bình thường, rồi ghi `approved_content_version_id`. `GET /incidents/{id}` trả thêm `record_summary` chỉ đọc (mức độ, tên người xác minh, `verified_at`, số lần tái diễn theo tháng) | **Người đọc hướng dẫn ngoài bộ phận của hồ sơ có được thấy tóm tắt hồ sơ không** (hiện RLS hồ sơ chỉ cho người báo cáo và cùng bộ phận) |
+| DATA-25 | P1 | **Biên soạn INCIDENT_GUIDE qua workflow** | `jkc_content_workflow` chỉ nhận DOCUMENT/ARTICLE; hướng dẫn sự cố chỉ có từ seed (UI-06 dùng `app.seed_incident_guides` cho DEMO) | Cho phép kind INCIDENT_GUIDE trong workflow (cùng luồng nháp → gửi → trưởng bộ phận duyệt), hoặc chỉ sinh từ hồ sơ đã xác minh (DATA-24) | Chọn một trong hai luồng |
+| DATA-26 | P2 | **"Tôi cũng gặp lỗi này" ngay trên hướng dẫn** | API ghi tái diễn có sẵn nhưng gắn với hồ sơ (`POST /workspace/incidents/occurrences`, có khóa chống trùng). UI-06 dẫn sang "Hồ sơ / tái diễn" | Sau DATA-24: nút trên hướng dẫn gọi API tái diễn của hồ sơ liên kết, với cùng kiểm tra quyền | Ai được ghi tái diễn (mọi người đọc hay chỉ bộ phận của hồ sơ) |
+| DATA-27 | P2 | **Máy/thiết bị, vật tư** (Heidelberg SM74, Giấy Couche…) | `incidents.equipment_id` có trong schema nhưng không có danh mục thiết bị (DATA-14); chưa có vật tư | Danh mục thiết bị/vật tư, liên kết từ hồ sơ sang hướng dẫn | Danh mục chính thức |
+| DATA-28 | P3 | **Trao đổi & xác minh (bình luận theo dòng thời gian)** | Chưa có bảng | Bảng bình luận theo hồ sơ hoặc theo hướng dẫn, có audit và ACL | Có trong MVP không |
+| DATA-29 | P3 | **In phiếu xử lý, Báo lỗi mới** (nút trong mockup) | Chưa có trang in; tạo hồ sơ có ở `/incidents/manage` | In: CSS `@media print` cho trang chi tiết (chỉ UI). Báo lỗi mới: nút dẫn tới `/incidents/manage` (chỉ UI) | Có làm ngay không |
+
 ## Liên quan UI (không phải API)
 
 - Header mobile của trang chi tiết: mockup có nút quay lại + tìm kiếm; UI-04 giữ header UI-02 đã duyệt và đặt nút quay lại ở breadcrumb. PO quyết định có làm header riêng hay không.
