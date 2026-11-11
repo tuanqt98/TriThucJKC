@@ -84,7 +84,8 @@ test("8 màn hình, dữ liệu thật và responsive", async ({ page }, testInf
     }),
   ).toBeVisible();
   await page.goto("/approvals");
-  await expect(page.locator('.error[role="alert"]')).toContainText(
+  // UI-09: permission state for accounts without a reviewer role.
+  await expect(page.locator("main").getByRole("alert")).toContainText(
     "Chỉ trưởng bộ phận",
   );
   await page.goto("/");
@@ -160,16 +161,28 @@ test("trưởng bộ phận xem trước và duyệt", async ({ page }, testInfo
   await expect(page.locator("h1")).toContainText("Chào anh/chị");
   await page.goto("/approvals");
   await expect(page.locator('[aria-busy="true"]')).toHaveCount(0);
-  const pending = page.locator(".approval-row").filter({ hasText: title });
+  // UI-09: search the queue, open the item, read it in the detail pane / sheet.
+  await page
+    .getByRole("searchbox", { name: "Tìm trong hàng đợi duyệt" })
+    .fill(title);
+  const pending = page
+    .getByRole("list", { name: "Hàng đợi chờ duyệt" })
+    .getByRole("listitem")
+    .filter({ hasText: title });
   await expect(pending).toContainText("Chờ duyệt");
-  await pending.click();
-  await expect(page.locator(".approval-preview")).toContainText(
+  await pending.getByRole("button").click();
+  await expect(page.getByTestId("approval-detail")).toContainText(
     "Dữ liệu minh họa",
   );
   await page.screenshot({
     path: `${evidenceRoot}/ui-approvals-${testInfo.project.name}.png`,
     fullPage: true,
   });
-  await page.getByRole("button", { name: "Phê duyệt phiên bản này" }).click();
-  await expect(page.getByRole("status")).toContainText("Đã phê duyệt");
+  await page
+    .getByTestId("approval-detail")
+    .getByRole("button", { name: "Phê duyệt", exact: true })
+    .click();
+  await expect(page.locator("main").getByRole("status")).toContainText(
+    "Đã phê duyệt",
+  );
 });

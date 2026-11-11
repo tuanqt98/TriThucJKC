@@ -91,7 +91,29 @@ UI-08 dùng API học tập sẵn có: `GET /my/learning` (trạng thái do `jkc
 | DATA-37 | P3 | **Lịch học & nhắc việc** (giờ học, buổi kiểm tra) | Không có dữ liệu lịch; khung bên phải chỉ hiện **hạn hoàn thành thật** của khóa chưa hoàn thành | Bảng lịch đào tạo/nhắc việc, có thể nối thông báo | Có lịch học tập trung không |
 | DATA-38 | P2 | **Tài liệu/video trong bài học** | Bài học chỉ có nội dung văn bản (`lessons.body`), chưa có tệp | Đính kèm cho bài học (dùng lại cơ chế upload/quét của nội dung) | Định dạng và dung lượng cho phép |
 | DATA-39 | — | **Làm lại bài kiểm tra sau khi đã đạt** | **Đã làm (UI-08 vòng 2, PO 11/11/2026): chặn ở backend.** `POST /my/learning/{id}/quiz-attempts` trả 409 `QUIZ_ALREADY_PASSED` khi đã đạt; giữ nguyên điểm, lịch sử, `completed_at`; không migration | Còn lại (tùy chọn): chặn cả `jkc_submit_quiz` cho lần làm mở từ trước quy tắc mới (cần migration 008) | Có cần chặn ở DB không |
+| **DATA-39B** | **P0 · BẮT BUỘC TRƯỚC PRODUCTION** (PO 11/11/2026) | **Chặn nộp lần làm cũ sau khi đã đạt** | DATA-39 chặn *mở* lần mới. Lần làm đã mở **trước** quy tắc DATA-39 (hoặc mở do dữ liệu cũ) vẫn **nộp** được qua `POST /quiz-attempts/{id}/submit`, vì `jkc_submit_quiz` chưa kiểm tra "đã đạt". Kết quả cũ và `completed_at` không bị thay đổi (`COALESCE`), nhưng lịch sử có thể thêm lần nộp | Migration mới sửa `jkc_submit_quiz`: dưới khóa `course_assignments`, nếu đã có lần nộp đạt thì `RAISE 'JKC_CONFLICT'` (API trả 409); kèm pytest, cập nhật `main.py` (readiness migration), `database_drill.py`, `migration_cycle.py`, runbook. **Chưa làm** — PO yêu cầu không tự sửa DB/migration | PO duyệt migration và thời điểm triển khai; quyết định xử lý các lần làm mở sẵn trên dữ liệu thật (hủy, giữ) |
 | DATA-40 | P3 | **Chứng nhận hoàn thành** ("Xem điểm, tiến độ và chứng nhận") | Chưa có | Sinh chứng nhận PDF có mã kiểm tra khi `completed_at` có giá trị | Mẫu chứng nhận, ai ký |
+
+## Bổ sung từ UI-09 (Phê duyệt nội dung)
+
+UI-09 dùng API workflow sẵn có:
+- hàng đợi `GET /workspace/contents` (`can_review` + `PENDING`; trưởng bộ phận duyệt bài tri thức, HR duyệt tài liệu);
+- quyết định `POST /workspace/contents/{approve|request-changes|reject}` (lý do bắt buộc khi yêu cầu sửa/từ chối, kiểm `revision`, không tự duyệt);
+- tên người gửi và bộ phận từ `/workspace/people`;
+- lịch sử đã duyệt từ `GET /approvals` (chỉ bài tri thức, chỉ trưởng bộ phận).
+
+Không đổi API, DB hay nghiệp vụ. Các thiếu hụt:
+
+| ID | Đề xuất ưu tiên | Thiếu hụt | Hiện trạng | Đề xuất kỹ thuật | Cần PO/JKC chốt |
+|---|---|---|---|---|---|
+| DATA-41 | **P1** (PO 11/11/2026) | **Thời điểm gửi duyệt** trong hàng đợi (mockup "Ngày gửi") | Hàng đợi workflow chỉ có thời điểm tạo phiên bản (`created_at`); UI ghi đúng "Tạo phiên bản". `approvals.requested_at` có trong DB nhưng API workflow không trả | Thêm `requested_at` (và tên người gửi, tên bộ phận) chỉ đọc vào `jkc_content_workspace()` cho mục đang chờ | Có cần không |
+| DATA-42 | **P1** (PO 11/11/2026) | **"Yêu cầu chỉnh sửa", "Đã duyệt hôm nay"** (thẻ thống kê mockup) | RLS chỉ cho người duyệt đọc phiên bản đã duyệt hoặc đang chờ, nên không đếm được bài đã trả về/từ chối; `GET /approvals` không có `decided_at`. UI hiện 2 thẻ: Chờ duyệt và Đã duyệt (tổng trong phạm vi) | Endpoint thống kê chỉ đọc từ `approval_events` theo **người duyệt hiện tại** (đếm theo quyết định và ngày) | Chỉ số nào cần, theo người hay theo bộ phận |
+| DATA-43 | **P2** (PO 11/11/2026) | **Mức ưu tiên, từ khóa** | Chưa có trường. Bộ lọc mức ưu tiên ẩn | Thêm `priority` khi gửi duyệt; từ khóa đi cùng DATA-15 | Ai đặt mức ưu tiên |
+| DATA-44 | **P1** (PO 11/11/2026) | **Lịch sử duyệt / phiên bản** (tab "Lịch sử" trong khung chi tiết) | `approval_events` có trong DB nhưng chưa có API đọc cho người duyệt | `GET /workspace/contents/{id}/history`: các phiên bản và quyết định trước, theo quyền người duyệt | Có cần cho MVP không |
+| DATA-45 | **P2** (PO 11/11/2026) · chưa làm duyệt hàng loạt | **Duyệt hàng loạt** (ô chọn trong bảng mockup) | Không có API hàng loạt; UI cố ý duyệt **từng bài** sau khi đọc | Endpoint batch có kiểm tra từng mục, trả kết quả từng mục | Có muốn cho duyệt hàng loạt không (rủi ro duyệt không đọc) |
+| DATA-46 | **P2** (PO 11/11/2026) | **Mã nội dung nghiệp vụ** (KB-023, DOC-011) | Mã do workflow sinh là mã kỹ thuật `S1-<uuid>`, UI không hiện | Quy tắc sinh mã nghiệp vụ theo loại và năm | Quy ước mã |
+| — | — | **Sự cố** trong hàng đợi | Chưa có workflow cho INCIDENT_GUIDE (DATA-25); chip "Sự cố" ẩn | Theo DATA-24/25 | — |
+| — | — | **Lịch sử đã duyệt của HR** (tài liệu) | `GET /approvals` chỉ có bài tri thức, chỉ trưởng bộ phận, nên HR không thấy thẻ "Đã duyệt" | Đi cùng DATA-42/44 | — |
 
 ## Liên quan UI (không phải API)
 
