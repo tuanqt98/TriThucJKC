@@ -1,0 +1,156 @@
+[
+  {
+    "screen": "ui03-documents-desktop",
+    "changed_px": 42125,
+    "changed_pct": 3.25,
+    "bbox": [
+      419,
+      443,
+      1155,
+      900
+    ]
+  },
+  {
+    "screen": "ui03-documents-mobile375",
+    "changed_px": 0,
+    "changed_pct": 0.0,
+    "bbox": null
+  },
+  {
+    "screen": "ui03-documents-mobile390",
+    "changed_px": 0,
+    "changed_pct": 0.0,
+    "bbox": null
+  },
+  {
+    "screen": "ui03-documents-tablet",
+    "changed_px": 39891,
+    "changed_pct": 5.072,
+    "bbox": [
+      103,
+      540,
+      745,
+      1021
+    ]
+  },
+  {
+    "screen": "ui04-document-detail-desktop",
+    "changed_px": 0,
+    "changed_pct": 0.0,
+    "bbox": null
+  },
+  {
+    "screen": "ui04-document-detail-mobile375",
+    "changed_px": 0,
+    "changed_pct": 0.0,
+    "bbox": null
+  },
+  {
+    "screen": "ui04-document-detail-mobile390",
+    "changed_px": 0,
+    "changed_pct": 0.0,
+    "bbox": null
+  },
+  {
+    "screen": "ui04-document-detail-tablet",
+    "changed_px": 0,
+    "changed_pct": 0.0,
+    "bbox": null
+  },
+  {
+    "screen": "ui05b-knowledge-detail-desktop",
+    "changed_px": 0,
+    "changed_pct": 0.0,
+    "bbox": null
+  },
+  {
+    "screen": "ui05b-knowledge-detail-mobile375",
+    "changed_px": 0,
+    "changed_pct": 0.0,
+    "bbox": null
+  },
+  {
+    "screen": "ui05b-knowledge-detail-mobile390",
+    "changed_px": 0,
+    "changed_pct": 0.0,
+    "bbox": null
+  },
+  {
+    "screen": "ui05b-knowledge-detail-tablet",
+    "changed_px": 0,
+    "changed_pct": 0.0,
+    "bbox": null
+  },
+  {
+    "screen": "ui06-incident-detail-desktop",
+    "changed_px": 0,
+    "changed_pct": 0.0,
+    "bbox": null
+  },
+  {
+    "screen": "ui06-incident-detail-mobile375",
+    "changed_px": 0,
+    "changed_pct": 0.0,
+    "bbox": null
+  },
+  {
+    "screen": "ui06-incident-detail-mobile390",
+    "changed_px": 0,
+    "changed_pct": 0.0,
+    "bbox": null
+  },
+  {
+    "screen": "ui06-incident-detail-tablet",
+    "changed_px": 0,
+    "changed_pct": 0.0,
+    "bbox": null
+  },
+  {
+    "screen": "ui08-course-desktop",
+    "changed_px": 0,
+    "changed_pct": 0.0,
+    "bbox": null
+  },
+  {
+    "screen": "ui08-course-mobile375",
+    "changed_px": 0,
+    "changed_pct": 0.0,
+    "bbox": null
+  },
+  {
+    "screen": "ui08-course-mobile390",
+    "changed_px": 0,
+    "changed_pct": 0.0,
+    "bbox": null
+  },
+  {
+    "screen": "ui08-course-tablet",
+    "changed_px": 0,
+    "changed_pct": 0.0,
+    "bbox": null
+  },
+  {
+    "screen": "ui08-my-courses-desktop",
+    "changed_px": 0,
+    "changed_pct": 0.0,
+    "bbox": null
+  },
+  {
+    "screen": "ui08-my-courses-mobile375",
+    "changed_px": 0,
+    "changed_pct": 0.0,
+    "bbox": null
+  },
+  {
+    "screen": "ui08-my-courses-mobile390",
+    "changed_px": 0,
+    "changed_pct": 0.0,
+    "bbox": null
+  },
+  {
+    "screen": "ui08-my-courses-tablet",
+    "changed_px": 0,
+    "changed_pct": 0.0,
+    "bbox": null
+  }
+]

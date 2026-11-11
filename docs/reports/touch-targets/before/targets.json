@@ -1,0 +1,1270 @@
+[
+  {
+    "screen": "ui03-documents",
+    "viewport": "desktop",
+    "targets": 34,
+    "small": 23,
+    "smallTargets": [
+      {
+        "tag": "button",
+        "text": "Tất cả (339)",
+        "cls": "",
+        "box": [
+          142,
+          36
+        ],
+        "hit": [
+          121,
+          36
+        ],
+        "inline": false,
+        "small": true
+      },
+      {
+        "tag": "button",
+        "text": "Nội quy",
+        "cls": "",
+        "box": [
+          142,
+          36
+        ],
+        "hit": [
+          121,
+          36
+        ],
+        "inline": false,
+        "small": true
+      },
+      {
+        "tag": "button",
+        "text": "Quy trình",
+        "cls": "",
+        "box": [
+          142,
+          36
+        ],
+        "hit": [
+          121,
+          36
+        ],
+        "inline": false,
+        "small": true
+      },
+      {
+        "tag": "button",
+        "text": "An toàn",
+        "cls": "",
+        "box": [
+          142,
+          36
+        ],
+        "hit": [
+          121,
+          36
+        ],
+        "inline": false,
+        "small": true
+      },
+      {
+        "tag": "button",
+        "text": "Biểu mẫu",
+        "cls": "",
+        "box": [
+          142,
+          36
+        ],
+        "hit": [
+          121,
+          36
+        ],
+        "inline": false,
+        "small": true
+      },
+      {
+        "tag": "input",
+        "text": "Lọc theo tiêu đề",
+        "cls": "",
+        "box": [
+          598,
+          41
+        ],
+        "hit": [
+          121,
+          42
+        ],
+        "inline": false,
+        "small": true
+      },
+      {
+        "tag": "select",
+        "text": "Lọc bộ phận",
+        "cls": "",
+        "box": [
+          231,
+          38
+        ],
+        "hit": [
+          121,
+          38
+        ],
+        "inline": false,
+        "small": true
+      },
+      {
+        "tag": "select",
+        "text": "Lọc phiên bản",
+        "cls": "",
+        "box": [
+          231,
+          38
+        ],
+        "hit": [
+          121,
+          38
+        ],
+        "inline": false,
+        "small": true
+      },
+      {
+        "tag": "select",
+        "text": "Lọc trạng thái ban hành",
+        "cls": "",
+        "box": [
+          231,
+          38
+        ],
+        "hit": [
+          121,
+          38
+        ],
+        "inline": false,
+        "small": true
+      },
+      {
+        "tag": "select",
+        "text": "Lọc trạng thái đọc",
+        "cls": "",
+        "box": [
+          231,
+          38
+        ],
+        "hit": [
+          121,
+          38
+        ],
+        "inline": false,
+        "small": true
+      },
+      {
+        "tag": "select",
+        "text": "Lọc yêu cầu đọc",
+        "cls": "",
+        "box": [
+          231,
+          38
+        ],
+        "hit": [
+          121,
+          38
+        ],
+        "inline": false,
+        "small": true
+      },
+      {
+        "tag": "button",
+        "text": "Xóa bộ lọc",
+        "cls": "FAdRKW_reset",
+        "box": [
+          231,
+          38
+        ],
+        "hit": [
+          121,
+          38
+        ],
+        "inline": false,
+        "small": true
+      },
+      {
+        "tag": "a",
+        "text": "DEMO · Nội quy UAT mobile 1794378057496",
+        "cls": "FAdRKW_titleLink",
+        "box": [
+          165,
+          32
+        ],
+        "hit": [
+          121,
+          32
+        ],
+        "inline": false,
+        "small": true
+      },
+      {
+        "tag": "a",
+        "text": "Xem tài liệu",
+        "cls": "FAdRKW_view",
+        "box": [
+          84,
+          36
+        ],
+        "hit": [
+          84,
+          36
+        ],
+        "inline": false,
+        "small": true
+      },
+      {
+        "tag": "a",
+        "text": "DEMO · Nội quy UAT desktop 1794378016160",
+        "cls": "FAdRKW_titleLink",
+        "box": [
+          165,
+          32
+        ],
+        "hit": [
+          121,
+          32
+        ],
+        "inline": false,
+        "small": true
+      },
+      {
+        "tag": "a",
+        "text": "Xem tài liệu",
+        "cls": "FAdRKW_view",
+        "box": [
+          84,
+          36
+        ],
+        "hit": [
+          84,
+          36
+        ],
+        "inline": false,
+        "small": true
+      },
+      {
+        "tag": "a",
+        "text": "Xem tài liệu",
+        "cls": "FAdRKW_view",
+        "box": [
+          84,
+          36
+        ],
+        "hit": [
+          84,
+          36
+        ],
+        "inline": false,
+        "small": true
+      },
+      {
+        "tag": "a",
+        "text": "Xem tài liệu",
+        "cls": "FAdRKW_view",
+        "box": [
+          84,
+          36
+        ],
+        "hit": [
+          84,
+          36
+        ],
+        "inline": false,
+        "small": true
+      },
+      {
+        "tag": "a",
+        "text": "DEMO · Tài liệu chờ HR ui09tablet1794377",
+        "cls": "FAdRKW_titleLink",
+        "box": [
+          165,
+          32
+        ],
+        "hit": [
+          121,
+          32
+        ],
+        "inline": false,
+        "small": true
+      },
+      {
+        "tag": "a",
+        "text": "Xem tài liệu",
+        "cls": "FAdRKW_view",
+        "box": [
+          84,
+          36
+        ],
+        "hit": [
+          84,
+          36
+        ],
+        "inline": false,
+        "small": true
+      },
+      {
+        "tag": "button",
+        "text": "Trang trước",
+        "cls": "",
+        "box": [
+          71,
+          36
+        ],
+        "hit": [
+          72,
+          36
+        ],
+        "inline": false,
+        "small": true
+      },
+      {
+        "tag": "button",
+        "text": "Trang sau",
+        "cls": "",
+        "box": [
+          63,
+          36
+        ],
+        "hit": [
+          64,
+          36
+        ],
+        "inline": false,
+        "small": true
+      },
+      {
+        "tag": "button",
+        "text": "Xem tất cả →",
+        "cls": "",
+        "box": [
+          61,
+          36
+        ],
+        "hit": [
+          62,
+          36
+        ],
+        "inline": false,
+        "small": true
+      }
+    ]
+  },
+  {
+    "screen": "ui04-document-detail",
+    "viewport": "desktop",
+    "targets": 1,
+    "small": 1,
+    "smallTargets": [
+      {
+        "tag": "a",
+        "text": "Nội quy",
+        "cls": "",
+        "box": [
+          66,
+          32
+        ],
+        "hit": [
+          66,
+          32
+        ],
+        "inline": false,
+        "small": true
+      }
+    ]
+  },
+  {
+    "screen": "ui05b-knowledge-detail",
+    "viewport": "desktop",
+    "targets": 4,
+    "small": 1,
+    "smallTargets": [
+      {
+        "tag": "a",
+        "text": "Kho tri thức",
+        "cls": "",
+        "box": [
+          93,
+          32
+        ],
+        "hit": [
+          94,
+          32
+        ],
+        "inline": false,
+        "small": true
+      }
+    ]
+  },
+  {
+    "screen": "ui06-incident-detail",
+    "viewport": "desktop",
+    "targets": 11,
+    "small": 1,
+    "smallTargets": [
+      {
+        "tag": "a",
+        "text": "Kho tri thức",
+        "cls": "",
+        "box": [
+          93,
+          32
+        ],
+        "hit": [
+          94,
+          32
+        ],
+        "inline": false,
+        "small": true
+      }
+    ]
+  },
+  {
+    "screen": "ui08-my-courses",
+    "viewport": "desktop",
+    "targets": 360,
+    "small": 0,
+    "smallTargets": []
+  },
+  {
+    "screen": "ui08-course",
+    "viewport": "desktop",
+    "targets": 3,
+    "small": 1,
+    "smallTargets": [
+      {
+        "tag": "a",
+        "text": "Khóa học của tôi",
+        "cls": "",
+        "box": [
+          121,
+          32
+        ],
+        "hit": [
+          121,
+          32
+        ],
+        "inline": false,
+        "small": true
+      }
+    ]
+  },
+  {
+    "screen": "ui03-documents",
+    "viewport": "tablet",
+    "targets": 34,
+    "small": 21,
+    "smallTargets": [
+      {
+        "tag": "button",
+        "text": "Tất cả (339)",
+        "cls": "",
+        "box": [
+          123,
+          36
+        ],
+        "hit": [
+          121,
+          36
+        ],
+        "inline": false,
+        "small": true
+      },
+      {
+        "tag": "button",
+        "text": "Nội quy",
+        "cls": "",
+        "box": [
+          123,
+          36
+        ],
+        "hit": [
+          121,
+          36
+        ],
+        "inline": false,
+        "small": true
+      },
+      {
+        "tag": "button",
+        "text": "Quy trình",
+        "cls": "",
+        "box": [
+          123,
+          36
+        ],
+        "hit": [
+          121,
+          36
+        ],
+        "inline": false,
+        "small": true
+      },
+      {
+        "tag": "button",
+        "text": "An toàn",
+        "cls": "",
+        "box": [
+          123,
+          36
+        ],
+        "hit": [
+          121,
+          36
+        ],
+        "inline": false,
+        "small": true
+      },
+      {
+        "tag": "button",
+        "text": "Biểu mẫu",
+        "cls": "",
+        "box": [
+          123,
+          36
+        ],
+        "hit": [
+          121,
+          36
+        ],
+        "inline": false,
+        "small": true
+      },
+      {
+        "tag": "input",
+        "text": "Lọc theo tiêu đề",
+        "cls": "",
+        "box": [
+          504,
+          41
+        ],
+        "hit": [
+          121,
+          42
+        ],
+        "inline": false,
+        "small": true
+      },
+      {
+        "tag": "select",
+        "text": "Lọc bộ phận",
+        "cls": "",
+        "box": [
+          199,
+          38
+        ],
+        "hit": [
+          121,
+          38
+        ],
+        "inline": false,
+        "small": true
+      },
+      {
+        "tag": "select",
+        "text": "Lọc phiên bản",
+        "cls": "",
+        "box": [
+          199,
+          38
+        ],
+        "hit": [
+          121,
+          38
+        ],
+        "inline": false,
+        "small": true
+      },
+      {
+        "tag": "select",
+        "text": "Lọc trạng thái ban hành",
+        "cls": "",
+        "box": [
+          199,
+          38
+        ],
+        "hit": [
+          121,
+          38
+        ],
+        "inline": false,
+        "small": true
+      },
+      {
+        "tag": "select",
+        "text": "Lọc trạng thái đọc",
+        "cls": "",
+        "box": [
+          199,
+          38
+        ],
+        "hit": [
+          121,
+          38
+        ],
+        "inline": false,
+        "small": true
+      },
+      {
+        "tag": "select",
+        "text": "Lọc yêu cầu đọc",
+        "cls": "",
+        "box": [
+          199,
+          38
+        ],
+        "hit": [
+          121,
+          38
+        ],
+        "inline": false,
+        "small": true
+      },
+      {
+        "tag": "button",
+        "text": "Xóa bộ lọc",
+        "cls": "FAdRKW_reset",
+        "box": [
+          199,
+          38
+        ],
+        "hit": [
+          121,
+          38
+        ],
+        "inline": false,
+        "small": true
+      },
+      {
+        "tag": "a",
+        "text": "DEMO · Nội quy UAT mobile 1794378057496",
+        "cls": "FAdRKW_titleLink",
+        "box": [
+          142,
+          32
+        ],
+        "hit": [
+          121,
+          32
+        ],
+        "inline": false,
+        "small": true
+      },
+      {
+        "tag": "a",
+        "text": "Xem tài liệu",
+        "cls": "FAdRKW_view",
+        "box": [
+          71,
+          40
+        ],
+        "hit": [
+          72,
+          40
+        ],
+        "inline": false,
+        "small": true
+      },
+      {
+        "tag": "a",
+        "text": "Xem tài liệu",
+        "cls": "FAdRKW_view",
+        "box": [
+          71,
+          40
+        ],
+        "hit": [
+          72,
+          40
+        ],
+        "inline": false,
+        "small": true
+      },
+      {
+        "tag": "a",
+        "text": "Xem tài liệu",
+        "cls": "FAdRKW_view",
+        "box": [
+          71,
+          40
+        ],
+        "hit": [
+          72,
+          40
+        ],
+        "inline": false,
+        "small": true
+      },
+      {
+        "tag": "a",
+        "text": "Xem tài liệu",
+        "cls": "FAdRKW_view",
+        "box": [
+          71,
+          40
+        ],
+        "hit": [
+          72,
+          40
+        ],
+        "inline": false,
+        "small": true
+      },
+      {
+        "tag": "a",
+        "text": "Xem tài liệu",
+        "cls": "FAdRKW_view",
+        "box": [
+          71,
+          40
+        ],
+        "hit": [
+          72,
+          40
+        ],
+        "inline": false,
+        "small": true
+      },
+      {
+        "tag": "button",
+        "text": "Trang trước",
+        "cls": "",
+        "box": [
+          71,
+          36
+        ],
+        "hit": [
+          72,
+          36
+        ],
+        "inline": false,
+        "small": true
+      },
+      {
+        "tag": "button",
+        "text": "Trang sau",
+        "cls": "",
+        "box": [
+          63,
+          36
+        ],
+        "hit": [
+          64,
+          36
+        ],
+        "inline": false,
+        "small": true
+      },
+      {
+        "tag": "button",
+        "text": "Xem tất cả →",
+        "cls": "",
+        "box": [
+          61,
+          36
+        ],
+        "hit": [
+          62,
+          36
+        ],
+        "inline": false,
+        "small": true
+      }
+    ]
+  },
+  {
+    "screen": "ui04-document-detail",
+    "viewport": "tablet",
+    "targets": 1,
+    "small": 1,
+    "smallTargets": [
+      {
+        "tag": "a",
+        "text": "Nội quy",
+        "cls": "",
+        "box": [
+          66,
+          32
+        ],
+        "hit": [
+          66,
+          32
+        ],
+        "inline": false,
+        "small": true
+      }
+    ]
+  },
+  {
+    "screen": "ui05b-knowledge-detail",
+    "viewport": "tablet",
+    "targets": 4,
+    "small": 1,
+    "smallTargets": [
+      {
+        "tag": "a",
+        "text": "Kho tri thức",
+        "cls": "",
+        "box": [
+          93,
+          32
+        ],
+        "hit": [
+          94,
+          32
+        ],
+        "inline": false,
+        "small": true
+      }
+    ]
+  },
+  {
+    "screen": "ui06-incident-detail",
+    "viewport": "tablet",
+    "targets": 11,
+    "small": 1,
+    "smallTargets": [
+      {
+        "tag": "a",
+        "text": "Kho tri thức",
+        "cls": "",
+        "box": [
+          93,
+          32
+        ],
+        "hit": [
+          94,
+          32
+        ],
+        "inline": false,
+        "small": true
+      }
+    ]
+  },
+  {
+    "screen": "ui08-my-courses",
+    "viewport": "tablet",
+    "targets": 360,
+    "small": 0,
+    "smallTargets": []
+  },
+  {
+    "screen": "ui08-course",
+    "viewport": "tablet",
+    "targets": 3,
+    "small": 1,
+    "smallTargets": [
+      {
+        "tag": "a",
+        "text": "Khóa học của tôi",
+        "cls": "",
+        "box": [
+          121,
+          32
+        ],
+        "hit": [
+          121,
+          32
+        ],
+        "inline": false,
+        "small": true
+      }
+    ]
+  },
+  {
+    "screen": "ui03-documents",
+    "viewport": "mobile390",
+    "targets": 27,
+    "small": 6,
+    "smallTargets": [
+      {
+        "tag": "button",
+        "text": "Tất cả (339)",
+        "cls": "",
+        "box": [
+          68,
+          36
+        ],
+        "hit": [
+          68,
+          36
+        ],
+        "inline": false,
+        "small": true
+      },
+      {
+        "tag": "button",
+        "text": "Nội quy",
+        "cls": "",
+        "box": [
+          68,
+          36
+        ],
+        "hit": [
+          68,
+          36
+        ],
+        "inline": false,
+        "small": true
+      },
+      {
+        "tag": "button",
+        "text": "Quy trình",
+        "cls": "",
+        "box": [
+          68,
+          36
+        ],
+        "hit": [
+          68,
+          36
+        ],
+        "inline": false,
+        "small": true
+      },
+      {
+        "tag": "button",
+        "text": "An toàn",
+        "cls": "",
+        "box": [
+          68,
+          36
+        ],
+        "hit": [
+          68,
+          36
+        ],
+        "inline": false,
+        "small": true
+      },
+      {
+        "tag": "button",
+        "text": "Biểu mẫu",
+        "cls": "",
+        "box": [
+          68,
+          36
+        ],
+        "hit": [
+          68,
+          36
+        ],
+        "inline": false,
+        "small": true
+      },
+      {
+        "tag": "input",
+        "text": "Lọc theo tiêu đề",
+        "cls": "",
+        "box": [
+          240,
+          42
+        ],
+        "hit": [
+          121,
+          43
+        ],
+        "inline": false,
+        "small": true
+      }
+    ]
+  },
+  {
+    "screen": "ui04-document-detail",
+    "viewport": "mobile390",
+    "targets": 5,
+    "small": 1,
+    "smallTargets": [
+      {
+        "tag": "a",
+        "text": "Nội quy",
+        "cls": "",
+        "box": [
+          66,
+          32
+        ],
+        "hit": [
+          66,
+          32
+        ],
+        "inline": false,
+        "small": true
+      }
+    ]
+  },
+  {
+    "screen": "ui05b-knowledge-detail",
+    "viewport": "mobile390",
+    "targets": 7,
+    "small": 1,
+    "smallTargets": [
+      {
+        "tag": "a",
+        "text": "Kho tri thức",
+        "cls": "",
+        "box": [
+          93,
+          32
+        ],
+        "hit": [
+          94,
+          32
+        ],
+        "inline": false,
+        "small": true
+      }
+    ]
+  },
+  {
+    "screen": "ui06-incident-detail",
+    "viewport": "mobile390",
+    "targets": 18,
+    "small": 1,
+    "smallTargets": [
+      {
+        "tag": "a",
+        "text": "Kho tri thức",
+        "cls": "",
+        "box": [
+          93,
+          32
+        ],
+        "hit": [
+          94,
+          32
+        ],
+        "inline": false,
+        "small": true
+      }
+    ]
+  },
+  {
+    "screen": "ui08-my-courses",
+    "viewport": "mobile390",
+    "targets": 360,
+    "small": 0,
+    "smallTargets": []
+  },
+  {
+    "screen": "ui08-course",
+    "viewport": "mobile390",
+    "targets": 3,
+    "small": 1,
+    "smallTargets": [
+      {
+        "tag": "a",
+        "text": "Khóa học của tôi",
+        "cls": "",
+        "box": [
+          121,
+          32
+        ],
+        "hit": [
+          121,
+          32
+        ],
+        "inline": false,
+        "small": true
+      }
+    ]
+  },
+  {
+    "screen": "ui03-documents",
+    "viewport": "mobile375",
+    "targets": 27,
+    "small": 6,
+    "smallTargets": [
+      {
+        "tag": "button",
+        "text": "Tất cả (339)",
+        "cls": "",
+        "box": [
+          65,
+          36
+        ],
+        "hit": [
+          66,
+          36
+        ],
+        "inline": false,
+        "small": true
+      },
+      {
+        "tag": "button",
+        "text": "Nội quy",
+        "cls": "",
+        "box": [
+          65,
+          36
+        ],
+        "hit": [
+          65,
+          36
+        ],
+        "inline": false,
+        "small": true
+      },
+      {
+        "tag": "button",
+        "text": "Quy trình",
+        "cls": "",
+        "box": [
+          65,
+          36
+        ],
+        "hit": [
+          66,
+          36
+        ],
+        "inline": false,
+        "small": true
+      },
+      {
+        "tag": "button",
+        "text": "An toàn",
+        "cls": "",
+        "box": [
+          65,
+          36
+        ],
+        "hit": [
+          65,
+          36
+        ],
+        "inline": false,
+        "small": true
+      },
+      {
+        "tag": "button",
+        "text": "Biểu mẫu",
+        "cls": "",
+        "box": [
+          65,
+          36
+        ],
+        "hit": [
+          66,
+          36
+        ],
+        "inline": false,
+        "small": true
+      },
+      {
+        "tag": "input",
+        "text": "Lọc theo tiêu đề",
+        "cls": "",
+        "box": [
+          225,
+          42
+        ],
+        "hit": [
+          121,
+          43
+        ],
+        "inline": false,
+        "small": true
+      }
+    ]
+  },
+  {
+    "screen": "ui04-document-detail",
+    "viewport": "mobile375",
+    "targets": 5,
+    "small": 1,
+    "smallTargets": [
+      {
+        "tag": "a",
+        "text": "Nội quy",
+        "cls": "",
+        "box": [
+          66,
+          32
+        ],
+        "hit": [
+          66,
+          32
+        ],
+        "inline": false,
+        "small": true
+      }
+    ]
+  },
+  {
+    "screen": "ui05b-knowledge-detail",
+    "viewport": "mobile375",
+    "targets": 7,
+    "small": 1,
+    "smallTargets": [
+      {
+        "tag": "a",
+        "text": "Kho tri thức",
+        "cls": "",
+        "box": [
+          93,
+          32
+        ],
+        "hit": [
+          94,
+          32
+        ],
+        "inline": false,
+        "small": true
+      }
+    ]
+  },
+  {
+    "screen": "ui06-incident-detail",
+    "viewport": "mobile375",
+    "targets": 18,
+    "small": 1,
+    "smallTargets": [
+      {
+        "tag": "a",
+        "text": "Kho tri thức",
+        "cls": "",
+        "box": [
+          93,
+          32
+        ],
+        "hit": [
+          94,
+          32
+        ],
+        "inline": false,
+        "small": true
+      }
+    ]
+  },
+  {
+    "screen": "ui08-my-courses",
+    "viewport": "mobile375",
+    "targets": 360,
+    "small": 0,
+    "smallTargets": []
+  },
+  {
+    "screen": "ui08-course",
+    "viewport": "mobile375",
+    "targets": 3,
+    "small": 1,
+    "smallTargets": [
+      {
+        "tag": "a",
+        "text": "Khóa học của tôi",
+        "cls": "",
+        "box": [
+          121,
+          32
+        ],
+        "hit": [
+          121,
+          32
+        ],
+        "inline": false,
+        "small": true
+      }
+    ]
+  }
+]

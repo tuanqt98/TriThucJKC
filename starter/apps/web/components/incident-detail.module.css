@@ -699,3 +699,14 @@
     padding: 24px 16px;
   }
 }
+
+/* PO decision D (11/11/2026): the back crumb keeps its drawn 32px height; a transparent ::after
+   extends only its touch area to 44px (no layout or visual change). */
+.crumbs a {
+  position: relative;
+}
+.crumbs a::after {
+  content: "";
+  position: absolute;
+  inset: min(0px, calc(50% - 22px)) min(0px, calc(50% - 22px));
+}

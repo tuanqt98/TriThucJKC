@@ -1,0 +1,170 @@
+[
+  {
+    "screen": "ui03-documents",
+    "viewport": "desktop",
+    "targets": 34,
+    "small": 0,
+    "smallTargets": []
+  },
+  {
+    "screen": "ui04-document-detail",
+    "viewport": "desktop",
+    "targets": 1,
+    "small": 0,
+    "smallTargets": []
+  },
+  {
+    "screen": "ui05b-knowledge-detail",
+    "viewport": "desktop",
+    "targets": 4,
+    "small": 0,
+    "smallTargets": []
+  },
+  {
+    "screen": "ui06-incident-detail",
+    "viewport": "desktop",
+    "targets": 11,
+    "small": 0,
+    "smallTargets": []
+  },
+  {
+    "screen": "ui08-my-courses",
+    "viewport": "desktop",
+    "targets": 360,
+    "small": 0,
+    "smallTargets": []
+  },
+  {
+    "screen": "ui08-course",
+    "viewport": "desktop",
+    "targets": 3,
+    "small": 0,
+    "smallTargets": []
+  },
+  {
+    "screen": "ui03-documents",
+    "viewport": "tablet",
+    "targets": 34,
+    "small": 0,
+    "smallTargets": []
+  },
+  {
+    "screen": "ui04-document-detail",
+    "viewport": "tablet",
+    "targets": 1,
+    "small": 0,
+    "smallTargets": []
+  },
+  {
+    "screen": "ui05b-knowledge-detail",
+    "viewport": "tablet",
+    "targets": 4,
+    "small": 0,
+    "smallTargets": []
+  },
+  {
+    "screen": "ui06-incident-detail",
+    "viewport": "tablet",
+    "targets": 11,
+    "small": 0,
+    "smallTargets": []
+  },
+  {
+    "screen": "ui08-my-courses",
+    "viewport": "tablet",
+    "targets": 360,
+    "small": 0,
+    "smallTargets": []
+  },
+  {
+    "screen": "ui08-course",
+    "viewport": "tablet",
+    "targets": 3,
+    "small": 0,
+    "smallTargets": []
+  },
+  {
+    "screen": "ui03-documents",
+    "viewport": "mobile390",
+    "targets": 27,
+    "small": 0,
+    "smallTargets": []
+  },
+  {
+    "screen": "ui04-document-detail",
+    "viewport": "mobile390",
+    "targets": 5,
+    "small": 0,
+    "smallTargets": []
+  },
+  {
+    "screen": "ui05b-knowledge-detail",
+    "viewport": "mobile390",
+    "targets": 7,
+    "small": 0,
+    "smallTargets": []
+  },
+  {
+    "screen": "ui06-incident-detail",
+    "viewport": "mobile390",
+    "targets": 18,
+    "small": 0,
+    "smallTargets": []
+  },
+  {
+    "screen": "ui08-my-courses",
+    "viewport": "mobile390",
+    "targets": 360,
+    "small": 0,
+    "smallTargets": []
+  },
+  {
+    "screen": "ui08-course",
+    "viewport": "mobile390",
+    "targets": 3,
+    "small": 0,
+    "smallTargets": []
+  },
+  {
+    "screen": "ui03-documents",
+    "viewport": "mobile375",
+    "targets": 27,
+    "small": 0,
+    "smallTargets": []
+  },
+  {
+    "screen": "ui04-document-detail",
+    "viewport": "mobile375",
+    "targets": 5,
+    "small": 0,
+    "smallTargets": []
+  },
+  {
+    "screen": "ui05b-knowledge-detail",
+    "viewport": "mobile375",
+    "targets": 7,
+    "small": 0,
+    "smallTargets": []
+  },
+  {
+    "screen": "ui06-incident-detail",
+    "viewport": "mobile375",
+    "targets": 18,
+    "small": 0,
+    "smallTargets": []
+  },
+  {
+    "screen": "ui08-my-courses",
+    "viewport": "mobile375",
+    "targets": 360,
+    "small": 0,
+    "smallTargets": []
+  },
+  {
+    "screen": "ui08-course",
+    "viewport": "mobile375",
+    "targets": 3,
+    "small": 0,
+    "smallTargets": []
+  }
+]
