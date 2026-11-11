@@ -3,6 +3,7 @@
 Ngày 11/11/2026. Nhánh `feature/ui-my-courses`, tách từ `feature/ui-knowledge-create` tại `5a3af00` (UI-07 đã duyệt). Mockup: `design/approved_screens/07_my_courses.png`.
 
 **Trạng thái:**
+- **Vòng 2 (11/11/2026):** làm DATA-39 theo quyết định PO (chặn mở lần làm mới sau khi đạt, ở backend); ảnh nghiệm thu cuối đủ 5 trạng thái × 4 viewport (mục 7–8). PO đã chấp thuận định hướng trình bày `/learning/[id]` theo hệ thiết kế, chưa nghiệm thu hình ảnh cuối.
 - Đã triển khai `/learning` theo mockup 07 và làm lại `/learning/[id]` (học bài, làm kiểm tra) theo hệ thiết kế đã duyệt; kiểm thử local đạt.
 - Không đổi API, database, auth, RBAC, RLS, dữ liệu hay workflow đào tạo.
 - Mockup 07 chỉ có màn danh sách. **Trang học khóa học `/learning/[id]` không có mockup riêng**: giữ nguyên chức năng và nhãn nút của trang cũ, chỉ trình bày lại theo hệ thiết kế UI-02 → UI-07. Cần PO xem kỹ phần này (mục 5).
@@ -90,7 +91,7 @@ Ngày 11/11/2026. Nhánh `feature/ui-my-courses`, tách từ `feature/ui-knowled
 | Chứng nhận | Chưa có | DATA-40 |
 | Bottom nav "Hỏi đáp" | Giữ bottom nav UI-02 | — |
 
-**Phát hiện nghiệp vụ cần PO chốt (DATA-39, P1):** API vẫn cho **mở lần làm mới sau khi đã đạt** (nếu còn lượt). UI-08 không hiện nút làm bài khi đã đạt, nhưng backend chưa chặn. Có hai hướng:
+**DATA-39 (P1) — đã xử lý ở vòng 2 (mục 7).** Ghi nhận ban đầu: API vẫn cho **mở lần làm mới sau khi đã đạt** (nếu còn lượt). UI-08 không hiện nút làm bài khi đã đạt, nhưng backend chưa chặn. Có hai hướng:
 1. chặn ở backend;
 2. cho làm lại để ôn, không ảnh hưởng hoàn thành.
 
@@ -166,3 +167,73 @@ cd starter/apps/web && UI_TEST_LOCAL_CA=true UI_DEMO_PASSWORD=… npx playwright
 - DATA-34 → DATA-40 (mục 3), trong đó DATA-39 cần PO chốt quy tắc.
 - `/learning/manage` (quản lý đào tạo của trưởng bộ phận) vẫn là giao diện cũ.
 - Chưa làm UI-09.
+
+## 7. DATA-39 — Chặn mở lần làm bài mới sau khi đã đạt (PO quyết định 11/11/2026)
+
+### 7.1 Kế hoạch và phạm vi (lập trước khi sửa)
+
+**Quy tắc mới.** Khi một bài được giao đã **đạt** thì `POST /api/v1/my/learning/{id}/quiz-attempts` trả **409**, mã `QUIZ_ALREADY_PASSED`, thông báo tiếng Việt, và **không tạo bản ghi nào**. "Đạt" nghĩa là có lần nộp `passed = true` hoặc bài được giao đã có `completed_at`; theo DB, `completed_at` chỉ được ghi khi một lần nộp đạt.
+
+**Giữ nguyên:**
+- điểm, lịch sử các lần làm và `completed_at` (không sửa hay xóa dòng nào);
+- quy tắc cũ: phải xong bài học, giới hạn số lần, chưa có bài kiểm tra → 409; còn lần đang mở → trả lại lần đó;
+- khi **chưa đạt** (kể cả đã nộp trượt mà còn lượt), vẫn mở lần mới như trước.
+
+**Phạm vi thay đổi:**
+
+| Phần | Thay đổi |
+|---|---|
+| `starter/apps/api/app/learning.py` · `start_attempt` | Thêm **một kiểm tra** ngay sau `assignment(..., lock=True)`. Thứ tự: đã đạt → 409 `QUIZ_ALREADY_PASSED`, đặt **trước** bước trả lại lần đang mở. Ngoài ra không đổi gì |
+| Database / migration | **Không.** Không đổi `jkc_submit_quiz`, `jkc_training_status`, RLS, quyền hay dữ liệu |
+| OpenAPI | Không đổi hợp đồng (409 đã là phản hồi lỗi chung; mã lỗi là chuỗi tự do) |
+| Web | Không cần sửa logic: UI-08 đã ẩn nút làm bài khi đã đạt; nếu vẫn nhận 409 thì hiện thông báo của máy chủ và tải lại |
+| Test | Thêm pytest mới. **Sửa test cũ** `test_quiz_grades_server_history_and_limit`: test này đang khẳng định quy tắc cũ (lần 3 mở được sau khi đạt ở lần 2), nay tách thành (a) trượt → đạt → mở thêm bị 409, (b) giới hạn số lần kiểm bằng chuỗi trượt. Playwright UI-08: API mở lần mới sau khi đạt phải trả 409 |
+
+**Đồng thời:** `start_attempt` khóa dòng `course_assignments` (`jkc_lock_assignment … FOR UPDATE`); `jkc_submit_quiz` cũng khóa đúng dòng đó. Vì vậy hai thao tác chạy tuần tự, và kiểm tra "đã đạt" luôn thấy kết quả nộp vừa xong, không có khe trống.
+
+**Dữ liệu cũ:** trên staging có thể còn lần làm mở sau khi đã đạt (do test UI-08 trước đây tạo khi quy tắc cũ còn hiệu lực).
+- Sau thay đổi, API mở lần làm sẽ trả 409 và không trả lại lần đó; UI không hiện.
+- Nộp trực tiếp lần đó qua API vẫn chấm được (vì `jkc_submit_quiz` không đổi); kết quả và lịch sử cũ giữ nguyên, `completed_at` không đổi (`COALESCE`).
+- Nếu PO muốn chặn cả ở DB thì cần migration 008 sửa `jkc_submit_quiz` (chưa làm, cần duyệt riêng).
+
+**Hoàn tác:** revert commit; không có dữ liệu hay schema phải khôi phục.
+
+### 7.2 Thực hiện
+
+- **Code:** `app/learning.py` · `start_attempt`: sau khi khóa dòng bài được giao, nếu `completed_at` có giá trị hoặc đã có lần nộp `passed` thì trả `409 QUIZ_ALREADY_PASSED` ("Bạn đã đạt bài kiểm tra của khóa học này; không mở thêm lần làm bài."). Thêm 4 dòng, không đổi gì khác.
+- **Không đổi:** DB, migration, `jkc_submit_quiz`, `jkc_training_status`, RLS, quyền, OpenAPI (drift check PASS), web (UI-08 vốn đã ẩn nút làm bài khi đã đạt).
+
+### 7.3 Kiểm thử DATA-39
+
+| Test | Nội dung | Kết quả |
+|---|---|---|
+| `test_quiz_grades_server_history_and_limit` (**sửa**) | Trượt → đạt; mở thêm → 409 `QUIZ_ALREADY_PASSED`; lịch sử còn đúng 2 lần, `completed_at` giữ; các kiểm tra cũ (điểm do server chấm, không gửi điểm từ client, payload sai → 422, nộp lại → 409, người khác → 404, lịch sử bất biến) giữ nguyên | PASS |
+| `test_quiz_after_pass_is_blocked_and_history_is_kept` (**mới**) | Đạt ở lần 1; thử mở 2 lần → đều 409 có thông báo; danh sách lần làm, `completed_at`, trạng thái COMPLETED không đổi; DB chỉ có 1 dòng `quiz_attempts` | PASS |
+| `test_failed_attempts_still_allow_retry_until_limit` (**mới**) | Chưa đạt thì vẫn mở được lần mới: trượt 3 lần → lần 4 → 409 `VERSION_CONFLICT` (giới hạn cũ), trạng thái FAILED | PASS |
+| `test_passed_assignment_does_not_hand_out_a_leftover_open_attempt` (**mới**) | Dữ liệu cũ có lần làm mở sau khi đạt → API trả 409, không trả lại lần đó | PASS |
+| Playwright UI-08 "quyền và phiên" | Khóa đã đạt: API mở lần mới → 409 `QUIZ_ALREADY_PASSED`; lịch sử 1 lần, đạt; giao diện không có nút làm bài | PASS (16/16) |
+
+| Kiểm tra vòng 2 | Kết quả |
+|---|---|
+| Ruff check/format, OpenAPI drift | PASS |
+| pytest backend, PostgreSQL 16 sạch | **66/66 PASS** (3 mới, 1 sửa) |
+| Unit test model | **45/45 PASS** |
+| ESLint / TypeScript / Prettier / Next build | PASS |
+| UI-08 Playwright (4 viewport × 4 kịch bản) | **16/16 PASS** |
+| Regression UI-01 / 02 / 03 / 04 / 05 / 05B / 06 / 07 | **9/9 · 16/16 · 16/16 · 16/16 · 20/20 · 16/16 · 16/16 · 24/24 PASS** (JSON `regression-*.json` cập nhật) |
+| `smoke` + `sprint1` · `sprint01` (fixture mới `uat11`) | **10/10 · 2/2 PASS** |
+
+## 8. Ảnh nghiệm thu cuối (PO yêu cầu 11/11/2026)
+
+Dữ liệu: 6 khóa DEMO cho `employee` tạo qua workflow thật (`scripts/ui-my-courses/fixture.mjs`): chưa học, đang học (1/2 bài), **đang làm kiểm tra** (đã mở lần làm, chưa nộp), **đạt** (100/100), **không đạt** (0/100, hết 1 lượt) và quá hạn.
+
+**Trang học `/learning/[id]`, 5 trạng thái** (Chưa học · Đang học · Đang làm kiểm tra · Đạt · Không đạt):
+
+| Viewport | Bảng 5 trạng thái | Từng ảnh (toàn trang) |
+|---|---|---|
+| Desktop 1440×900 | [final-desktop-states](final-desktop-states.png) | [chưa học](final-desktop-not-started-full.png) · [đang học](final-desktop-in-progress-full.png) · [làm bài](final-desktop-quiz-full.png) · [đạt](final-desktop-passed-full.png) · [không đạt](final-desktop-failed-full.png) |
+| Tablet 768×1024 | [final-tablet-states](final-tablet-states.png) | [chưa học](final-tablet-not-started-full.png) · [đang học](final-tablet-in-progress-full.png) · [làm bài](final-tablet-quiz-full.png) · [đạt](final-tablet-passed-full.png) · [không đạt](final-tablet-failed-full.png) |
+| Mobile 390×844 | [final-mobile390-states](final-mobile390-states.png) | [chưa học](final-mobile390-not-started-full.png) · [đang học](final-mobile390-in-progress-full.png) · [làm bài](final-mobile390-quiz-full.png) · [đạt](final-mobile390-passed-full.png) · [không đạt](final-mobile390-failed-full.png) |
+| Mobile 375×812 | [final-mobile375-states](final-mobile375-states.png) | [chưa học](final-mobile375-not-started-full.png) · [đang học](final-mobile375-in-progress-full.png) · [làm bài](final-mobile375-quiz-full.png) · [đạt](final-mobile375-passed-full.png) · [không đạt](final-mobile375-failed-full.png) |
+
+**Danh sách `/learning`** (6 khóa DEMO, đủ trạng thái): [desktop](after-desktop-full.png) · [tablet](after-tablet-full.png) · [mobile 390](after-mobile390-full.png) · [mobile 375](after-mobile375-full.png); so với mockup 07: [comparison-desktop](comparison-desktop.png) · [comparison-mobile390](comparison-mobile390.png).

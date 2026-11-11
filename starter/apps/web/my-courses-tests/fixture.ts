@@ -9,7 +9,7 @@ export type CourseSpec = {
   name: string;
   dueDays: number | null;
   /** what the learner does after assignment */
-  learner: "none" | "one-lesson" | "pass" | "fail";
+  learner: "none" | "one-lesson" | "quiz" | "pass" | "fail";
   maxAttempts?: number;
 };
 export const QUESTIONS = [
@@ -104,6 +104,7 @@ export async function createCourses(
         "POST",
         `/my/learning/${assignment}/quiz-attempts`,
       )) as V;
+      if (s.learner === "quiz") continue; // attempt left open (not submitted)
       const answers = detail.questions.map(
         (q: {
           id: string;

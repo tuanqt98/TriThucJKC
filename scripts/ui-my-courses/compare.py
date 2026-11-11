@@ -56,4 +56,21 @@ for view, w, h in [
             w,
             2000 if mobile else 1100,
         )
+# Final acceptance (PO 11/11/2026): course page in each learning state, per viewport.
+STATES = [
+    ("not-started", "Chua hoc"),
+    ("in-progress", "Dang hoc"),
+    ("quiz", "Dang lam kiem tra"),
+    ("passed", "Dat"),
+    ("failed", "Khong dat"),
+]
+for view, w, h in [
+    ("desktop", 520, 900),
+    ("tablet", 420, 1100),
+    ("mobile390", 300, 1400),
+    ("mobile375", 290, 1400),
+]:
+    frames = [f"final-{view}-{k}-full.png" for k, _ in STATES]
+    if all((out / f).exists() for f in frames):
+        board(f"final-{view}-states", frames, [label for _, label in STATES], w, h)
 print("Saved UI-08 comparison boards.")

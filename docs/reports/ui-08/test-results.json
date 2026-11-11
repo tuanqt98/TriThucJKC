@@ -262,12 +262,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 2199,
+                  "duration": 2417,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-11T02:08:52.539Z",
+                  "startTime": "2026-11-11T02:38:26.005Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -296,12 +296,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 2825,
+                  "duration": 3415,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-11T02:08:55.010Z",
+                  "startTime": "2026-11-11T02:38:28.681Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -330,12 +330,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1229,
+                  "duration": 1323,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-11T02:08:57.842Z",
+                  "startTime": "2026-11-11T02:38:32.103Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -364,12 +364,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1647,
+                  "duration": 1617,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-11T02:08:59.078Z",
+                  "startTime": "2026-11-11T02:38:33.433Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -379,7 +379,7 @@
           ],
           "id": "69da00691bfc990bf91d-2427b74ea1d9a2522c6d",
           "file": "my-courses.spec.ts",
-          "line": 354,
+          "line": 373,
           "column": 5
         },
         {
@@ -398,12 +398,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1748,
+                  "duration": 2408,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-11T02:09:00.928Z",
+                  "startTime": "2026-11-11T02:38:35.260Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -432,12 +432,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 2329,
+                  "duration": 3015,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-11T02:09:02.757Z",
+                  "startTime": "2026-11-11T02:38:37.748Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -466,12 +466,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1272,
+                  "duration": 1162,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-11T02:09:05.095Z",
+                  "startTime": "2026-11-11T02:38:40.771Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -500,12 +500,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1717,
+                  "duration": 1655,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-11T02:09:06.374Z",
+                  "startTime": "2026-11-11T02:38:41.940Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -515,7 +515,7 @@
           ],
           "id": "69da00691bfc990bf91d-88fb548a326edc104a5e",
           "file": "my-courses.spec.ts",
-          "line": 354,
+          "line": 373,
           "column": 5
         },
         {
@@ -534,12 +534,12 @@
                   "workerIndex": 2,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1861,
+                  "duration": 1855,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-11T02:09:08.297Z",
+                  "startTime": "2026-11-11T02:38:43.797Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -568,12 +568,12 @@
                   "workerIndex": 2,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 2627,
+                  "duration": 2951,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-11T02:09:10.241Z",
+                  "startTime": "2026-11-11T02:38:45.733Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -602,12 +602,12 @@
                   "workerIndex": 2,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1103,
+                  "duration": 1109,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-11T02:09:12.875Z",
+                  "startTime": "2026-11-11T02:38:48.691Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -636,12 +636,12 @@
                   "workerIndex": 2,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1582,
+                  "duration": 1550,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-11T02:09:13.984Z",
+                  "startTime": "2026-11-11T02:38:49.807Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -651,7 +651,7 @@
           ],
           "id": "69da00691bfc990bf91d-eec026d2287fe558ea45",
           "file": "my-courses.spec.ts",
-          "line": 354,
+          "line": 373,
           "column": 5
         },
         {
@@ -670,12 +670,12 @@
                   "workerIndex": 3,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1842,
+                  "duration": 1883,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-11T02:09:15.776Z",
+                  "startTime": "2026-11-11T02:38:51.576Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -704,12 +704,12 @@
                   "workerIndex": 3,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 2631,
+                  "duration": 2969,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-11T02:09:17.707Z",
+                  "startTime": "2026-11-11T02:38:53.544Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -738,12 +738,12 @@
                   "workerIndex": 3,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1070,
+                  "duration": 1168,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-11T02:09:20.345Z",
+                  "startTime": "2026-11-11T02:38:56.520Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -772,12 +772,12 @@
                   "workerIndex": 3,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1779,
+                  "duration": 1751,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-11T02:09:21.421Z",
+                  "startTime": "2026-11-11T02:38:57.695Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -787,7 +787,7 @@
           ],
           "id": "69da00691bfc990bf91d-1979daff91a624b6d53a",
           "file": "my-courses.spec.ts",
-          "line": 354,
+          "line": 373,
           "column": 5
         }
       ]
@@ -795,8 +795,8 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-11-11T02:08:52.343Z",
-    "duration": 30885.618,
+    "startTime": "2026-11-11T02:38:25.727Z",
+    "duration": 33748.756,
     "expected": 16,
     "skipped": 0,
     "unexpected": 0,

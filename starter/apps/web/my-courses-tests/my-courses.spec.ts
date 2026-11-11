@@ -313,8 +313,27 @@ test("UI-08: quyền và phiên — chỉ khóa được giao, không sửa đi�
   ).toBeVisible();
   await logout(page);
 
-  // The learner has no endpoint to change a score or status (grading lives in jkc_submit_quiz).
+  // DATA-39: once passed, the API refuses a new attempt and keeps history.
   await login(page);
+  {
+    const me0 = await (await page.request.get("/api/v1/auth/me")).json();
+    const h0 = {
+      Origin: new URL(page.url()).origin,
+      "X-CSRF-Token": me0.csrf_token,
+    };
+    const again = await page.request.post(
+      `/api/v1/my/learning/${id}/quiz-attempts`,
+      { headers: h0 },
+    );
+    expect(again.status()).toBe(409);
+    expect((await again.json()).error.code).toBe("QUIZ_ALREADY_PASSED");
+    const detail = await (
+      await page.request.get(`/api/v1/my/learning/${id}`)
+    ).json();
+    expect(detail.attempts).toHaveLength(1);
+    expect(detail.attempts[0].passed).toBe(true);
+  }
+  // The learner has no endpoint to change a score or status (grading lives in jkc_submit_quiz).
   const me2 = await (await page.request.get("/api/v1/auth/me")).json();
   const h2 = {
     Origin: new URL(page.url()).origin,
