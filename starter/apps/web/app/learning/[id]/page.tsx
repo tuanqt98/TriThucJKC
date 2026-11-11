@@ -1,4 +1,4 @@
-import { Workspace } from "../../../components/workspace";
+import { CourseDetail } from "../../../components/course-detail";
 export default function Page() {
-  return <Workspace />;
+  return <CourseDetail />;
 }
