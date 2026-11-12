@@ -1,0 +1,56 @@
+# DATA-20 baseline — staging jkc-staging-s1, 12/11/2026, web/API = feature/ui-approvals 47597a6
+
+## Dữ liệu
+      kind      | published_active | total 
+----------------+------------------+-------
+ ARTICLE        |              818 |  1639
+ DOCUMENT       |              361 |   362
+ INCIDENT_GUIDE |                8 |    10
+(3 rows)
+
+ content_versions 
+------------------
+             2196
+(1 row)
+
+## Trình duyệt: /knowledge?q=DEMO&type=ARTICLE&sort=title&page=2&view=grid (desktop, employee)
++57ms 200 /api/v1/auth/me
++80ms 200 /api/v1/processes
++80ms 200 /api/v1/incidents?q=DEMO&page=1&pageSize=100
++592ms 200 /api/v1/articles?pageSize=5
++834ms 200 /api/v1/articles?q=DEMO&page=1&pageSize=100
++1574ms 200 /api/v1/articles?q=DEMO&page=2&pageSize=100
+@2s busy=1 status="Đang tìm…"
++2320ms 200 /api/v1/articles?q=DEMO&page=3&pageSize=100
++3067ms 200 /api/v1/articles?q=DEMO&page=4&pageSize=100
++3809ms 200 /api/v1/articles?q=DEMO&page=5&pageSize=100
++4532ms 200 /api/v1/articles?q=DEMO&page=6&pageSize=100
+@5s busy=1 status="Đang tìm…"
++5245ms 200 /api/v1/articles?q=DEMO&page=7&pageSize=100
++5968ms 200 /api/v1/articles?q=DEMO&page=8&pageSize=100
++6700ms 200 /api/v1/articles?q=DEMO&page=9&pageSize=100
+@10s busy=0 status="Tìm thấy 817 kết quả cho “DEMO”"
+@20s busy=0 status="Tìm thấy 817 kết quả cho “DEMO”"
+
+## API (employee, mỗi request)
+login 200
+200 727 ms /api/v1/articles?q=DEMO&page=1&pageSize=100 84463 bytes
+200 715 ms /api/v1/articles?q=DEMO&page=1&pageSize=100 84463 bytes
+200 519 ms /api/v1/articles?pageSize=12 11741 bytes
+
+## EXPLAIN ANALYZE: truy vấn trang (pageSize 100) + đếm cho q=DEMO, kind=ARTICLE; rồi đếm không từ khóa
+### Owner (không RLS)
+ Execution Time: 4.901 ms
+ Execution Time: 3.067 ms
+ Execution Time: 0.534 ms
+### Runtime role jkc_runtime + jkc.user_id=employee (như API, có RLS)
+ Execution Time: 346.723 ms
+ Execution Time: 352.591 ms
+ Execution Time: 142.650 ms
+### Bộ lọc RLS trong kế hoạch (runtime)
+Filter: ((archived_at IS NULL)
+Filter: (jkc_version_read(id)
+login 200
+200 1286 ms /api/v1/dashboard 2945 bytes
+200 1280 ms /api/v1/dashboard 2945 bytes
+200 208 ms /api/v1/documents?pageSize=12 11427 bytes
