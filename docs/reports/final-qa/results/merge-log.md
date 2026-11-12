@@ -12,3 +12,15 @@ Preflight trước bước 1: **PASS** (2026-11-12T16:19:37Z).
 - `main` = `dc47e98` (không đổi); không có merge nào.
 - PR #12 (`feature/sprint-1-mvp` → `main`) mở, không Draft, `BLOCKED` do check `foundation` đỏ. Không đóng, không sửa.
 - Không dùng `--admin`; không đổi nhánh hay SHA nào.
+
+## Điều chỉnh kế hoạch — PO chọn phương án B (12/11/2026)
+
+- **Lý do:** `foundation` đỏ trên PR #12 vì runner dùng `pg_dump` ≥ 17 với dịch vụ PG16; bản sửa CI chỉ có từ `30aaf53`.
+- **Kế hoạch mới (8 bước):**
+  - bước 1: PR `feature/ui-documents-fidelity` @ `30aaf53` → `main` (22 commit, 219 file; chứa đủ 13 commit Sprint 1 của `461a19a`);
+  - bước 2–8: PR #1 → #7.
+- Không đổi SHA nào. PR #12 giữ nguyên làm bằng chứng.
+- Preflight cập nhật: **PASS** (2026-11-12T16:29:24Z), `results/merge-preflight-planB.txt`.
+
+| Bước | PR | Head SHA | Merge SHA | CI run (push trên merge commit) | Kết quả |
+|---|---|---|---|---|---|

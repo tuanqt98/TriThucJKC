@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Read-only preflight for the 9-step main merge (MERGE_PLAN option A). Never merges, edits or pushes.
+# Read-only preflight for the main merge (MERGE_PLAN option A, adjusted to 8 steps by PO decision B). Never merges, edits or pushes.
 # Exit 0 only if every condition holds. Usage: scripts/final-qa/merge_preflight.sh
 set -uo pipefail
 REPO=tuanqt98/TriThucJKC
@@ -69,7 +69,9 @@ for e in "${expect[@]}"; do
   [ "$got" = "OPEN $h $b" ] && ok "#$n $h -> $b" || bad "#$n: $got"
 done
 for n in 8 9 10 11; do [ "$(gh pr view $n --json state,baseRefName --jq '"\(.state) \(.baseRefName)"')" = "OPEN feature/ui-approvals" ] && ok "#$n open on feature/ui-approvals (not in the 9 steps)" || bad "#$n state/base changed"; done
-gh pr list --state all --head feature/sprint-1-mvp --json number --jq 'length' | grep -q '^0$' && ok "PR-S1 not created yet" || echo "  ℹ️  PR-S1 already exists"
+[ "$(gh pr view 12 --json state,headRefOid,baseRefName --jq '"\(.state) \(.headRefOid[0:7]) \(.baseRefName)"')" = "OPEN 461a19a main" ] && ok "#12 (Sprint 1 → main) kept open as evidence, head 461a19a" || bad "#12 state/head changed"
+[ "$(gh pr list --state all --head feature/ui-documents-fidelity --json number --jq length)" = 0 ] && ok "step-1 PR (feature/ui-documents-fidelity → main) not created yet" || bad "a PR from feature/ui-documents-fidelity already exists"
+[ "$(git show origin/feature/ui-documents-fidelity:.github/workflows/ci.yml | grep -c pg16-bin)" -ge 1 ] && ok "step-1 head 30aaf53 carries the PG16 drill fix" || bad "30aaf53 lacks PG16 drill fix"
 
 echo
 [ $fail = 0 ] && echo "PREFLIGHT: PASS" || echo "PREFLIGHT: FAIL"

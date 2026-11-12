@@ -1,4 +1,11 @@
-# Lệnh hợp nhất `main` — phương án A (9 bước) · CHỜ PO DUYỆT LẦN CUỐI
+# Lệnh hợp nhất `main` — phương án A, **điều chỉnh B: 8 bước**
+
+> **Điều chỉnh 12/11/2026 (PO chọn phương án B).**
+> - **Lý do:** PR #12 (`feature/sprint-1-mvp` @ `461a19a` → `main`) có `foundation` đỏ ở bước diễn tập DB (run 43257509355). Runner GitHub hiện dùng `pg_dump` ≥ 17, sinh `SET transaction_timeout` mà PostgreSQL 16 trong job không hiểu. Bản sửa CI (ghim client PG16) là commit `30aaf53`, head của bước 2 cũ; `461a19a` không có.
+> - **Quyết định:** gộp bước 1 và 2 cũ thành **bước 1 mới**: PR `feature/ui-documents-fidelity` @ `30aaf53` → `main`, gồm Sprint 1 (13 commit) và UI-01…03 (9 commit). Không đổi SHA nào, không vượt bảo vệ. PR #12 **giữ nguyên làm bằng chứng**, không đóng.
+> - **Bổ sung:** tạo PR sẽ kích hoạt CI `pull_request` mới. Phải **chờ** 3 check xong và xanh rồi PR mới `CLEAN`; tuyệt đối không vượt.
+
+Bản gốc 9 bước được PO duyệt 12/11/2026 ("DUYỆT THỰC HIỆN MERGE_EXECUTION"); bản điều chỉnh 8 bước được PO duyệt cùng ngày (phương án B).
 
 Soạn ngày 12/11/2026. **Chưa chạy lệnh nào trong tài liệu này.** Chỉ chạy khi PO ghi rõ "Duyệt thực hiện MERGE_EXECUTION".
 
@@ -32,17 +39,16 @@ scripts/final-qa/merge_preflight.sh
 
 | Bước | PR | Nhánh nguồn | SHA head (khóa) | Commit mới | File đổi | Base trước khi merge |
 |---|---|---|---|---|---|---|
-| 1 | PR-S1 (tạo mới) | `feature/sprint-1-mvp` | `461a19ab09013b966d5102ecc97cd7128886953c` | 13 | 117 | `main` |
-| 2 | PR-U3 (tạo **sau** bước 1) | `feature/ui-documents-fidelity` (UI-01…03) | `30aaf53bea5e52a0627808d794e4709d8e4dea32` | 9 | 106 | `main` |
-| 3 | #1 UI-04 | `feature/ui-document-detail` | `5348affc3a83ee65c19c25c95fd473c081d9ec2d` | 5 | 56 | đổi sang `main` |
-| 4 | #2 UI-05 | `feature/ui-knowledge-library` | `08e337ec29db82f5e04305e8c6b34c9c9d8ebb46` | 5 | 113 | đổi sang `main` |
-| 5 | #3 UI-05B | `feature/ui-knowledge-detail` | `a3c3b93712c51fe686c5569b12907b1b64967f67` | 3 | 94 | đổi sang `main` |
-| 6 | #4 UI-06 | `feature/ui-incident-detail` | `e2bcabad0a558818d8f63ea0eb09e34582c5a8a8` | 2 | 47 | đổi sang `main` |
-| 7 | #5 UI-07 | `feature/ui-knowledge-create` | `5a3af00a21cbe43f2845fb73c389c07fb6e691c8` | 2 | 87 | đổi sang `main` |
-| 8 | #6 UI-08 | `feature/ui-my-courses` | `6fabca09e74384c300ee0a05a41d17350e8da16c` | 2 | 121 | đổi sang `main` |
-| 9 | #7 UI-09 | `feature/ui-approvals` | `47597a6903b8d48e53f7aca6cd1630c2e699caae` | 3 | 68 | đổi sang `main` |
+| 1 | PR-U3 (tạo mới) | `feature/ui-documents-fidelity` (Sprint 1 + UI-01…03) | `30aaf53bea5e52a0627808d794e4709d8e4dea32` | 22 | 219 | `main` |
+| 2 | #1 UI-04 | `feature/ui-document-detail` | `5348affc3a83ee65c19c25c95fd473c081d9ec2d` | 5 | 56 | đổi sang `main` |
+| 3 | #2 UI-05 | `feature/ui-knowledge-library` | `08e337ec29db82f5e04305e8c6b34c9c9d8ebb46` | 5 | 113 | đổi sang `main` |
+| 4 | #3 UI-05B | `feature/ui-knowledge-detail` | `a3c3b93712c51fe686c5569b12907b1b64967f67` | 3 | 94 | đổi sang `main` |
+| 5 | #4 UI-06 | `feature/ui-incident-detail` | `e2bcabad0a558818d8f63ea0eb09e34582c5a8a8` | 2 | 47 | đổi sang `main` |
+| 6 | #5 UI-07 | `feature/ui-knowledge-create` | `5a3af00a21cbe43f2845fb73c389c07fb6e691c8` | 2 | 87 | đổi sang `main` |
+| 7 | #6 UI-08 | `feature/ui-my-courses` | `6fabca09e74384c300ee0a05a41d17350e8da16c` | 2 | 121 | đổi sang `main` |
+| 8 | #7 UI-09 | `feature/ui-approvals` | `47597a6903b8d48e53f7aca6cd1630c2e699caae` | 3 | 68 | đổi sang `main` |
 
-`PREV` của bước k là SHA head của bước k−1 (bước 1: `dc47e9830a40603152b052ab7650a7e2cdf32979`).
+`PREV` của bước k là SHA head của bước k−1 (bước 1: `dc47e9830a40603152b052ab7650a7e2cdf32979`). Tự động hóa: `scripts/final-qa/merge_step.sh` (đúng trình tự a→h, dừng ở kiểm tra đầu tiên không đạt).
 
 ## 2. Lệnh cho mỗi bước
 
@@ -57,21 +63,15 @@ git fetch origin --prune
 git diff --quiet PREV origin/main && echo OK
 ```
 
-**b. Chỉ ở bước 1 và 2: tạo PR vào `main`.** Không để Draft; nội dung đã nghiệm thu.
+**b. Chỉ ở bước 1: tạo PR vào `main`.** Không để Draft; nội dung đã nghiệm thu.
 
 ```sh
-# Bước 1
-gh pr create --base main --head feature/sprint-1-mvp \
-  --title "Sprint 1 MVP (hợp nhất 1/9)" \
-  --body "Phương án A, bước 1/9 (MERGE_EXECUTION.md). Đã nghiệm thu; CI xanh trên 461a19a. Không deploy."
-
-# Bước 2 (chỉ sau khi bước 1 đã merge và CI main xanh)
 gh pr create --base main --head feature/ui-documents-fidelity \
-  --title "UI-01…UI-03 (hợp nhất 2/9)" \
-  --body "Phương án A, bước 2/9. Gồm UI-01, UI-02 (chỉ có local trước đây) và UI-03. CI xanh trên 30aaf53. Không deploy."
+  --title "Sprint 1 + UI-01…UI-03 (hợp nhất 1/8)" \
+  --body "Phương án A điều chỉnh B, bước 1/8. Gồm Sprint 1 (thay PR #12) và UI-01…03. CI xanh trên 30aaf53. Không deploy."
 ```
 
-**c. Bước 3–9: đổi base của PR sang `main`.**
+**c. Bước 2–8: đổi base của PR sang `main`.**
 
 ```sh
 gh pr edit N --base main
@@ -88,9 +88,9 @@ Kết quả phải là:
 - `headRefOid` = `HEAD_SHA`;
 - `baseRefName` = `main`;
 - `commits` = `COMMITS`, `files` = `FILES`;
-- `state` = `CLEAN` (hoặc `DRAFT` ở bước 3–9 trước lệnh e).
+- `state` = `CLEAN` (hoặc `DRAFT` ở bước 2–8 trước lệnh e). Nếu `BLOCKED` vì check của PR đang chạy: **chờ** xong; mọi check phải `SUCCESS`, nếu không thì DỪNG.
 
-**e. Bước 3–9: bỏ trạng thái Draft.**
+**e. Bước 2–8: bỏ trạng thái Draft.**
 
 ```sh
 gh pr ready N
@@ -145,14 +145,14 @@ Chỉ khi a → h đều đạt mới sang bước tiếp theo.
 
 ## 4. Kết thúc
 
-**Sau bước 9:**
+**Sau bước 8:**
 - `git diff --quiet a5b8ee8 origin/main`: cây `main` = cây diễn tập = UI-09 đã duyệt;
 - CI `main` xanh 3/3;
-- PR #1–#7 và 2 PR mới ở trạng thái **Merged**; mọi nhánh vẫn còn.
+- PR #1–#7 và PR bước 1 ở trạng thái **Merged**; mọi nhánh vẫn còn. PR #12 giữ nguyên (GitHub có thể tự hiển thị là merged khi các commit của nó đã nằm trong `main`).
 
 **Không thuộc đợt này, chờ PO:**
 - đổi base PR #8 (DATA-39B), #9 (G-2), #10 (vùng chạm), #11 (đặc tả DATA-20) sang `main`;
 - review và merge từng PR;
 - deploy production (vẫn **NO-GO** đến khi đóng G-1…G-4).
 
-**Thời gian dự kiến:** khoảng 9 × (CI `main` ~7 phút + kiểm tra) ≈ **1,5 giờ**, làm liên tục và dừng ngay nếu bất thường.
+**Thời gian dự kiến:** khoảng 8 × (CI `main` ~7 phút + kiểm tra) + CI PR bước 1 ≈ **1,5 giờ**, làm liên tục và dừng ngay nếu bất thường.

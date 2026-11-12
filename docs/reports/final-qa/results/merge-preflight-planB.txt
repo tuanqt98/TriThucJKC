@@ -1,0 +1,65 @@
+1. Locked SHAs (origin) and CI on each head
+  ✅ main = dc47e98
+  ✅ feature/sprint-1-mvp = 461a19a
+  ✅    CI 3/3 green on 461a19a
+  ✅    dc47e9830a40603152b052ab7650a7e2cdf32979 is ancestor (linear stack)
+  ✅ feature/ui-documents-fidelity = 30aaf53
+  ✅    CI 3/3 green on 30aaf53
+  ✅    461a19ab09013b966d5102ecc97cd7128886953c is ancestor (linear stack)
+  ✅ feature/ui-document-detail = 5348aff
+  ✅    CI 3/3 green on 5348aff
+  ✅    30aaf53bea5e52a0627808d794e4709d8e4dea32 is ancestor (linear stack)
+  ✅ feature/ui-knowledge-library = 08e337e
+  ✅    CI 3/3 green on 08e337e
+  ✅    5348affc3a83ee65c19c25c95fd473c081d9ec2d is ancestor (linear stack)
+  ✅ feature/ui-knowledge-detail = a3c3b93
+  ✅    CI 3/3 green on a3c3b93
+  ✅    08e337ec29db82f5e04305e8c6b34c9c9d8ebb46 is ancestor (linear stack)
+  ✅ feature/ui-incident-detail = e2bcaba
+  ✅    CI 3/3 green on e2bcaba
+  ✅    a3c3b93712c51fe686c5569b12907b1b64967f67 is ancestor (linear stack)
+  ✅ feature/ui-knowledge-create = 5a3af00
+  ✅    CI 3/3 green on 5a3af00
+  ✅    e2bcabad0a558818d8f63ea0eb09e34582c5a8a8 is ancestor (linear stack)
+  ✅ feature/ui-my-courses = 6fabca0
+  ✅    CI 3/3 green on 6fabca0
+  ✅    5a3af00a21cbe43f2845fb73c389c07fb6e691c8 is ancestor (linear stack)
+  ✅ feature/ui-approvals = 47597a6
+  ✅    CI 3/3 green on 47597a6
+  ✅    6fabca09e74384c300ee0a05a41d17350e8da16c is ancestor (linear stack)
+2. Rehearsal: tree of last head equals dry-run snapshot a5b8ee8
+  ✅ tree(47597a6) == tree(a5b8ee8)
+3. Tags
+  ✅ pre-merge-main-20261111 -> dc47e98
+  ✅ ui-09-approved -> 47597a6
+  ✅ ui-08-approved -> 6fabca0
+4. Branch protection on main and merge settings
+  ✅ required checks: foundation, postgres17, staging-acceptance
+  ✅ PR required (0 approvals)
+  ✅ enforced for admins
+  ✅ force-push blocked
+  ✅ deletion blocked
+  ✅ linear history not required (merge commits allowed)
+  ✅ merge commit only; branches kept after merge
+5. No auto-deploy
+  ✅ only ci.yml workflow
+  ✅ ci.yml has no deploy/push steps (the deploy/compose.yml stacks are ephemeral, inside the CI runner)
+  ✅ 0 webhooks
+  ✅ 0 environments
+6. PRs #1-#7 open, heads and bases as planned
+  ✅ #1 feature/ui-document-detail -> feature/ui-documents-fidelity
+  ✅ #2 feature/ui-knowledge-library -> feature/ui-document-detail
+  ✅ #3 feature/ui-knowledge-detail -> feature/ui-knowledge-library
+  ✅ #4 feature/ui-incident-detail -> feature/ui-knowledge-detail
+  ✅ #5 feature/ui-knowledge-create -> feature/ui-incident-detail
+  ✅ #6 feature/ui-my-courses -> feature/ui-knowledge-create
+  ✅ #7 feature/ui-approvals -> feature/ui-my-courses
+  ✅ #8 open on feature/ui-approvals (not in the 9 steps)
+  ✅ #9 open on feature/ui-approvals (not in the 9 steps)
+  ✅ #10 open on feature/ui-approvals (not in the 9 steps)
+  ✅ #11 open on feature/ui-approvals (not in the 9 steps)
+  ✅ #12 (Sprint 1 → main) kept open as evidence, head 461a19a
+  ✅ step-1 PR (feature/ui-documents-fidelity → main) not created yet
+  ✅ step-1 head 30aaf53 carries the PG16 drill fix
+
+PREFLIGHT: PASS
