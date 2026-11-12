@@ -1,4 +1,4 @@
-import { Workspace } from "../../../components/workspace";
+import { DocumentDetail } from "../../../components/document-detail";
 export default function Page() {
-  return <Workspace />;
+  return <DocumentDetail />;
 }
