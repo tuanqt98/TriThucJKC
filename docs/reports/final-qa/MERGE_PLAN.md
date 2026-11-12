@@ -63,9 +63,9 @@ Nhánh `integration/final-qa-dryrun` chỉ dùng diễn tập. Commit báo cáo 
 | CI xanh trên đầu chuỗi và snapshot tích hợp | ✅ (#42960562796/#42960567568 · #42970185474) |
 | Không xung đột, cây đúng | ✅ (diễn tập) |
 | Tag mốc trước merge | ✅ `pre-merge-main-20261111` → `dc47e98` |
-| Branch protection `main` | ⚠️ Chưa bật, cần chủ repo quyết định |
+| Branch protection `main` | ✅ Bật 11/11/2026 |
 | CI commit báo cáo `3d1239a` | ✅ run 42972378780 |
-| PO duyệt UI-09 | ⏳ Chờ |
+| PO duyệt UI-09 | ✅ 12/11/2026 (`ui-09-approved`) |
 | Không có auto-deploy | ✅ |
 
 ## 4. Điều kiện trước production (khác với merge)
@@ -76,3 +76,5 @@ Xem `SECURITY_AND_PRODUCTION_GATES.md` và `FINAL_GO_NO_GO.md`:
 - TLS/CA thật, môi trường production, backup và restore trên hạ tầng thật, UAT người dùng thật (P0/P1).
 
 Merge `main` có thể làm trước; **deploy production thì chưa**.
+
+**Lệnh thực thi chi tiết:** `MERGE_EXECUTION.md` (chờ PO duyệt lần cuối).

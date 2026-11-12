@@ -61,7 +61,7 @@ Quyết định này **chưa phải lệnh merge**. Agent chỉ chuẩn bị đi
 | Điều kiện | Trạng thái | Bằng chứng |
 |---|---|---|
 | CI commit báo cáo `3d1239a` | ✅ foundation · postgres17 · staging-acceptance | run 42972378780 |
-| PO duyệt giao diện UI-09 | ⏳ PO: `47597a6` **đủ điều kiện đề xuất nghiệm thu**; chờ phê duyệt chính thức rồi ghi nhận vào PR #7 | — |
+| PO duyệt giao diện UI-09 | ✅ **PO APPROVED 12/11/2026** tại `47597a6`; ghi trong PR #7, tag `ui-09-approved` (không thêm commit, để giữ SHA khóa) | PR #7, `git show ui-09-approved` |
 | Khóa SHA 9 bước | ✅ origin = local, khớp diễn tập | Bảng dưới |
 | Cơ chế tự động deploy | ✅ **Không có**: chỉ có workflow `ci.yml` (test); 0 webhook, 0 environment, 0 deployment | `gh api …/hooks`, `/environments`, `/deployments` |
 | Tag mốc trước merge | ✅ `pre-merge-main-20261111` → `dc47e98` (annotated, đã đẩy) | `git ls-remote --tags` |
@@ -100,5 +100,18 @@ Chưa bắt đầu:
 
 | ID | Mức | Phát hiện | Đề xuất |
 |---|---|---|---|
-| RG-1 | P1 đề xuất (PO quyết) | Kho tri thức (UI-05) tải **toàn bộ** kết quả về trình duyệt. Staging có **815** bài DEMO, mất khoảng **6,5 giây** mới hiện danh sách, làm UI-05B fail 4 test (cả trên bản đã duyệt) | Nâng ưu tiên **DATA-20** (lọc, sắp xếp, phân trang phía server) trước khi có nhiều bài thật. Chưa sửa |
+| RG-1 | **P1** (PO nâng DATA-20 ngày 12/11/2026) | Kho tri thức (UI-05) tải **toàn bộ** kết quả về trình duyệt. Staging có **815** bài DEMO, mất khoảng **6,5 giây** mới hiện danh sách, làm UI-05B fail 4 test (cả trên bản đã duyệt) | Đặc tả **PR #11** (chỉ tài liệu): nguyên nhân chính là RLS gọi hàm từng dòng (role runtime ~350 ms/truy vấn so với owner 5 ms); đề xuất B1 API, B2 index, B3 RLS (B3 cần PO duyệt riêng). Chưa triển khai; không trộn vào PR khác |
 | OPS-1 | — | Docker Desktop treo do ổ máy còn 2,8 GB; cache **BuildKit** (`cache.db`) hỏng làm `dockerd` panic khi build | Đã xử lý: xóa cache npm (10 GB), dừng/khởi động lại Docker, **đổi tên** (không xóa) `cache.db` hỏng. PostgreSQL staging tự phục hồi bằng WAL; dữ liệu đủ (92 tài khoản, 1797 nội dung, 1792 tệp, khớp ổ đĩa); **không đụng volume** |
+
+## Trạng thái 12/11/2026 — sẵn sàng trình merge
+
+- **Mọi điều kiện trước merge đã đạt:** `scripts/final-qa/merge_preflight.sh` (chỉ đọc) **PASS**, xem `results/merge-preflight.txt`.
+- **Lệnh merge chính xác:** `MERGE_EXECUTION.md` (9 bước, điều kiện dừng, rollback). **Chờ PO duyệt lần cuối.**
+
+| Hạng mục | Quyết định |
+|---|---|
+| Hợp nhất `main` (9 bước) | **Sẵn sàng**, chờ PO cho phép chạy |
+| PR #8 DATA-39B, #9 G-2 | Giữ, chưa merge; là **gate P0 trước production** |
+| PR #10 vùng chạm | Giữ riêng, CI xanh; lỗi UI-05B có từ trước, đã có bằng chứng đối chiếu |
+| PR #11 DATA-20 (P1) | Đặc tả chờ PO duyệt; triển khai sau, PR riêng |
+| Deploy production | **NO-GO** (G-1…G-4) |
