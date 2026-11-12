@@ -36,6 +36,7 @@ export type Dashboard = {
   featured: Content[];
 };
 export type Learning = {
+  status: string;
   id: string;
   title: string;
   version_number: number;

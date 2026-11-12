@@ -15,7 +15,10 @@ parser.add_argument("--env-file", required=True)
 parser.add_argument("--ca", required=True)
 parser.add_argument("--fixtures", required=True)
 parser.add_argument("--project", default="jkc-s01")
+parser.add_argument("--evidence-dir", default="docs/reports/sprint01")
 args = parser.parse_args()
+evidence = Path(args.evidence_dir)
+evidence.mkdir(parents=True, exist_ok=True)
 assert args.project.startswith(("jkc-s01", "jkc-staging"))
 env = dict(
     line.split("=", 1)
@@ -42,6 +45,13 @@ def login(name):
         and "httponly" in response.headers["Set-Cookie"].lower()
     )
     s.headers["X-CSRF-Token"] = response.json()["csrf_token"]
+    identity = s.get(base + "/api/v1/auth/me", timeout=30)
+    assert identity.status_code == 200, (
+        f"Immediate session read failed after login: {identity.status_code}"
+    )
+    assert identity.json()["id"] == response.json()["id"], (
+        "Login cookie did not switch to the authenticated identity"
+    )
     return response.json()
 
 
@@ -103,11 +113,9 @@ assert (
     == 200
 )
 login("admin")
-assert (
-    s.get(
-        base + "/api/v1/attachments/" + file["id"] + "/download", timeout=30
-    ).status_code
-    == 404
+denied = s.get(base + "/api/v1/attachments/" + file["id"] + "/download", timeout=30)
+assert denied.status_code == 404, (
+    f"TECH_ADMIN private download: expected 404, received {denied.status_code}"
 )
 login(fixture["username"])
 reading = next(t for t in get("/my/reading") if t["id"] == fixture["reading_task"])
@@ -181,7 +189,7 @@ output = {
     "course_assignment": course["id"],
     "result": "PASS",
 }
-Path("docs/reports/sprint01/staging-probe.json").write_text(
+(evidence / "staging-probe.json").write_text(
     json.dumps(output, ensure_ascii=False, indent=2) + "\n"
 )
 print(

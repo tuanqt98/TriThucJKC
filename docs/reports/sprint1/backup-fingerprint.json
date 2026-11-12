@@ -1,0 +1,169 @@
+{
+  "project": "jkc-staging-s1",
+  "tables": {
+    "departments": {
+      "rows": 2,
+      "sha256": "8a142c3193ac7dbc41b1d7cb73f9d5e770cbf648d15257d8de2f7feb5b8afcaf"
+    },
+    "users": {
+      "rows": 12,
+      "sha256": "20dada4aed07678513ff5515e9156720acecbce0d4e1e55ab965f682f819c681"
+    },
+    "roles": {
+      "rows": 4,
+      "sha256": "006044f16f6b7b1825d683094fe92b3ac7f8c0a33b419083f4f82e507cda1a00"
+    },
+    "user_roles": {
+      "rows": 12,
+      "sha256": "65606cadb1efbda649b1d703e0707498b908cf9fc27b326d5e3bbc0c5b04ef73"
+    },
+    "contents": {
+      "rows": 27,
+      "sha256": "0e7414e4231cf8314f928bb4820cd6912ddfe238f2280d37ef19c5dc6d7f8b06"
+    },
+    "content_versions": {
+      "rows": 29,
+      "sha256": "2543b43b0247be2ee735307c04cab02aba3592fb070a5dc86be59cd226dfe6be"
+    },
+    "attachments": {
+      "rows": 6,
+      "sha256": "4837c387df40a48068a924570c78976b595fda63f95bebccac1dbd483e64f099"
+    },
+    "approvals": {
+      "rows": 20,
+      "sha256": "121315ba415dcff90fd12f9c98a454d71dce35dd9f53a02329a2370ffbe628fb"
+    },
+    "approval_events": {
+      "rows": 12,
+      "sha256": "6c03d8cea9eddbf97b546c31ac82cecd12c8c00d0353b4d53ed994818b5d1d63"
+    },
+    "reading_assignments": {
+      "rows": 11,
+      "sha256": "b85e3f376372336a33349784a6ebeb50fecd771d94991fc605fac471bdef1a15"
+    },
+    "reading_acks": {
+      "rows": 10,
+      "sha256": "87775da3b332db7fbb6b2873186c01ec91088c315e51f3111a48f883c4094a34"
+    },
+    "courses": {
+      "rows": 4,
+      "sha256": "d71a3fda0e6abddf5bab1728a57d9cd44015490107658ae6c76ab7ba56fc69c0"
+    },
+    "course_versions": {
+      "rows": 4,
+      "sha256": "9744f8689900c16aa24fceba910b8e43d9ddb9fc3ff632c357290983d4289902"
+    },
+    "lessons": {
+      "rows": 4,
+      "sha256": "3dec6dc5d0624f9740fc77112d6aee21b32ac5b5a0e6343704ea6417c2facf8f"
+    },
+    "quiz_questions": {
+      "rows": 4,
+      "sha256": "57754c74216cdbd33c0f14b0f2c5ef1d5c020ff472a3b1ff923ca4a3b5f7fac0"
+    },
+    "quiz_options": {
+      "rows": 8,
+      "sha256": "9dfa0be91a54a5319655b20f24a02a44c9eb8dca33df8662eabd7d7c03e11677"
+    },
+    "course_assignments": {
+      "rows": 10,
+      "sha256": "b3c244da0684b1c4884b75e95ef21474d71ce7b018db356f71bf4fdc07490ceb"
+    },
+    "lesson_progress": {
+      "rows": 8,
+      "sha256": "3bef3ff6939d836035df8db66b37df358144d4d695057ea17ca3a0c92e3c8113"
+    },
+    "quiz_attempts": {
+      "rows": 8,
+      "sha256": "3bbb368301064db4ff5d32d92a729ad2805a9c6630dd927e364bb42c0785cda0"
+    },
+    "quiz_responses": {
+      "rows": 14,
+      "sha256": "6780c647fe6cd683438554730d7d25e7f4ebcb90e697ee6ca7065bae27f83e1b"
+    },
+    "audit_logs": {
+      "rows": 195,
+      "sha256": "9238e627c1786c323ee4be01d6ed0fc6221de8d4187716275b151a9c3c7a0baa"
+    },
+    "sessions": {
+      "rows": 48,
+      "sha256": "d14b60da41d6d71daa05522c34701fd19b987f54078fe5cd47117da123133680"
+    },
+    "permissions": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "role_permissions": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "production_processes": {
+      "rows": 5,
+      "sha256": "31aecd75a018eb38810cbb7a59304977ce96d8b33fd033b03335804bda9d93e5"
+    },
+    "equipment": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "categories": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "tags": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "content_acl": {
+      "rows": 1,
+      "sha256": "3c2e05292415296fe07aa5ac0a7eb37abac5cb67379b89415c44850a98cedace"
+    },
+    "content_processes": {
+      "rows": 5,
+      "sha256": "173c1b0b7906867443a2aa34bf560725c1c7bf58de3bd7c77698399e8a1d477e"
+    },
+    "content_tags": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "incidents": {
+      "rows": 3,
+      "sha256": "cfbeb7151ceaab04988f55515e55b41ab49ff9c9341abc20380f74999a4d3b1c"
+    },
+    "incident_solutions": {
+      "rows": 2,
+      "sha256": "f8d5c2a195f78a0853f8b5b78adf26fdd89a5a18d1895c3541a568873ea29eea"
+    },
+    "incident_occurrences": {
+      "rows": 2,
+      "sha256": "71f81aafded3b560ebfc967fd6e4cac95afd1b56cc212c364b8c8eb78909f06e"
+    },
+    "login_limits": {
+      "rows": 12,
+      "sha256": "ae4186140a7a5e7bcc3bd952fd40933bc4bc6954dc5d88de7209efec5f73d2fd"
+    },
+    "password_resets": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "questions": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "answers": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "notifications": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "integration_jobs": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "alembic_version": {
+      "rows": 1,
+      "sha256": "6fb9115477a95dd118e115a103646dea048120d0a21095c91a2c61ff69150bdd"
+    }
+  }
+}

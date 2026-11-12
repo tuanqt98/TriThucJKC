@@ -1,6 +1,6 @@
 import uuid
 from copy import deepcopy
-from fastapi import FastAPI, Request, Depends, HTTPException
+from fastapi import FastAPI, Request, HTTPException
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from psycopg import OperationalError
@@ -10,16 +10,19 @@ from app.content import router as content_router
 from app.files import router as file_router, ClamAVScanner
 from app.reading import router as reading_router
 from app.learning import router as learning_router
+from app.workflows import router as workflow_router
+from app.incident_records import router as incident_router
+from app.training_authoring import router as training_authoring_router
 from app.config import settings
-from app.db import database
+from app.db import DB
 from app.schemas import ErrorResponse, Health
 
 
 def create_app():
     app = FastAPI(
         title="Tri Thức JKC API",
-        version="0.3.0",
-        description="Sprint 0.1: chỉ các endpoint đã triển khai. Nội dung seed là DEMO.",
+        version="0.4.0",
+        description="Sprint 1: authoring/version/review, hồ sơ sự cố và đào tạo. Nội dung seed là DEMO; chưa nghiệm thu production.",
         openapi_url="/api/v1/openapi.json",
         docs_url="/api/v1/docs",
         redoc_url=None,
@@ -84,9 +87,9 @@ def create_app():
         return {"status": "ok"}
 
     @app.get("/api/v1/health/ready", response_model=Health, tags=["System"])
-    def ready(conn=Depends(database)):
+    def ready(conn=DB):
         row = conn.execute("SELECT version_num FROM alembic_version").fetchone()
-        if not row or row["version_num"] != "003":
+        if not row or row["version_num"] != "007":
             raise HTTPException(503, {"code": "NOT_READY", "message": "Database chưa được migration."})
         if settings().require_runtime_role:
             role = conn.execute(
@@ -110,6 +113,9 @@ def create_app():
     app.include_router(file_router)
     app.include_router(reading_router)
     app.include_router(learning_router)
+    app.include_router(workflow_router)
+    app.include_router(incident_router)
+    app.include_router(training_authoring_router)
     # Explicit cookie security in generated contract (dependencies perform actual checks).
     original = app.openapi
 

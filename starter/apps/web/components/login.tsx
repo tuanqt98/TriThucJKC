@@ -1,16 +1,64 @@
 "use client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useSyncExternalStore, type FormEvent } from "react";
+import { LoginFidelity } from "./login-fidelity";
 import { api, type User } from "./api";
 import { Icon } from "./icon";
+const subscribe = () => () => {};
+const clientReady = () => true;
+const serverReady = () => false;
 export function Login({ reset = false }: { reset?: boolean }) {
   const router = useRouter();
+  const ready = useSyncExternalStore(subscribe, clientReady, serverReady);
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
   const [busy, setBusy] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  async function submit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setBusy(true);
+    setError("");
+    const f = new FormData(e.currentTarget);
+    try {
+      if (reset) {
+        await api("/auth/reset", {
+          method: "POST",
+          body: JSON.stringify({
+            token: f.get("token"),
+            new_password: f.get("password"),
+          }),
+        });
+        setMessage("Đã đặt lại mật khẩu. Vui lòng đăng nhập.");
+      } else {
+        const me = await api<User>("/auth/login", {
+          method: "POST",
+          body: JSON.stringify({
+            username: f.get("username"),
+            password: f.get("password"),
+          }),
+        });
+        router.replace(me.must_change_password ? "/account" : "/");
+      }
+    } catch (e) {
+      setError((e as Error).message);
+    } finally {
+      setBusy(false);
+    }
+  }
+  if (!reset)
+    return (
+      <LoginFidelity
+        ready={ready}
+        busy={busy}
+        error={error}
+        showPassword={showPassword}
+        togglePassword={() => setShowPassword((v) => !v)}
+        onSubmit={submit}
+      />
+    );
   return (
-    <main className="login-page">
+    <main className="login-page login-approved">
       <section className="login-story">
         <Link className="brand" href="/login">
           <strong className="brand-mark">
@@ -50,44 +98,13 @@ export function Login({ reset = false }: { reset?: boolean }) {
               ? "Nhập mã được quản trị viên cung cấp qua kênh an toàn."
               : "Đăng nhập để tra cứu, học tập và chia sẻ tri thức."}
           </p>
-          <form
-            onSubmit={async (e) => {
-              e.preventDefault();
-              setBusy(true);
-              setError("");
-              const f = new FormData(e.currentTarget);
-              try {
-                if (reset) {
-                  await api("/auth/reset", {
-                    method: "POST",
-                    body: JSON.stringify({
-                      token: f.get("token"),
-                      new_password: f.get("password"),
-                    }),
-                  });
-                  setMessage("Đã đặt lại mật khẩu. Vui lòng đăng nhập.");
-                } else {
-                  const me = await api<User>("/auth/login", {
-                    method: "POST",
-                    body: JSON.stringify({
-                      username: f.get("username"),
-                      password: f.get("password"),
-                    }),
-                  });
-                  router.replace(me.must_change_password ? "/account" : "/");
-                }
-              } catch (e) {
-                setError((e as Error).message);
-              } finally {
-                setBusy(false);
-              }
-            }}
-          >
+          <form method="post" aria-busy={!ready || busy} onSubmit={submit}>
             {reset ? (
               <label>
                 Mã đặt lại mật khẩu
                 <input
                   name="token"
+                  disabled={!ready || busy}
                   required
                   minLength={32}
                   maxLength={200}
@@ -99,6 +116,7 @@ export function Login({ reset = false }: { reset?: boolean }) {
                 Tên đăng nhập
                 <input
                   name="username"
+                  disabled={!ready || busy}
                   required
                   maxLength={100}
                   autoComplete="username"
@@ -109,14 +127,24 @@ export function Login({ reset = false }: { reset?: boolean }) {
             <label>
               {reset ? "Mật khẩu mới (tối thiểu 12 ký tự)" : "Mật khẩu"}
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 name="password"
+                disabled={!ready || busy}
                 required
                 minLength={reset ? 12 : 1}
                 maxLength={256}
                 autoComplete={reset ? "new-password" : "current-password"}
                 placeholder="Nhập mật khẩu của bạn"
               />
+            </label>
+            <label className="password-toggle">
+              <input
+                type="checkbox"
+                disabled={!ready || busy}
+                checked={showPassword}
+                onChange={(e) => setShowPassword(e.target.checked)}
+              />{" "}
+              Hiện mật khẩu
             </label>
             {error && (
               <p role="alert" className="error">
@@ -128,7 +156,7 @@ export function Login({ reset = false }: { reset?: boolean }) {
                 {message}
               </p>
             )}
-            <button className="button" disabled={busy}>
+            <button className="button" disabled={!ready || busy}>
               {busy ? "Đang xử lý…" : reset ? "Đặt lại mật khẩu" : "Đăng nhập"}
               <Icon name="arrow" />
             </button>
@@ -141,7 +169,7 @@ export function Login({ reset = false }: { reset?: boolean }) {
           <p className="login-note">
             Tài khoản JKC độc lập. Mật khẩu không đồng bộ với Odoo.
           </p>
-          <p className="demo-notice">Sprint 0 · Môi trường kiểm thử DEMO</p>
+          <p className="demo-notice">Môi trường kiểm thử DEMO</p>
         </div>
       </section>
     </main>

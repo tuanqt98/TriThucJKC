@@ -1,13 +1,22 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, type Page } from "@playwright/test";
 const password = process.env.UI_DEMO_PASSWORD;
 const evidenceRoot =
   process.env.UI_EVIDENCE_DIR || "../../../docs/reports/sprint01/regression";
+async function submitLogin(page: Page) {
+  const response = page.waitForResponse(
+    (r) =>
+      new URL(r.url()).pathname === "/api/v1/auth/login" &&
+      r.request().method() === "POST",
+  );
+  await page.getByRole("button", { name: "Đăng nhập", exact: true }).click();
+  expect((await response).status()).toBe(200);
+}
 test.beforeEach(async ({ page }) => {
   if (!password) throw new Error("Đặt UI_DEMO_PASSWORD khớp demo seed.");
   await page.goto("/login");
   await page.getByLabel("Tên đăng nhập", { exact: true }).fill("employee");
   await page.getByLabel("Mật khẩu", { exact: true }).fill(password);
-  await page.getByRole("button", { name: "Đăng nhập", exact: true }).click();
+  await submitLogin(page);
   await expect(
     page.getByRole("heading", { name: "Chào anh/chị, hôm nay bạn cần gì?" }),
   ).toBeVisible();
@@ -38,10 +47,25 @@ test("8 màn hình, dữ liệu thật và responsive", async ({ page }, testInf
     ).toBe(true);
   }
   await page.goto("/documents");
+  const baselineDocument = "DEMO · Tài liệu giới thiệu cổng tri thức";
   await page
-    .locator(".content-card:visible, .table-action:visible")
-    .first()
+    .getByRole("textbox", { name: "Lọc theo tiêu đề", exact: true })
+    .fill(baselineDocument);
+  await page
+    .locator("form.filter-search")
+    .getByRole("button", { name: "Tìm kiếm", exact: true })
     .click();
+  if (testInfo.project.name === "mobile")
+    await page
+      .locator(".content-card:visible")
+      .filter({ hasText: baselineDocument })
+      .click();
+  else
+    await page
+      .locator("tr")
+      .filter({ hasText: baselineDocument })
+      .getByRole("link", { name: "Xem tài liệu", exact: true })
+      .click();
   await expect(
     page.getByRole("heading", {
       name: "DEMO · Tài liệu giới thiệu cổng tri thức",
@@ -64,7 +88,10 @@ test("8 màn hình, dữ liệu thật và responsive", async ({ page }, testInf
     "Chỉ trưởng bộ phận",
   );
   await page.goto("/");
-  await expect(page.locator(".stat").first()).toContainText("1");
+  const counts = await (await page.request.get("/api/v1/dashboard")).json();
+  await expect(page.locator(".stat").first().locator("strong")).toHaveText(
+    String(counts.documents),
+  );
   await page.screenshot({
     path: `${evidenceRoot}/dashboard-${testInfo.project.name}.png`,
     fullPage: true,
@@ -99,20 +126,30 @@ test("tìm kiếm, trạng thái rỗng, lưu nháp và gửi duyệt", async ({
   await expect(page).toHaveURL(/\/login/);
 });
 test("trưởng bộ phận xem trước và duyệt", async ({ page }, testInfo) => {
+  // Own fixture: this test must also pass when run alone or after a retry.
+  const title = `DEMO · Duyệt độc lập ${testInfo.project.name} ${Date.now()}`;
+  await page.goto("/knowledge/new");
+  await page.getByLabel("Tiêu đề").fill(title);
+  await page
+    .getByLabel("Mô tả vấn đề")
+    .fill("Dữ liệu minh họa cho kiểm thử phê duyệt độc lập.");
+  await page.getByRole("button", { name: "Lưu bản nháp", exact: true }).click();
+  await expect(page.getByRole("status")).toContainText("Đã lưu bản nháp");
+  await page.getByRole("button", { name: "Gửi trưởng bộ phận duyệt" }).click();
+  await expect(page.getByRole("status")).toContainText("Đã gửi phê duyệt");
   await page.goto("/account");
   await page
     .getByRole("button", { name: "Đăng xuất khỏi thiết bị này" })
     .click();
+  await expect(page).toHaveURL(/\/login$/);
   await page.getByLabel("Tên đăng nhập", { exact: true }).fill("head");
   await page.getByLabel("Mật khẩu", { exact: true }).fill(password!);
-  await page.getByRole("button", { name: "Đăng nhập", exact: true }).click();
+  await submitLogin(page);
   await expect(page.locator("h1")).toContainText("Chào anh/chị");
   await page.goto("/approvals");
   await expect(page.locator('[aria-busy="true"]')).toHaveCount(0);
-  const pending = page
-    .locator(".approval-row")
-    .filter({ hasText: "Chờ duyệt" })
-    .first();
+  const pending = page.locator(".approval-row").filter({ hasText: title });
+  await expect(pending).toContainText("Chờ duyệt");
   await pending.click();
   await expect(page.locator(".approval-preview")).toContainText(
     "Dữ liệu minh họa",

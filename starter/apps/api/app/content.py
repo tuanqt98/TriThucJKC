@@ -1,7 +1,7 @@
 import uuid
 from fastapi import APIRouter, Depends, Query, Request
 from psycopg.types.json import Jsonb
-from app.db import database
+from app.db import DB
 from app.permissions import current_user, READ_ACL, acl_params, approval_scopes, fail, require_role
 from app.schemas import (
     ContentPage,
@@ -19,7 +19,7 @@ from app.schemas import (
 from app.integrations.odoo import NoOpOdooAdapter
 
 router = APIRouter(prefix="/api/v1", tags=["Knowledge"])
-SELECT = """SELECT c.id,c.code,c.kind,c.title,c.owner_department_id,d.name AS department_name,
+SELECT = """SELECT c.id,c.code,c.kind,coalesce(v.title,c.title) AS title,c.owner_department_id,d.name AS department_name,
     v.id AS version_id,v.version_number,v.body,v.status,v.created_at
     FROM contents c JOIN content_versions v ON v.id=c.current_published_version_id
     LEFT JOIN departments d ON d.id=c.owner_department_id"""
@@ -35,8 +35,8 @@ def listing(conn, user, kind=None, q="", page=1, size=12, process_id=None):
         "limit": size,
         "offset": (page - 1) * size,
     }
-    where = BASE + " AND (%(kind)s::text IS NULL OR c.kind=%(kind)s) AND c.title ILIKE %(query)s"
-    where += " AND (%(process)s::uuid IS NULL OR EXISTS (SELECT 1 FROM content_processes cp WHERE cp.content_id=c.id AND cp.process_id=%(process)s))"
+    where = BASE + " AND (%(kind)s::text IS NULL OR c.kind=%(kind)s) AND coalesce(v.title,c.title) ILIKE %(query)s"
+    where += " AND (%(process)s::uuid IS NULL OR v.process_id=%(process)s OR (v.process_id IS NULL AND EXISTS (SELECT 1 FROM content_processes cp WHERE cp.content_id=c.id AND cp.process_id=%(process)s)))"
     items = conn.execute(
         SELECT + " WHERE " + where + " ORDER BY v.created_at DESC,c.id LIMIT %(limit)s OFFSET %(offset)s", params
     ).fetchall()
@@ -53,7 +53,7 @@ def documents(
     pageSize: int = Query(12, ge=1, le=100),
     processId: uuid.UUID = Query(None),
     user=Depends(current_user),
-    conn=Depends(database),
+    conn=DB,
 ):
     return listing(conn, user, "DOCUMENT", q, page, pageSize, processId)
 
@@ -65,7 +65,7 @@ def articles(
     pageSize: int = Query(12, ge=1, le=100),
     processId: uuid.UUID = Query(None),
     user=Depends(current_user),
-    conn=Depends(database),
+    conn=DB,
 ):
     return listing(conn, user, "ARTICLE", q, page, pageSize, processId)
 
@@ -77,7 +77,7 @@ def incidents(
     pageSize: int = Query(12, ge=1, le=100),
     processId: uuid.UUID = Query(None),
     user=Depends(current_user),
-    conn=Depends(database),
+    conn=DB,
 ):
     return listing(conn, user, "INCIDENT_GUIDE", q, page, pageSize, processId)
 
@@ -89,7 +89,7 @@ def search(
     pageSize: int = Query(12, ge=1, le=100),
     processId: uuid.UUID = Query(None),
     user=Depends(current_user),
-    conn=Depends(database),
+    conn=DB,
 ):
     return listing(conn, user, None, q, page, pageSize, processId)
 
@@ -104,25 +104,25 @@ def detail(conn, user, id, kind):
 
 
 @router.get("/documents/{id}", response_model=ContentView)
-def document(id: uuid.UUID, user=Depends(current_user), conn=Depends(database)):
+def document(id: uuid.UUID, user=Depends(current_user), conn=DB):
     return detail(conn, user, id, "DOCUMENT")
 
 
 @router.get("/articles/{id}", response_model=ContentView)
-def article(id: uuid.UUID, user=Depends(current_user), conn=Depends(database)):
+def article(id: uuid.UUID, user=Depends(current_user), conn=DB):
     return detail(conn, user, id, "ARTICLE")
 
 
 @router.get("/incidents/{id}", response_model=ContentView)
-def incident(id: uuid.UUID, user=Depends(current_user), conn=Depends(database)):
+def incident(id: uuid.UUID, user=Depends(current_user), conn=DB):
     # Sprint 0: approved incident knowledge; occurrence/verification workflow remains backlog.
     return detail(conn, user, id, "INCIDENT_GUIDE")
 
 
 @router.get("/my/learning", response_model=list[LearningView], tags=["Learning"])
-def learning(user=Depends(current_user), conn=Depends(database)):
+def learning(user=Depends(current_user), conn=DB):
     return conn.execute(
-        """SELECT a.id,c.title,v.version_number,a.due_at,a.completed_at,
+        """SELECT a.id,c.title,v.version_number,a.due_at,a.completed_at,jkc_training_status(a.id) AS status,
         (SELECT count(*) FROM lesson_progress p WHERE p.assignment_id=a.id) AS completed_lessons,
         (SELECT count(*) FROM lessons l WHERE l.course_version_id=v.id) AS total_lessons
         FROM course_assignments a JOIN course_versions v ON v.id=a.course_version_id
@@ -132,12 +132,12 @@ def learning(user=Depends(current_user), conn=Depends(database)):
 
 
 @router.get("/approvals", response_model=list[ApprovalView], tags=["Approvals"])
-def approvals(user=Depends(current_user), conn=Depends(database)):
+def approvals(user=Depends(current_user), conn=DB):
     scopes = approval_scopes(user)
     if not scopes:
         fail(403, "FORBIDDEN", "Chỉ trưởng bộ phận được phân công có quyền duyệt.")
     return conn.execute(
-        """SELECT a.id,c.title,u.full_name AS author,v.version_number,a.status,a.requested_at,v.body
+        """SELECT a.id,coalesce(v.title,c.title) AS title,u.full_name AS author,v.version_number,a.status,a.requested_at,v.body
         FROM approvals a JOIN content_versions v ON v.id=a.version_id JOIN contents c ON c.id=v.content_id
         JOIN users u ON u.id=c.creator_id WHERE a.assigned_department_id=ANY(%(scopes)s::uuid[])
         AND (a.assigned_user_id IS NULL OR a.assigned_user_id=%(user)s)
@@ -149,14 +149,14 @@ def approvals(user=Depends(current_user), conn=Depends(database)):
 
 
 @router.get("/processes", response_model=list[ProcessView], tags=["Dashboard"])
-def processes(user=Depends(current_user), conn=Depends(database)):
+def processes(user=Depends(current_user), conn=DB):
     return conn.execute(
         "SELECT id,code,name FROM production_processes ORDER BY CASE code WHEN 'OFFSET' THEN 1 WHEN 'FINISHING' THEN 2 WHEN 'PREPRESS' THEN 3 WHEN 'DIGITAL' THEN 4 ELSE 5 END"
     ).fetchall()
 
 
 @router.get("/dashboard", response_model=DashboardView, tags=["Dashboard"])
-def dashboard(user=Depends(current_user), conn=Depends(database)):
+def dashboard(user=Depends(current_user), conn=DB):
     return {
         "documents": listing(conn, user, "DOCUMENT")["total"],
         "articles": listing(conn, user, "ARTICLE")["total"],
@@ -175,7 +175,7 @@ def odoo(user=Depends(current_user)):
 
 
 @router.post("/articles", response_model=DraftView, status_code=201)
-def draft(data: ArticleInput, request: Request, user=Depends(current_user), conn=Depends(database)):
+def draft(data: ArticleInput, request: Request, user=Depends(current_user), conn=DB):
     if not user["department_id"]:
         fail(403, "FORBIDDEN", "Tài khoản chưa được gán bộ phận.")
     content_id, version_id = uuid.uuid4(), uuid.uuid4()
@@ -195,7 +195,7 @@ def draft(data: ArticleInput, request: Request, user=Depends(current_user), conn
 
 
 @router.post("/articles/{id}/submit", response_model=Message)
-def submit(id: uuid.UUID, request: Request, user=Depends(current_user), conn=Depends(database)):
+def submit(id: uuid.UUID, request: Request, user=Depends(current_user), conn=DB):
     row = conn.execute(
         "SELECT c.*,v.id AS vid,v.status FROM contents c JOIN content_versions v ON v.content_id=c.id WHERE c.id=%s AND c.kind='ARTICLE' AND c.creator_id=%s ORDER BY v.version_number DESC LIMIT 1 FOR UPDATE OF c,v",
         (id, user["id"]),
@@ -214,7 +214,7 @@ def submit(id: uuid.UUID, request: Request, user=Depends(current_user), conn=Dep
 
 
 @router.post("/approvals/{id}/approve", response_model=Message, tags=["Approvals"])
-def approve(id: uuid.UUID, data: DecisionInput, request: Request, user=Depends(current_user), conn=Depends(database)):
+def approve(id: uuid.UUID, data: DecisionInput, request: Request, user=Depends(current_user), conn=DB):
     row = conn.execute(
         """SELECT a.*,v.version_number,v.status AS version_status,c.id AS content_id,c.creator_id,c.kind
         FROM approvals a JOIN content_versions v ON v.id=a.version_id JOIN contents c ON c.id=v.content_id

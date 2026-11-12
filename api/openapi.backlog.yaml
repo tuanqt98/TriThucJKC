@@ -2,7 +2,12 @@ openapi: 3.1.0
 info:
   title: Tri Thức JKC API
   version: 1.0.0
-  description: Contract đề xuất; endpoint chưa triển khai trong starter.
+  description: >-
+    Bản đề xuất lịch sử, không phải contract runtime. Xem openapi.yaml được export
+    từ code. Sprint 1 triển khai authoring/version/review tại /workspace/contents,
+    hồ sơ/tái diễn/xác minh tại /workspace/incidents, authoring/giao khóa tại
+    /workspace/courses, giao đọc tại /workspace/reading. Các URL đề xuất khác ở
+    đây (kể cả URL tương tự) không mặc nhiên có triển khai.
 servers:
 - url: https://trithuc.jkc.internal/api/v1
 tags:
