@@ -23,6 +23,8 @@ export type Content = {
   /** UI-05 read-only display fields; optional for older API builds. */
   approved_at?: string | null;
   author_name?: string | null;
+  /** UI-05B: approver of the published version (null for legacy rows). */
+  approver_name?: string | null;
   process_id?: string | null;
   process_name?: string | null;
 };

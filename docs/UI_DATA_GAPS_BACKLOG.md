@@ -38,15 +38,23 @@ UI-05 đã thêm 4 trường **chỉ đọc** vào `ContentView`: `process_id`, 
 | DATA-13 | P1 | **Loại kiến thức** (Kinh nghiệm / Hướng dẫn / Checklist / FAQ) | Chỉ có `kind`: Bài tri thức (ARTICLE) / Giải pháp sự cố (INCIDENT_GUIDE). UI-05 lọc theo 2 loại này | Dùng `categories` (đi cùng DATA-03), có trường chọn loại khi biên soạn | Danh mục chính thức |
 | DATA-14 | P2 | **Thiết bị / máy** | Không có trong schema. Bộ lọc **đã ẩn** (vòng 2) cho tới khi có API | Bảng thiết bị và quan hệ nội dung–thiết bị | Danh sách thiết bị, ai quản lý |
 | DATA-15 | P2 | **Thẻ từ khóa** | Bảng `tags`/`content_tags` có sẵn nhưng rỗng, chưa có UI biên soạn thẻ. Bộ lọc **đã ẩn** (vòng 2) | Trả `tags` trong `ContentView`; thêm thẻ khi biên soạn | Quy tắc đặt thẻ |
-| DATA-16 | P2 | **Người duyệt** trên card | Có `approved_by`, chưa trả về | Thêm `approver_name` (chỉ đọc) | Có cần hiển thị không |
+| DATA-16 | — | **Người duyệt** | **Đã làm ở UI-05B:** `ContentView.approver_name` (chỉ đọc, LEFT JOIN `approved_by` của phiên bản đã duyệt hiện hành; không đổi ACL; có test). Trang chi tiết bài tri thức đã hiển thị | Còn lại: hiển thị trên card UI-05 nếu PO muốn | Có cần hiện trên card không |
 | DATA-17 | P3 | **Lượt xem, bình luận, lưu bài (bookmark), "nổi bật tuần"** | Không có dữ liệu. Khung bên phải đang là "Mới được duyệt" (xếp theo thời điểm duyệt) | Bảng sự kiện xem/lưu, có chính sách riêng tư | Có cần đo lượt xem không |
 | DATA-18 | P3 | **Hỏi đáp** ("Đặt câu hỏi" trong mockup) | Chưa có module/route. UI-05 thay bằng nút "Chia sẻ kiến thức" | Module Q&A riêng | Phạm vi MVP |
 | DATA-19 | P3 | **Ảnh đại diện bài viết** | Card dùng ảnh minh họa DEMO theo công đoạn (có nhãn "Ảnh minh họa"), không phải ảnh của bài | Cho chọn ảnh bìa từ tệp đính kèm đã quét sạch | Có cần không |
 | DATA-20 | P3 | **Lọc phía server theo loại/bộ phận** | UI tải toàn bộ kết quả trong phạm vi ACL (tối đa 2.000 bài/loại, quá thì báo lỗi) rồi lọc loại, bộ phận, sắp xếp và phân trang ở trình duyệt | Thêm tham số `kind`, `departmentId`, `sort` vào `/search`, phân trang server | Khi nào số bài vượt vài nghìn |
 | DATA-21 | P2 | **Index cho tìm kiếm** | Tìm không dấu và tìm trong nội dung đang quét tuần tự (biểu thức trong câu truy vấn); ổn ở quy mô DEMO / vài nghìn bài | Migration 008: hàm `IMMUTABLE` chuẩn hóa + index GIN `pg_trgm` trên tiêu đề và nội dung phiên bản; cập nhật readiness check (`main.py` đang đòi đúng `007`), `database_drill.py`, `migration_cycle.py`, runbook | Khi nào cần (ngưỡng số bài) |
 
+## Bổ sung từ UI-05B (Chi tiết bài tri thức, đề xuất)
+
+| ID | Đề xuất ưu tiên | Thiếu hụt | Hiện trạng | Đề xuất kỹ thuật | Cần PO/JKC chốt |
+|---|---|---|---|---|---|
+| DATA-22 | P2 | **Lịch sử phiên bản bài tri thức** | `GET /articles/{id}` chỉ trả phiên bản đã duyệt hiện hành; không có danh sách phiên bản trước (DATA-05 là cho nội quy) | `GET /articles/{id}/versions`: chỉ bản `APPROVED`, theo ACL; trả `version_number`, `approved_at`, người duyệt (đi cùng DATA-16) | Nhân viên có cần xem phiên bản cũ của bài kinh nghiệm không |
+
+| DATA-23 | P2 | **Ảnh gắn với từng mục nội dung** | Tệp gắn với phiên bản, không gắn với mục. UI-05B tạm dùng quy ước: một dòng trong mục **đúng bằng tên tệp ảnh đã quét sạch của phiên bản** (có thể thêm tiền tố "Ảnh:") thì hiện ảnh tại chỗ đó; ảnh đầu tiên chưa gắn mục là ảnh đại diện; ảnh còn lại ở "Hình ảnh khác" | Thêm `section_key` (hoặc thứ tự mục) cho tệp đính kèm, đi cùng DATA-04; trình biên soạn cho chọn ảnh theo mục | Có giữ quy ước tên tệp không, hay chờ làm DATA-04/DATA-23 |
+
 ## Liên quan UI (không phải API)
 
 - Header mobile của trang chi tiết: mockup có nút quay lại + tìm kiếm; UI-04 giữ header UI-02 đã duyệt và đặt nút quay lại ở breadcrumb. PO quyết định có làm header riêng hay không.
-- UI-05 mobile có 2 ô tìm kiếm: ô trên header UI-02 đã duyệt và ô của trang (mockup chỉ có 1). Muốn bỏ ô header trên trang này thì phải sửa AppFrame dùng chung; cần PO quyết định.
+- UI-05 mobile có 2 ô tìm kiếm: **đã xử lý** ở UI-05 vòng 3 (PO chọn phương án A: AppFrame có prop `hideMobileSearch`, chỉ `/knowledge` bật).
 - Khi DATA-01/02/03 xong, UI-03/UI-04 chỉ cần nối trường. Nhãn "Đã ban hành" có thể tách thành "Hiệu lực" và "Sắp hiệu lực".

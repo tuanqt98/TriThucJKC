@@ -148,3 +148,44 @@ def test_wildcards_stay_literal_after_folding(client, login):
     login("employee")
     assert client.get(PREFIX + "/search", params={"q": "%", "pageSize": 1}).json()["total"] == 0
     assert client.get(PREFIX + "/search", params={"q": "_", "pageSize": 1}).json()["total"] == 0
+
+
+# --- UI-05B: approver_name is read-only, tied to the published version, and never widens visibility -------------
+
+LEGACY_KEYS = {
+    "id", "code", "kind", "title", "owner_department_id", "department_name", "version_id", "version_number",
+    "body", "status", "created_at", "approved_at", "author_name", "process_id", "process_name",
+}  # fmt: skip
+
+
+def test_approver_name_is_published_version_approver_and_respects_acl(runtime_client):
+    c = runtime_client
+    token = uuid4().hex[:10]
+    signin(c, "head")
+    head_name = c.get(PREFIX + "/auth/me").json()["full_name"]
+    row = _publish(c, f"DEMO · Người duyệt {token}", {"1. Mô tả": "DEMO"})
+    # A newer draft (and its submission) must not change what readers see for the published version.
+    signin(c)
+    fork = c.post(W + "/fork", json={**_version(row), "remark": ""})
+    assert fork.status_code == 200, fork.text
+    assert c.post(W + "/submit", json=_version(fork.json())).status_code == 200
+    for user in ["employee", "head"]:
+        signin(c, user)
+        detail = c.get(f"{PREFIX}/articles/{row['id']}")
+        assert detail.status_code == 200, user
+        body = detail.json()
+        assert LEGACY_KEYS <= body.keys()  # backward compatible: only an added optional field
+        assert body["approver_name"] == head_name and body["version_number"] == 1, user
+        listed = c.get(PREFIX + "/articles", params={"q": token}).json()["items"]
+        assert [(i["id"], i["approver_name"]) for i in listed] == [(row["id"], head_name)], user
+    for user in ["other", "admin"]:
+        signin(c, user)
+        assert c.get(f"{PREFIX}/articles/{row['id']}").status_code == 404, user
+        assert c.get(PREFIX + "/search", params={"q": token}).json()["total"] == 0, user
+
+
+def test_seeded_content_without_workflow_approver_keeps_working(client, login):
+    login("employee")
+    detail = client.get(f"{PREFIX}/articles/{uid('article')}").json()
+    assert LEGACY_KEYS <= detail.keys()
+    assert "approver_name" in detail  # may be null for legacy/seeded rows; clients must tolerate it

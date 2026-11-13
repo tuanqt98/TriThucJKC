@@ -4709,6 +4709,11 @@ components:
           - type: string
           - type: 'null'
           title: Author Name
+        approver_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Approver Name
         process_id:
           anyOf:
           - type: string
