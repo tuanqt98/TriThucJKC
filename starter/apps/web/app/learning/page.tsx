@@ -1,4 +1,9 @@
-import { Workspace } from "../../components/workspace";
+import { Suspense } from "react";
+import { MyCourses } from "../../components/my-courses";
 export default function Page() {
-  return <Workspace />;
+  return (
+    <Suspense>
+      <MyCourses />
+    </Suspense>
+  );
 }

@@ -79,6 +79,20 @@ UI-07 dùng API biên soạn có phiên bản sẵn có: `POST/PUT /workspace/co
 
 Loại bài (DATA-13), thiết bị (DATA-14) và thẻ (DATA-15) **chưa hiện** trên form UI-07 vì chưa có API. Ảnh gắn theo mục dùng quy ước tên tệp (DATA-23).
 
+## Bổ sung từ UI-08 (Đào tạo / Khóa học của tôi)
+
+UI-08 dùng API học tập sẵn có: `GET /my/learning` (trạng thái do `jkc_training_status` tính, số bài học), `GET /my/learning/{id}` (bài học, câu hỏi **không kèm đáp án**, lịch sử làm bài), `POST …/lessons/{id}/complete`, `POST …/quiz-attempts`, `POST /quiz-attempts/{id}/submit` (chấm trong DB bằng `jkc_submit_quiz`). Không đổi API hay DB.
+
+| ID | Đề xuất ưu tiên | Thiếu hụt | Hiện trạng | Đề xuất kỹ thuật | Cần PO/JKC chốt |
+|---|---|---|---|---|---|
+| DATA-34 | P2 | **Kết quả kiểm tra gần đây** (khung trong mockup) | Chưa có API riêng. UI đọc chi tiết tối đa 30 khóa (nửa khóa đã hoàn thành mới nhất, nửa khóa khác hạn xa nhất; bỏ "Chưa bắt đầu" vì theo quy tắc backend chưa có lần làm bài) | `GET /my/learning/attempts?limit=` trả các lần nộp gần nhất của chính người dùng | Có cần đủ lịch sử hay 5 lần gần nhất |
+| DATA-35 | P2 | **Mô tả khóa học, bộ phận phụ trách, thời lượng, Bắt buộc/Khuyến nghị, ảnh, lĩnh vực** | `courses` chỉ có mã, tiêu đề, bộ phận sở hữu (chưa trả về). UI không hiện các trường này, không có bộ lọc "lĩnh vực" | Thêm cột vào `courses`/`course_versions` + trình biên soạn; trả về trong `/my/learning` | Danh mục lĩnh vực, ai nhập thời lượng |
+| DATA-36 | P3 | **So sánh với tháng trước** ("↑1 so với tháng trước"), "Hoàn thành tháng này" | Thẻ thống kê hiện số theo trạng thái hiện tại (đủ 4 trạng thái theo yêu cầu UI-08); không hiện so sánh | Thống kê theo tháng phía server (theo `completed_at`, `assigned_at`) | Có cần chỉ số theo tháng không |
+| DATA-37 | P3 | **Lịch học & nhắc việc** (giờ học, buổi kiểm tra) | Không có dữ liệu lịch; khung bên phải chỉ hiện **hạn hoàn thành thật** của khóa chưa hoàn thành | Bảng lịch đào tạo/nhắc việc, có thể nối thông báo | Có lịch học tập trung không |
+| DATA-38 | P2 | **Tài liệu/video trong bài học** | Bài học chỉ có nội dung văn bản (`lessons.body`), chưa có tệp | Đính kèm cho bài học (dùng lại cơ chế upload/quét của nội dung) | Định dạng và dung lượng cho phép |
+| DATA-39 | — | **Làm lại bài kiểm tra sau khi đã đạt** | **Đã làm (UI-08 vòng 2, PO 11/11/2026): chặn ở backend.** `POST /my/learning/{id}/quiz-attempts` trả 409 `QUIZ_ALREADY_PASSED` khi đã đạt; giữ nguyên điểm, lịch sử, `completed_at`; không migration | Còn lại (tùy chọn): chặn cả `jkc_submit_quiz` cho lần làm mở từ trước quy tắc mới (cần migration 008) | Có cần chặn ở DB không |
+| DATA-40 | P3 | **Chứng nhận hoàn thành** ("Xem điểm, tiến độ và chứng nhận") | Chưa có | Sinh chứng nhận PDF có mã kiểm tra khi `completed_at` có giá trị | Mẫu chứng nhận, ai ký |
+
 ## Liên quan UI (không phải API)
 
 - Header mobile của trang chi tiết: mockup có nút quay lại + tìm kiếm; UI-04 giữ header UI-02 đã duyệt và đặt nút quay lại ở breadcrumb. PO quyết định có làm header riêng hay không.

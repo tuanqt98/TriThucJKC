@@ -120,6 +120,10 @@ def complete_lesson(id: UUID, lesson_id: UUID, request: Request, user=Depends(cu
 @router.post("/my/learning/{id}/quiz-attempts", response_model=Attempt)
 def start_attempt(id: UUID, request: Request, user=Depends(current_user), conn=DB):
     row = assignment(conn, user, id, lock=True)
+    # DATA-39 (PO 11/11/2026): once passed, no new attempt. Checked under the assignment row lock that
+    # jkc_submit_quiz also takes, so a pass committed concurrently is always seen. History is untouched.
+    if row["completed_at"] or conn.execute("SELECT 1 FROM quiz_attempts WHERE assignment_id=%s AND passed", (id,)).fetchone():
+        fail(409, "QUIZ_ALREADY_PASSED", "Bạn đã đạt bài kiểm tra của khóa học này; không mở thêm lần làm bài.")
     pending = conn.execute("SELECT * FROM quiz_attempts WHERE assignment_id=%s AND submitted_at IS NULL", (id,)).fetchone()
     if pending:
         return pending

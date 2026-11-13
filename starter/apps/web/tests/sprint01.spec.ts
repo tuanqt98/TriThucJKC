@@ -137,9 +137,11 @@ test("Sprint 0.1 UAT: đọc đúng phiên bản, file an toàn, học và quiz"
   await page
     .getByRole("button", { name: "Nộp bài kiểm tra", exact: true })
     .click();
-  await expect(page.getByRole("status")).toContainText("100");
-  await expect(page.locator(".history-table")).toContainText("100");
-  await expect(page.locator(".course-player")).toContainText(
+  await expect(page.locator("main").getByRole("status")).toContainText("100");
+  await expect(
+    page.getByRole("table", { name: "Lịch sử làm bài" }),
+  ).toContainText("100");
+  await expect(page.locator("main")).toContainText(
     "Đã hoàn thành khóa học này",
   );
   expect(
@@ -153,6 +155,8 @@ test("Sprint 0.1 UAT: đọc đúng phiên bản, file an toàn, học và quiz"
     fullPage: true,
   });
   await page.reload();
-  await expect(page.locator(".history-table")).toContainText("100");
+  await expect(
+    page.getByRole("table", { name: "Lịch sử làm bài" }),
+  ).toContainText("100");
   expect(errors).toEqual([]);
 });
