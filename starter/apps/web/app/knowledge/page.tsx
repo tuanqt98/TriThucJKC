@@ -1,15 +1,11 @@
-import { Workspace } from "../../components/workspace";
-export default async function Page({
-  searchParams,
-}: {
-  searchParams: Promise<{ q?: string; processId?: string }>;
-}) {
-  const { q, processId } = await searchParams;
+import { Suspense } from "react";
+import { KnowledgeLibrary } from "../../components/knowledge-library";
+
+export default function Page() {
+  // KnowledgeLibrary reads/writes its state in the URL (shareable links, Back from an article).
   return (
-    <Workspace
-      key={`${q || ""}-${processId || ""}`}
-      initialQuery={q || ""}
-      initialProcess={processId || ""}
-    />
+    <Suspense>
+      <KnowledgeLibrary />
+    </Suspense>
   );
 }

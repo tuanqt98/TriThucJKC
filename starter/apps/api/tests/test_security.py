@@ -8,6 +8,17 @@ from app.security import digest
 PREFIX = "/api/v1"
 
 
+@pytest.fixture(scope="module", autouse=True)
+def archive_synthetic_content_after_tests():
+    # Same isolation as test_sprint01: keep audit/version history, archive only content created here, so
+    # re-runs start from the seeded set (search also matches published body text since UI-05).
+    with connection() as conn:
+        existing = [r["id"] for r in conn.execute("SELECT id FROM contents").fetchall()]
+    yield
+    with connection() as conn:
+        conn.execute("UPDATE contents SET archived_at=now() WHERE NOT (id=ANY(%s::uuid[]))", (existing,))
+
+
 def test_unauthenticated(client):
     for path in [
         "/auth/me",

@@ -38,12 +38,15 @@ export function AppFrame({
   path,
   title,
   onSearch,
+  hideMobileSearch = false,
   children,
 }: {
   user: User | null;
   path: string;
   title: string;
   onSearch: (event: FormEvent<HTMLFormElement>) => void;
+  /** Hide the global header search below 768px when the page has its own search (UI-05, PO option A). */
+  hideMobileSearch?: boolean;
   children: ReactNode;
 }) {
   const [collapsed, setCollapsed] = useState(false);
@@ -174,7 +177,10 @@ export function AppFrame({
             </span>
           </Link>
           <span className={styles.pageTitle}>{title}</span>
-          <form className={styles.search} onSubmit={onSearch}>
+          <form
+            className={`${styles.search}${hideMobileSearch ? ` ${styles.searchDesktopOnly}` : ""}`}
+            onSubmit={onSearch}
+          >
             <Icon name="search" />
             <input
               name="q"

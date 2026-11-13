@@ -1,6 +1,6 @@
-# Backlog thiếu hụt dữ liệu API cho UI Nội quy (UI-03, UI-04)
+# Backlog thiếu hụt dữ liệu API cho UI (UI-03, UI-04, UI-05)
 
-Ngày 07/11/2026. Nguồn: [báo cáo UI-03](reports/ui-03/REPORT.md), [báo cáo UI-04](reports/ui-04/REPORT.md).
+Ngày 07/11/2026, cập nhật 09/11/2026. Nguồn: [báo cáo UI-03](reports/ui-03/REPORT.md), [báo cáo UI-04](reports/ui-04/REPORT.md), [báo cáo UI-05](reports/ui-05/REPORT.md).
 
 Mục đích: liệt kê các trường mà mockup đã duyệt (02, 03) cần hiển thị nhưng API hiện chưa trả về. UI hiện ghi rõ "Chưa cung cấp" thay vì hiển thị dữ liệu giả.
 
@@ -17,7 +17,7 @@ Mục đích: liệt kê các trường mà mockup đã duyệt (02, 03) cần h
 | ID | Đề xuất ưu tiên | Thiếu hụt | Hiện trạng | Đề xuất kỹ thuật | Cần PO/JKC chốt |
 |---|---|---|---|---|---|
 | DATA-01 | P1 | **Ngày hiệu lực** (danh sách UI-03, chi tiết UI-04) | Có cột `content_versions.effective_at` nhưng `GET /documents` và `GET /documents/{id}` không trả về. Seed DEMO chưa có giá trị | Thêm `effective_at` vào `ContentView`; seed DEMO có ngày | Quy tắc "hiệu lực" so với "đã ban hành": có cho phép hiệu lực ở tương lai không, và khi đó ACK bị chặn (DB đã chặn khi `effective_at > now()`) |
-| DATA-02 | P1 | **Ngày ban hành** (UI-04) | Có cột `content_versions.approved_at` nhưng API không trả về | Thêm `approved_at` vào `ContentView` | Không |
+| DATA-02 | P1 | **Ngày ban hành** (UI-04) | **Đã có ở API từ UI-05:** `approved_at` nay có trong `ContentView` (listing/search/detail). UI-04 chưa nối, vì UI-04 đã chốt để PO duyệt | Thêm `approved_at` vào `ContentView` | Không |
 | DATA-03 | P1 | **Loại tài liệu** (tab Nội quy chung / Quy trình / An toàn / Biểu mẫu ở UI-03) | Có cột `contents.category_id` nhưng API không trả về; seed chưa có danh mục. Tab đang bị khóa | Seed danh mục, trả `category` trong listing và detail, thêm tham số lọc `categoryId` | Danh sách danh mục chính thức của JKC |
 | DATA-04 | P1 | **Thứ tự mục nội dung (`sort_order`)** | `body` lưu dạng `jsonb` object, PostgreSQL không giữ thứ tự khóa. UI-04 tạm sắp theo số đầu tiêu đề ("1. Mục đích"); tài liệu cũ không đánh số thì giữ thứ tự API trả về | Phương án A: body dạng mảng `[{title, text, sort_order}]`, có migration chuyển dữ liệu. Phương án B: thêm `section_order text[]` vào phiên bản. Cả hai cần trình biên soạn hỗ trợ sắp xếp | Chọn phương án; trong thời gian chờ, quy ước đánh số tiêu đề mục cho người biên soạn |
 | DATA-05 | P1 | **Lịch sử phiên bản đầy đủ** (UI-04) | Nhân viên chỉ thấy bản hiện hành và các bản mình được giao | `GET /documents/{id}/versions`: chỉ bản `APPROVED`, theo ACL; trả `version_number`, `approved_at`, `effective_at`, ghi chú thay đổi | Có cần "ghi chú thay đổi" bắt buộc khi ban hành không |
@@ -27,7 +27,26 @@ Mục đích: liệt kê các trường mà mockup đã duyệt (02, 03) cần h
 | DATA-09 | P3 | **"Tải tất cả" tệp đính kèm** (UI-04) | Chỉ tải được từng tệp | Endpoint tạo gói ZIP theo ACL, kiểm tra lại trạng thái quét của từng tệp | Có cần không, vì đa số tài liệu ít tệp |
 | DATA-10 | P3 | **Kiểu mục "Lưu ý an toàn"** (khung cảnh báo vàng trong mockup) | Body là text tự do | Gắn thuộc tính `kind: "warning"` cho mục (đi cùng DATA-04) | Có cần không |
 
+## Bổ sung từ UI-05 (Kho tri thức)
+
+UI-05 đã thêm 4 trường **chỉ đọc** vào `ContentView`: `process_id`, `process_name`, `author_name`, `approved_at`. Không có migration, không đổi điều kiện ACL; có test `starter/apps/api/tests/test_knowledge_listing.py`. Các thiếu hụt còn lại:
+
+| ID | Đề xuất ưu tiên | Thiếu hụt | Hiện trạng | Đề xuất kỹ thuật | Cần PO/JKC chốt |
+|---|---|---|---|---|---|
+| DATA-11 | — | **Tìm kiếm không dấu** | **Đã làm ở UI-05 vòng 2.** Bỏ dấu ngay trong câu truy vấn bằng hàm có sẵn (`normalize` NFD, bỏ dấu kết hợp, đ→d, `lower`), không cần migration. Test pytest + E2E | Còn lại: index cho quy mô lớn (xem DATA-21) | Không |
+| DATA-12 | — | **Tìm trong nội dung** | **Đã làm ở UI-05 vòng 2.** Mỗi từ (tối đa 8) phải có trong tiêu đề **hoặc** nội dung của *phiên bản đã duyệt hiện hành*; bản nháp, bản chờ duyệt và phiên bản mới chưa duyệt không được tìm. Chưa có trường "mô tả" riêng | Xếp theo mức liên quan ("Liên quan nhất") vẫn chưa có | Có cần trường mô tả ngắn riêng không (đi cùng DATA-07) |
+| DATA-13 | P1 | **Loại kiến thức** (Kinh nghiệm / Hướng dẫn / Checklist / FAQ) | Chỉ có `kind`: Bài tri thức (ARTICLE) / Giải pháp sự cố (INCIDENT_GUIDE). UI-05 lọc theo 2 loại này | Dùng `categories` (đi cùng DATA-03), có trường chọn loại khi biên soạn | Danh mục chính thức |
+| DATA-14 | P2 | **Thiết bị / máy** | Không có trong schema. Bộ lọc **đã ẩn** (vòng 2) cho tới khi có API | Bảng thiết bị và quan hệ nội dung–thiết bị | Danh sách thiết bị, ai quản lý |
+| DATA-15 | P2 | **Thẻ từ khóa** | Bảng `tags`/`content_tags` có sẵn nhưng rỗng, chưa có UI biên soạn thẻ. Bộ lọc **đã ẩn** (vòng 2) | Trả `tags` trong `ContentView`; thêm thẻ khi biên soạn | Quy tắc đặt thẻ |
+| DATA-16 | P2 | **Người duyệt** trên card | Có `approved_by`, chưa trả về | Thêm `approver_name` (chỉ đọc) | Có cần hiển thị không |
+| DATA-17 | P3 | **Lượt xem, bình luận, lưu bài (bookmark), "nổi bật tuần"** | Không có dữ liệu. Khung bên phải đang là "Mới được duyệt" (xếp theo thời điểm duyệt) | Bảng sự kiện xem/lưu, có chính sách riêng tư | Có cần đo lượt xem không |
+| DATA-18 | P3 | **Hỏi đáp** ("Đặt câu hỏi" trong mockup) | Chưa có module/route. UI-05 thay bằng nút "Chia sẻ kiến thức" | Module Q&A riêng | Phạm vi MVP |
+| DATA-19 | P3 | **Ảnh đại diện bài viết** | Card dùng ảnh minh họa DEMO theo công đoạn (có nhãn "Ảnh minh họa"), không phải ảnh của bài | Cho chọn ảnh bìa từ tệp đính kèm đã quét sạch | Có cần không |
+| DATA-20 | P3 | **Lọc phía server theo loại/bộ phận** | UI tải toàn bộ kết quả trong phạm vi ACL (tối đa 2.000 bài/loại, quá thì báo lỗi) rồi lọc loại, bộ phận, sắp xếp và phân trang ở trình duyệt | Thêm tham số `kind`, `departmentId`, `sort` vào `/search`, phân trang server | Khi nào số bài vượt vài nghìn |
+| DATA-21 | P2 | **Index cho tìm kiếm** | Tìm không dấu và tìm trong nội dung đang quét tuần tự (biểu thức trong câu truy vấn); ổn ở quy mô DEMO / vài nghìn bài | Migration 008: hàm `IMMUTABLE` chuẩn hóa + index GIN `pg_trgm` trên tiêu đề và nội dung phiên bản; cập nhật readiness check (`main.py` đang đòi đúng `007`), `database_drill.py`, `migration_cycle.py`, runbook | Khi nào cần (ngưỡng số bài) |
+
 ## Liên quan UI (không phải API)
 
 - Header mobile của trang chi tiết: mockup có nút quay lại + tìm kiếm; UI-04 giữ header UI-02 đã duyệt và đặt nút quay lại ở breadcrumb. PO quyết định có làm header riêng hay không.
+- UI-05 mobile có 2 ô tìm kiếm: ô trên header UI-02 đã duyệt và ô của trang (mockup chỉ có 1). Muốn bỏ ô header trên trang này thì phải sửa AppFrame dùng chung; cần PO quyết định.
 - Khi DATA-01/02/03 xong, UI-03/UI-04 chỉ cần nối trường. Nhãn "Đã ban hành" có thể tách thành "Hiệu lực" và "Sắp hiệu lực".
