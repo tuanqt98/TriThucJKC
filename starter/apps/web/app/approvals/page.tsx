@@ -1,4 +1,4 @@
-import { Workspace } from "../../components/workspace";
+import { Approvals } from "../../components/approvals";
 export default function Page() {
-  return <Workspace />;
+  return <Approvals />;
 }
