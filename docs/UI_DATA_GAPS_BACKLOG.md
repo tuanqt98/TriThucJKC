@@ -66,6 +66,19 @@ Trang `/incidents/[id]` hiển thị **hướng dẫn xử lý đã duyệt** (`
 | DATA-28 | P3 | **Trao đổi & xác minh (bình luận theo dòng thời gian)** | Chưa có bảng | Bảng bình luận theo hồ sơ hoặc theo hướng dẫn, có audit và ACL | Có trong MVP không |
 | DATA-29 | P3 | **In phiếu xử lý, Báo lỗi mới** (nút trong mockup) | Chưa có trang in; tạo hồ sơ có ở `/incidents/manage` | In: CSS `@media print` cho trang chi tiết (chỉ UI). Báo lỗi mới: nút dẫn tới `/incidents/manage` (chỉ UI) | Có làm ngay không |
 
+## Bổ sung từ UI-07 (Tạo bài chia sẻ kinh nghiệm)
+
+UI-07 dùng API biên soạn có phiên bản sẵn có: `POST/PUT /workspace/contents` (kiểm tra `revision`), `POST /workspace/contents/{submit|fork}`, `POST /content-versions/{id}/attachments` (chỉ tác giả, chỉ bản nháp, quét ClamAV đồng bộ, PNG/JPEG/PDF, tối đa `MAX_UPLOAD_BYTES` = 10 MiB). Không đổi API hay DB. Các thiếu hụt:
+
+| ID | Đề xuất ưu tiên | Thiếu hụt | Hiện trạng | Đề xuất kỹ thuật | Cần PO/JKC chốt |
+|---|---|---|---|---|---|
+| DATA-30 | — | **Tên bộ phận của người dùng** | **PO quyết định (11/11/2026): giữ bộ phận tự gán theo tài khoản, không thêm ô chọn.** UI hiện "Bộ phận của tài khoản bạn" | Không làm; nếu sau này cần hiện tên thì thêm `department_name` chỉ đọc vào `/auth/me` (cần duyệt riêng vì chạm auth) | — |
+| DATA-31 | **P1 (PO 11/11/2026)** | **Xóa tệp đã tải lên khỏi bản nháp** (nút × trong mockup) | Chưa có API xóa; UI không hiện nút × và ghi rõ "Chưa hỗ trợ xóa" | `DELETE /attachments/{id}`: chỉ tác giả, chỉ khi phiên bản còn DRAFT; xóa mềm, có audit, xóa tệp lưu trữ theo chính sách | Xóa cứng hay giữ để audit |
+| DATA-32 | P3 | **Video MP4** (mockup ghi "JPG, PNG, MP4, PDF") | API chỉ nhận PNG/JPEG/PDF tĩnh (có chuẩn hóa và quét) | Thêm định dạng video cần kiểm tra mã độc, giới hạn dung lượng, chuyển mã, lưu trữ riêng | Có cần video trong MVP không |
+| DATA-33 | — | **Danh sách "Bài viết của tôi"** | **Đã làm (UI-07, PO ưu tiên 11/11/2026):** trang `/knowledge/mine` dùng `GET /workspace/contents` có sẵn; mỗi bài một dòng (phiên bản mới nhất); lọc theo 5 trạng thái, tìm theo tiêu đề, phân trang; chỉ hiện hành động hợp lệ theo trạng thái; mở lại bản nháp qua `/knowledge/new?id=…`. Không đổi API, DB, quyền hay workflow | Còn lại: lối vào từ Kho tri thức / Tài khoản (hiện có từ trang Tạo bài) | Có thêm lối vào ở Kho tri thức hoặc menu Tài khoản không (chạm UI đã duyệt) |
+
+Loại bài (DATA-13), thiết bị (DATA-14) và thẻ (DATA-15) **chưa hiện** trên form UI-07 vì chưa có API. Ảnh gắn theo mục dùng quy ước tên tệp (DATA-23).
+
 ## Liên quan UI (không phải API)
 
 - Header mobile của trang chi tiết: mockup có nút quay lại + tìm kiếm; UI-04 giữ header UI-02 đã duyệt và đặt nút quay lại ở breadcrumb. PO quyết định có làm header riêng hay không.

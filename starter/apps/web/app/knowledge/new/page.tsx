@@ -1,4 +1,9 @@
-import { Workspace } from "../../../components/workspace";
+import { Suspense } from "react";
+import { KnowledgeCreate } from "../../../components/knowledge-create";
 export default function Page() {
-  return <Workspace />;
+  return (
+    <Suspense>
+      <KnowledgeCreate />
+    </Suspense>
+  );
 }
