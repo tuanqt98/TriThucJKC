@@ -115,3 +115,31 @@ Chưa bắt đầu:
 | PR #10 vùng chạm | Giữ riêng, CI xanh; lỗi UI-05B có từ trước, đã có bằng chứng đối chiếu |
 | PR #11 DATA-20 (P1) | Đặc tả chờ PO duyệt; triển khai sau, PR riêng |
 | Deploy production | **NO-GO** (G-1…G-4) |
+
+## Kết quả hợp nhất `main` — 13/11/2026 (phương án A điều chỉnh B, 8 bước)
+
+| Hạng mục | Kết quả |
+|---|---|
+| `main` | `dc47e98` → **`7ff930f`** (8 merge commit, không squash/rebase/force-push/`--admin`) |
+| Cây `main` | **== `a5b8ee8`** (bản tích hợp) **== `47597a6`** (UI-09 đã duyệt) |
+| Nội dung đã duyệt | Mọi head Sprint 1, UI-01…UI-09 là tổ tiên của `main` |
+| CI | 3/3 xanh trên **mỗi** merge commit; commit cuối `7ff930f`: run 43412922799 |
+| PR | #13 (Sprint 1 + UI-01…03), #1–#7 **MERGED**; #12 GitHub tự đánh dấu MERGED (bằng chứng, không thao tác); **#8–#11 OPEN**, chưa merge |
+| Nhánh, tag | Giữ đủ (14 nhánh, 3 tag) |
+| Deploy | **Không**: 0 deployment, 0 environment |
+| Nhật ký | `results/merge-log.md` |
+
+**Còn tồn đọng:**
+- **P0 trước production:**
+  - G-1 DATA-39B (PR #8);
+  - G-2 seed guard (PR #9; phần IT: đánh dấu DB production);
+  - G-3 môi trường production (IT);
+  - G-4 backup/restore, RTO/RPO (IT).
+- **P1:**
+  - DATA-20 (đặc tả PR #11, chờ PO duyệt; B3 duyệt riêng);
+  - G-5 owner DB, G-6 CSP, G-7 ClamAV, G-8 UAT ký nhận;
+  - DATA-41/42/44, DATA-31, DATA-24/25, DATA-01…05.
+- **P2:** PR #10 (vùng chạm 44px) chờ review/merge; G-9…G-12.
+- **Việc tiếp theo cần PO:** đổi base PR #8–#11 sang `main` (nhánh base `feature/ui-approvals` vẫn còn; PR không tự retarget), review và merge từng PR.
+
+Production: **NO-GO** đến khi đóng G-1…G-4 và nghiệm thu vận hành.
