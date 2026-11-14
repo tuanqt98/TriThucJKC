@@ -18,7 +18,7 @@ docker compose --project-name jkc-staging --env-file deploy/.env -f deploy/compo
 docker compose --project-name jkc-staging --env-file deploy/.env -f deploy/compose.yml --profile demo run --rm seed
 ```
 
-Seed tạo `employee`, `head`, `other`, `admin`, mật khẩu từ DEMO_PASSWORD. Chỉ chạy development/test; service seed đặt development rõ ràng, không tự seed mỗi lần API khởi động. Seed idempotent, không đổi mật khẩu đã có, không dùng tài khoản này cho nhân viên thật.
+Seed tạo `employee`, `head`, `other`, `admin`, mật khẩu từ DEMO_PASSWORD. Không tự seed mỗi lần API khởi động. **G-2:** mọi seed DEMO/UAT (`app.seed`, `app.seed_uat`, `app.seed_incident_guides`) qua `app/demo_guard.py` từ chối khi `APP_ENV` không thuộc development/test/staging, khi DB được đánh dấu `jkc.environment=production`, hoặc khi DB có tài khoản ngoài namespace DEMO/`uat_`. Service seed kế thừa `APP_ENV` của triển khai, không ép development. Seed idempotent, không đổi mật khẩu đã có, không dùng tài khoản này cho nhân viên thật.
 
 DB/API/scanner không publish cổng. Chỉ Caddy bind loopback, admin API Caddy bị tắt. Migrate dùng `jkc_owner`, API chỉ dùng `jkc_runtime` không owner/superuser/BYPASSRLS. Readiness kiểm tra migration 008, runtime role, storage có thể ghi và chữ ký ClamAV không quá 7 ngày. API/web chạy non-root, read-only root filesystem.
 

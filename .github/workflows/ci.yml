@@ -66,7 +66,9 @@ jobs:
           npx playwright install --with-deps chromium
       - run: |
           cd starter/apps/api
-          ../../../.venv/bin/python -m app.seed
+          # G-2: pytest already seeded the DEMO baseline and then created non-DEMO synthetic accounts in this DB,
+          # so app.seed must refuse here. This is a live check of the production guard, not a skipped seed.
+          if ../../../.venv/bin/python -m app.seed; then echo "G-2 guard did not refuse a DB with non-DEMO accounts"; exit 1; fi
           ../../../.venv/bin/uvicorn app.main:app --host 127.0.0.1 --port 8000 > /tmp/jkc-api.log 2>&1 &
       - working-directory: starter/apps/web
         run: |
@@ -85,6 +87,10 @@ jobs:
             docs/reports/*.png
             docs/reports/database-drill.json
       - run: DB_PASSWORD=config-test-only DB_RUNTIME_PASSWORD=runtime-config-test-only docker compose -f deploy/compose.yml -f deploy/compose.local.yml config --quiet
+      - name: G-2 compose seed inherits APP_ENV (never forced to development)
+        run: |
+          DB_PASSWORD=config-test-only DB_RUNTIME_PASSWORD=runtime-config-test-only docker compose -f deploy/compose.yml --profile demo config --format json \
+            | python3 -c 'import json,sys; s=json.load(sys.stdin)["services"]; env=s["seed"]["environment"]; assert env["APP_ENV"]==s["api"]["environment"]["APP_ENV"]=="staging", env["APP_ENV"]; assert "demo" in s["seed"]["profiles"]; print("seed APP_ENV =", env["APP_ENV"])'
   postgres17:
     runs-on: ubuntu-latest
     services:

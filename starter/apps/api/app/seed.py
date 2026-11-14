@@ -2,6 +2,7 @@ from uuid import uuid5, NAMESPACE_URL
 from psycopg.types.json import Jsonb
 from app.config import settings
 from app.db import connection
+from app.demo_guard import require_demo_database
 from app.security import hasher
 
 
@@ -10,12 +11,12 @@ def uid(name):
 
 
 def seed():
-    if settings().app_env not in ("development", "test"):
-        raise RuntimeError("Demo seed chỉ cho development/test.")
     password = settings().demo_password
     if len(password) < 12:
         raise RuntimeError("Đặt DEMO_PASSWORD tối thiểu 12 ký tự qua môi trường; không commit mật khẩu.")
     with connection() as conn:
+        # G-2: env, database marker and DEMO-only namespace are checked before any write.
+        require_demo_database(conn, "DEMO seed")
         for code, name in [
             ("PREPRESS", "Thiết kế / Chế bản"),
             ("OFFSET", "In offset"),

@@ -17,7 +17,12 @@ def test_db():
     os.environ["APP_ENV"] = "test"
     os.environ["DEMO_PASSWORD"] = "test-only-password-123"
     settings.cache_clear()
-    seed()
+    # G-2: app.seed refuses databases holding non-DEMO accounts, which earlier test runs create in this test DB.
+    # The baseline is idempotent, so seed only when it is missing (fresh DB, as in CI).
+    with connection() as conn:
+        seeded = conn.execute("SELECT 1 FROM users WHERE employee_code='DEMO-employee'").fetchone()
+    if not seeded:
+        seed()
 
 
 @pytest.fixture()

@@ -1,0 +1,29 @@
+== RED: mã seed và compose cũ (feature/ui-approvals), cùng bộ test G-2
+FAILED tests/test_demo_guard.py::test_seed_works_on_an_empty_staging_database
+FAILED tests/test_demo_guard.py::test_refuses_outside_allowed_app_env_and_writes_nothing[app.seed-production]
+FAILED tests/test_demo_guard.py::test_refuses_outside_allowed_app_env_and_writes_nothing[app.seed-prod]
+FAILED tests/test_demo_guard.py::test_refuses_outside_allowed_app_env_and_writes_nothing[app.seed-]
+FAILED tests/test_demo_guard.py::test_refuses_outside_allowed_app_env_and_writes_nothing[app.seed-Staging ]
+FAILED tests/test_demo_guard.py::test_refuses_outside_allowed_app_env_and_writes_nothing[app.seed_uat-production]
+FAILED tests/test_demo_guard.py::test_refuses_outside_allowed_app_env_and_writes_nothing[app.seed_uat-prod]
+FAILED tests/test_demo_guard.py::test_refuses_outside_allowed_app_env_and_writes_nothing[app.seed_uat-]
+FAILED tests/test_demo_guard.py::test_refuses_outside_allowed_app_env_and_writes_nothing[app.seed_uat-Staging ]
+FAILED tests/test_demo_guard.py::test_refuses_outside_allowed_app_env_and_writes_nothing[app.seed_incident_guides-production]
+FAILED tests/test_demo_guard.py::test_refuses_outside_allowed_app_env_and_writes_nothing[app.seed_incident_guides-prod]
+FAILED tests/test_demo_guard.py::test_refuses_outside_allowed_app_env_and_writes_nothing[app.seed_incident_guides-]
+FAILED tests/test_demo_guard.py::test_refuses_outside_allowed_app_env_and_writes_nothing[app.seed_incident_guides-Staging ]
+FAILED tests/test_demo_guard.py::test_refuses_database_marked_production_even_when_app_env_allows[app.seed-production]
+FAILED tests/test_demo_guard.py::test_refuses_database_marked_production_even_when_app_env_allows[app.seed-PRODUCTION]
+FAILED tests/test_demo_guard.py::test_refuses_database_marked_production_even_when_app_env_allows[app.seed- Production ]
+FAILED tests/test_demo_guard.py::test_refuses_database_marked_production_even_when_app_env_allows[app.seed_uat-production]
+FAILED tests/test_demo_guard.py::test_refuses_database_marked_production_even_when_app_env_allows[app.seed_uat-PRODUCTION]
+FAILED tests/test_demo_guard.py::test_refuses_database_marked_production_even_when_app_env_allows[app.seed_uat- Production ]
+FAILED tests/test_demo_guard.py::test_refuses_database_marked_production_even_when_app_env_allows[app.seed_incident_guides-production]
+FAILED tests/test_demo_guard.py::test_refuses_database_marked_production_even_when_app_env_allows[app.seed_incident_guides-PRODUCTION]
+FAILED tests/test_demo_guard.py::test_refuses_database_marked_production_even_when_app_env_allows[app.seed_incident_guides- Production ]
+FAILED tests/test_demo_guard.py::test_refuses_database_with_real_accounts_and_writes_nothing[app.seed]
+FAILED tests/test_demo_guard.py::test_refuses_database_with_real_accounts_and_writes_nothing[app.seed_uat]
+FAILED tests/test_demo_guard.py::test_refuses_database_with_real_accounts_and_writes_nothing[app.seed_incident_guides]
+FAILED tests/test_demo_guard.py::test_other_marker_values_do_not_block_staging
+FAILED tests/test_demo_guard.py::test_compose_seed_does_not_force_app_env
+27 failed in 11.60s

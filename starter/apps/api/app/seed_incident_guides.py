@@ -16,8 +16,8 @@ import secrets
 import sys
 from uuid import uuid4
 from psycopg.types.json import Jsonb
-from app.config import settings
 from app.db import connection
+from app.demo_guard import require_demo_database
 from app.seed import uid
 
 PREFIX = "DEMO-UI06-"
@@ -77,10 +77,7 @@ GUIDES = {
 
 
 def guard(conn):
-    if settings().app_env not in ("development", "test"):
-        raise RuntimeError("UI-06 DEMO guides require development/test.")
-    if conn.execute("SELECT 1 FROM users WHERE NOT (employee_code LIKE 'DEMO-%' OR left(username::text,4)='uat_') LIMIT 1").fetchone():
-        raise RuntimeError("Refuse UI-06 DEMO guides: database contains accounts outside the synthetic DEMO namespace.")
+    require_demo_database(conn, "UI-06 DEMO guides")
 
 
 def draft():

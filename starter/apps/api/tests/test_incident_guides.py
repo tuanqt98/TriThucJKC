@@ -2,7 +2,7 @@
 # ruff: noqa: F811
 
 import pytest
-from app import seed_incident_guides as guides
+from app import demo_guard, seed_incident_guides as guides
 from test_sprint01 import owner, signin, runtime_url, runtime_client  # noqa: F401
 
 PREFIX = "/api/v1"
@@ -20,14 +20,8 @@ def archive_synthetic_content_after_tests():
 @pytest.fixture()
 def demo_namespace(monkeypatch):
     # Other suites create non-DEMO synthetic accounts in the shared test DB; the namespace guard itself is
-    # covered by test_refuses_when_database_has_non_demo_accounts below. The env check still runs.
-    real = guides.guard
-
-    def env_only(conn):
-        if guides.settings().app_env not in ("development", "test"):
-            real(conn)
-
-    monkeypatch.setattr(guides, "guard", env_only)
+    # covered by test_refuses_when_database_has_non_demo_accounts below. Env and database-marker checks still run.
+    monkeypatch.setattr(demo_guard, "NON_DEMO_ACCOUNT", "SELECT 1 WHERE false")
     # The seed container runs as the owner role; runtime_client points the app at the RLS runtime role.
     monkeypatch.setattr(guides, "connection", owner)
 
@@ -68,11 +62,12 @@ def test_publish_only_touches_unpublished_demo_ui06_drafts(demo_namespace):
             guides.publish([str(seeded["id"])])  # not a DEMO-UI06 draft
 
 
-def test_refuses_outside_development_or_test(monkeypatch):
-    monkeypatch.setattr(guides.settings(), "app_env", "staging")
-    with pytest.raises(RuntimeError):
+def test_refuses_outside_development_test_or_staging(monkeypatch):
+    # G-2: compose seed now inherits APP_ENV (staging) instead of forcing development; production is refused.
+    monkeypatch.setattr(demo_guard.settings(), "app_env", "production")
+    with pytest.raises(RuntimeError, match="APP_ENV"):
         guides.draft()
-    with pytest.raises(RuntimeError):
+    with pytest.raises(RuntimeError, match="APP_ENV"):
         guides.publish([])
 
 

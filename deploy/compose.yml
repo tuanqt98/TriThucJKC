@@ -128,8 +128,9 @@ services:
     <<: *api
     profiles: [demo]
     environment:
+      # G-2: APP_ENV is inherited from the deployment (staging here), never forced to development.
+      # app.demo_guard also refuses databases marked jkc.environment=production or holding non-DEMO accounts.
       <<: *owner-env
-      APP_ENV: development
       DEMO_PASSWORD: ${DEMO_PASSWORD:-}
     command: ["python", "-m", "app.seed"]
     depends_on:
