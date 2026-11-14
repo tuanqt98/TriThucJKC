@@ -170,3 +170,31 @@ Production: **NO-GO**.
 | G-8 UAT | Kế hoạch đã duyệt (22 kịch bản, 0 lỗi S1/S2 mở). Chờ HR cung cấp người tham gia, PO chốt ngày và bản build |
 
 Production: **NO-GO**.
+
+## Merge PR #8 và #9 — 14/11/2026 (`docs/reports/post-merge/results/merge-log-8-9.md`)
+
+| Bước | PR | Head | Merge commit | CI trên merge commit | Kiểm tra |
+|---|---|---|---|---|---|
+| 1 | #8 DATA-39B | `00833dd` | `4481d8a` | 43555978669 ✅ 3/3 | cha `7ff930f` + `00833dd`; cây = `00833dd` |
+| 2 | #9 G-2 (+G2-R1) | `d751d48` | **`8046165`** | 43556454273 ✅ 3/3 | cha `4481d8a` + `d751d48`; cây = tổ hợp đã thử `79c34e6` (103/103) |
+
+- **`main` = `8046165`**; migration head 008; G2-R1 có mặt.
+- Không deploy (0 deployment/environment); PR #10/#11 mở; 14 nhánh và 4 tag giữ nguyên.
+- Bản build UAT: `UAT_BUILD.md`.
+
+### Gate sau đợt này
+
+| Gate | Mức | Trạng thái | Việc còn lại / người làm |
+|---|---|---|---|
+| G-1 DATA-39B | P0 | ✅ **Đóng về mã** (merged, CI xanh). Áp dụng production khi deploy (backup trước) | — |
+| G-2 seed DEMO | P0 | ✅ **Đóng về mã** (guard 3 lớp + G2-R1, merged). **Phần IT còn mở:** compose production không có seed/test (B1), dấu DB production (B5), không dùng owner cho dịch vụ/seed (G2-R2) | IT |
+| G-3 môi trường production | P0 | **Mở**: checklist A1–A6, B1–B10 | IT |
+| G-4 backup/restore | P0 | **Mở**: RPO ≤ 24 giờ, RTO ≤ 4 giờ; chưa diễn tập trên hạ tầng thật (C1–C9) | IT |
+| G-5 owner DB không superuser | P1 | **Mở** (B4); kèm biện pháp G2-R2 | IT/DBA |
+| G-6 CSP | P1 | **Mở**: chưa có header CSP | Dev (PR riêng, chờ PO) |
+| G-7 cập nhật chữ ký ClamAV | P1 | **Mở**: mirror/egress chưa duyệt (B7) | IT |
+| G-8 UAT ký nhận | P1 | **Mở**: kế hoạch và build đã duyệt; chờ IT dựng stack và HR gửi danh sách; khởi động thứ Hai đầu tiên sau khi cả hai xác nhận | IT + HR + PO |
+| DATA-20 | P1 | Đặc tả PR #11, chờ PO duyệt | PO |
+| PR #10 vùng chạm | P2 | Chờ quyết định | PO |
+
+Production: **NO-GO** đến khi đóng G-3, G-4 (P0), xử lý G-5…G-8 (hoặc chấp nhận rủi ro bằng văn bản) và nghiệm thu triển khai.

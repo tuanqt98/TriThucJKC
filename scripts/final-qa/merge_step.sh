@@ -3,7 +3,7 @@
 # usage: merge_step.sh STEP PR|create HEAD_SHA PREV_SHA COMMITS FILES [BRANCH TITLE BODY]
 set -uo pipefail
 STEP=$1; PR=$2; HEAD=$3; PREV=$4; COMMITS=$5; FILES=$6
-LOG=/private/tmp/claude-501/-Users-quoctuan8386-Documents-JKC-AI-AGENT-PROJECT/627a0c55-ac71-4730-9f53-5b21cbf4ba33/scratchpad/merge-log.md
+LOG=/private/tmp/claude-501/-Users-quoctuan8386-Documents-JKC-AI-AGENT-PROJECT/627a0c55-ac71-4730-9f53-5b21cbf4ba33/scratchpad/merge-log-8-9.md
 # Read-only GitHub calls retry on transient network errors; state-changing calls (create/edit/ready/merge) run once.
 ghr() { local out i; for i in 1 2 3 4 5 6; do out=$(gh "$@" 2>/dev/null) && [ -n "$out" ] && { printf '%s\n' "$out"; return 0; }; sleep 10; done; return 1; }
 stop() { echo "STOP step $STEP: $1"; echo "| $STEP | ${PR} | \`${HEAD:0:7}\` | — | — | ❌ DỪNG: $1 |" >> $LOG; exit 1; }
@@ -76,7 +76,13 @@ M=$(git rev-parse origin/main)
 P=$(git log -1 --format=%P origin/main)
 echo "f. main=$M parents=$P"
 [ "$P" = "$MAIN_BEFORE $HEAD" ] || stop "parents '$P' != '$MAIN_BEFORE $HEAD'"
-git diff --quiet "$HEAD" origin/main || stop "main tree != $HEAD tree"
+if [ -n "${EXPECT_TREE:-}" ]; then
+  [ "$(git rev-parse origin/main^{tree})" = "$EXPECT_TREE" ] || stop "main tree $(git rev-parse origin/main^{tree}) != expected $EXPECT_TREE"
+  TREENOTE="cây = tổ hợp đã thử \`${EXPECT_TREE:0:7}\`"
+else
+  git diff --quiet "$HEAD" origin/main || stop "main tree != $HEAD tree"
+  TREENOTE="cây = head"
+fi
 [ "$(ghr pr view "$PR" --json state --jq .state)" = MERGED ] || stop "PR not MERGED"
 echo "g. waiting for CI push run on $M"
 RUN=""
@@ -90,5 +96,5 @@ done
 JOBS=$(ghr run view "$RUN" --json jobs --jq '[.jobs[]|"\(.name)=\(.conclusion)"]|sort|join(" ")')
 echo "   run $RUN: $JOBS"
 [ "$JOBS" = "foundation=success postgres17=success staging-acceptance=success" ] || { echo "| $STEP | #$PR | \`${HEAD:0:7}\` | \`${M:0:7}\` | $RUN | ❌ CI: $JOBS |" >> $LOG; stop "CI on main: $JOBS"; }
-echo "| $STEP | #$PR | \`${HEAD:0:7}\` | \`${M:0:7}\` | [$RUN](https://github.com/tuanqt98/TriThucJKC/actions/runs/$RUN) | ✅ cha = \`${MAIN_BEFORE:0:7}\` + \`${HEAD:0:7}\`; cây = head; $C commit, $F file; CI 3/3 ($(date -u +%H:%MZ)) |" >> $LOG
+echo "| $STEP | #$PR | \`${HEAD:0:7}\` | \`${M:0:7}\` | [$RUN](https://github.com/tuanqt98/TriThucJKC/actions/runs/$RUN) | ✅ cha = \`${MAIN_BEFORE:0:7}\` + \`${HEAD:0:7}\`; $TREENOTE; $C commit, $F file; CI 3/3 ($(date -u +%H:%MZ)) |" >> $LOG
 echo "STEP $STEP OK: PR #$PR merged as ${M:0:7}, CI run $RUN green"

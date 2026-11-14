@@ -1,0 +1,18 @@
+# Preflight merge PR #8 → #9 (2026-11-14T04:17:24Z)
+main=7ff930fdf25d406bfb7dc3370e131077d4b999e3
+✅ main = 7ff930f
+✅ tag baseline-main-20261113 → 7ff930f
+#8 head=00833dd957db9c05a38eb5605edd25415f98571f
+#9 head=d751d4826e47800154daa4f3f2e6e093a443cd78
+#8 OPEN draft=true base=main head=00833dd commits=1 files=13 state=CLEAN checks=foundation,postgres17,staging-acceptance
+#9 OPEN draft=true base=main head=d751d48 commits=2 files=17 state=CLEAN checks=foundation,postgres17,staging-acceptance
+✅ G2-R1 (pg_db_role_setting) in #9 head
+protection: checks=foundation,postgres17,staging-acceptance admins=true force=false delete=false reviews=0
+repo merge: merge=true squash=false rebase=false delete_on_merge=false
+workflows main: .github/workflows/ci.yml  · #9: .github/workflows/ci.yml 
+✅ no deploy step in origin/main ci.yml
+✅ no deploy step in origin/fix/data-39b-stale-attempt ci.yml
+✅ no deploy step in origin/fix/g2-demo-seed-guard ci.yml
+hooks=0 environments=0 deployments=0
+✅ expected tree after #8 = tree(00833dd) 0cbf7acc0626f14dc3af7dc7c2a6f3747e999f74
+expected tree after #9 (combined, tested 103/103) = 79c34e63f4d9a3f5acc371532e9dd56b2428d8f9
