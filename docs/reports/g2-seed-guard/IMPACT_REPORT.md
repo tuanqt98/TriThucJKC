@@ -69,3 +69,61 @@ Mỗi test guard chạy trên **database riêng vừa migrate** rồi xóa, nên
 
 - **IT (G-3):** cấu hình production không có service `seed`/`test` và không dùng profile `demo`/`test`; đặt `APP_ENV=production`; chạy `ALTER DATABASE … SET jkc.environment='production'` và lưu bằng chứng `SHOW jkc.environment`.
 - PR này **không** thuộc 9 bước merge đã chốt. Đưa vào `main` **sau** bước 9 (đổi base sang `main`) khi PO cho phép.
+
+## 7. Bổ sung G2-R1 — ghi đè dấu DB từ phía client (PO duyệt 14/11/2026)
+
+### Phát hiện (review hậu hợp nhất)
+
+- Guard đọc dấu bằng `current_setting('jkc.environment')`. Đây là giá trị **của phiên**, và người kết nối có thể ghi đè (`PGOPTIONS='-c jkc.environment=staging'` hoặc `SET`).
+- Thử với owner (superuser) trên DB đánh dấu production: seed **lọt** và tạo 4 tài khoản DEMO (`g2r1-bypass-before-fix.txt`).
+
+### Sửa
+
+- `database_marker()` đọc **thêm** từ catalog `pg_db_role_setting`:
+  - cấu hình mức database (`ALTER DATABASE … SET`);
+  - cấu hình mức role-trong-database (`ALTER ROLE … IN DATABASE … SET`) của role đang kết nối.
+- Phiên không thay đổi được các giá trị này. **Có bất kỳ nguồn nào là `production` thì từ chối.**
+- Role **không superuser** vẫn đọc được catalog này (đã kiểm tra với role `NOSUPERUSER` khi phiên bị ghi đè thành `staging`), nên áp dụng được sau G-5.
+- Không đổi schema, quyền, API hay UI.
+
+### Test bổ sung (7)
+
+| Test | Kết quả |
+|---|---|
+| `PGOPTIONS` ghi đè thành `staging` (kiểm tra phiên thật sự thấy `staging`) × `app.seed`, `app.seed_uat`, `app.seed_incident_guides` | Từ chối; **số dòng 7 bảng không đổi**; 0 tài khoản DEMO |
+| Dấu ở mức role-trong-database, kèm `PGOPTIONS=development` × 3 seed | Từ chối; không ghi |
+| DB = `production`, role = `staging` (mâu thuẫn) | `production` thắng; từ chối |
+
+- **RED** (guard trước sửa, `g2r1-red.txt`): 7/7 FAIL.
+- **GREEN** (`g2r1-green.txt`):
+  - `test_demo_guard.py` 34/34 (27 cũ + 7 mới);
+  - pytest toàn bộ trên PostgreSQL 16 sạch **100/100**;
+  - chạy seed sau pytest như CI: từ chối;
+  - ruff, format, OpenAPI và compose (`seed APP_ENV = staging`): PASS.
+
+### Rollback
+
+Revert commit. Không có migration và không ghi dữ liệu.
+
+## 8. G2-R2 — rủi ro còn lại, ghi vào hồ sơ bảo mật (PO quyết định 14/11/2026)
+
+**Rủi ro:**
+- Guard nằm ở **mã ứng dụng**. Người có credential **owner** (hoặc superuser) vẫn chèn được dữ liệu DEMO bằng **SQL trực tiếp**, vượt qua guard.
+- Code không chặn được trường hợp này nếu không thêm ràng buộc trong DB.
+
+**Quyết định PO:**
+- **Kiểm soát bằng quản trị quyền truy cập và quy trình IT**, kết hợp G-5.
+- **Chưa** duyệt trigger trong DB.
+
+**Biện pháp bắt buộc (IT):**
+1. Dịch vụ ứng dụng (API) chỉ dùng `jkc_runtime` (không owner, không superuser, không BYPASSRLS), như cấu hình hiện tại.
+2. **Không dùng credential owner** cho dịch vụ ứng dụng hay bất kỳ lệnh seed nào ở production. Production **không có** service `seed`/`test`.
+3. Owner/migration **không superuser** (G-5), chỉ dùng khi chạy migration có kế hoạch. Credential lưu trong kho secret của IT, giới hạn người truy cập, ghi nhật ký mỗi lần dùng.
+4. Superuser chỉ DBA giữ, cho sự cố.
+5. Định kỳ kiểm tra không có tài khoản `DEMO-%`/`uat_%` trên production:
+   ```sql
+   SELECT count(*) FROM users WHERE employee_code LIKE 'DEMO-%' OR username LIKE 'uat\_%';
+   ```
+   Kết quả phải bằng 0. Đưa vào checklist vận hành.
+
+**Theo dõi:** `docs/reports/post-merge/IT_CHECKLIST_G3_G4.md` (B3, B4, B5, B10).

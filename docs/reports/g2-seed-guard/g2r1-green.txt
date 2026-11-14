@@ -1,0 +1,11 @@
+== pytest toàn bộ (PG16 sạch, nhánh PR #9 + G2-R1)
+100 passed, 3 warnings in 38.37s
+== Như CI: app.seed sau pytest
+RuntimeError: Refuse DEMO seed: database contains accounts outside the synthetic DEMO namespace.
+→ REFUSED ✔
+== ruff check / format / OpenAPI
+All checks passed!
+61 files already formatted
+OpenAPI hợp lệ và khớp code.
+== compose: seed kế thừa APP_ENV
+seed APP_ENV = staging

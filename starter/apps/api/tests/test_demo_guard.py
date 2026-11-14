@@ -122,3 +122,53 @@ def test_compose_seed_does_not_force_app_env():
     text = compose.read_text()
     seed_block = text.split("\n  seed:\n", 1)[1].split("\n  backup:\n", 1)[0]
     assert "APP_ENV" not in seed_block.replace("# G-2: APP_ENV", "")
+
+
+# --- G2-R1 (PO 14/11/2026): a client-side override of the session value must not bypass the marker ---------
+
+
+def role_marker(db, value):
+    with psycopg.connect(db["url"], autocommit=True) as conn:
+        role = conn.execute("SELECT current_user AS u").fetchone()[0]
+        conn.execute(
+            sql.SQL("ALTER ROLE {} IN DATABASE {} SET jkc.environment = {}").format(
+                sql.Identifier(role), sql.Identifier(db["name"]), sql.Literal(value)
+            )
+        )
+
+
+@pytest.mark.parametrize("entry", ENTRYPOINTS)
+def test_pgoptions_override_does_not_bypass_production_marker(fresh_db, monkeypatch, entry):
+    # Owner (superuser here) connects with PGOPTIONS rewriting the session value to "staging".
+    monkeypatch.setattr(settings(), "app_env", "staging")
+    mark_production(fresh_db)
+    monkeypatch.setenv("PGOPTIONS", "-c jkc.environment=staging")
+    with psycopg.connect(fresh_db["url"]) as conn:  # the override really applies to the session
+        assert conn.execute("SELECT current_setting('jkc.environment', true)").fetchone()[0] == "staging"
+    before = snapshot(fresh_db["url"])
+    with pytest.raises(RuntimeError, match="jkc.environment=production"):
+        ENTRYPOINTS[entry]()
+    assert snapshot(fresh_db["url"]) == before
+    with psycopg.connect(fresh_db["url"]) as conn:
+        assert not conn.execute("SELECT 1 FROM users WHERE employee_code LIKE 'DEMO-%'").fetchone()
+
+
+@pytest.mark.parametrize("entry", ENTRYPOINTS)
+def test_role_in_database_marker_is_honoured(fresh_db, monkeypatch, entry):
+    monkeypatch.setattr(settings(), "app_env", "development")
+    role_marker(fresh_db, "production")
+    monkeypatch.setenv("PGOPTIONS", "-c jkc.environment=development")
+    before = snapshot(fresh_db["url"])
+    with pytest.raises(RuntimeError, match="jkc.environment=production"):
+        ENTRYPOINTS[entry]()
+    assert snapshot(fresh_db["url"]) == before
+
+
+def test_production_wins_over_a_conflicting_role_marker(fresh_db, monkeypatch):
+    monkeypatch.setattr(settings(), "app_env", "staging")
+    mark_production(fresh_db)
+    role_marker(fresh_db, "staging")
+    with psycopg.connect(fresh_db["url"]) as conn:
+        assert demo_guard.database_marker(conn) == "production"
+    with pytest.raises(RuntimeError, match="jkc.environment=production"):
+        seed()

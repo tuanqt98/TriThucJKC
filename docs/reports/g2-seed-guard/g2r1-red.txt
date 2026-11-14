@@ -1,0 +1,9 @@
+== RED: demo_guard.py của 4c76c88 (trước G2-R1), test G2-R1 mới
+FAILED tests/test_demo_guard.py::test_pgoptions_override_does_not_bypass_production_marker[app.seed]
+FAILED tests/test_demo_guard.py::test_pgoptions_override_does_not_bypass_production_marker[app.seed_uat]
+FAILED tests/test_demo_guard.py::test_pgoptions_override_does_not_bypass_production_marker[app.seed_incident_guides]
+FAILED tests/test_demo_guard.py::test_role_in_database_marker_is_honoured[app.seed]
+FAILED tests/test_demo_guard.py::test_role_in_database_marker_is_honoured[app.seed_uat]
+FAILED tests/test_demo_guard.py::test_role_in_database_marker_is_honoured[app.seed_incident_guides]
+FAILED tests/test_demo_guard.py::test_production_wins_over_a_conflicting_role_marker
+7 failed, 27 deselected in 3.70s
