@@ -143,3 +143,18 @@ Chưa bắt đầu:
 - **Việc tiếp theo cần PO:** đổi base PR #8–#11 sang `main` (nhánh base `feature/ui-approvals` vẫn còn; PR không tự retarget), review và merge từng PR.
 
 Production: **NO-GO** đến khi đóng G-1…G-4 và nghiệm thu vận hành.
+
+## Review hậu hợp nhất — 14/11/2026 (`docs/reports/post-merge/`)
+
+**Baseline:** `main` `7ff930f`, tag **`baseline-main-20261113`**.
+
+| Gate | Trạng thái sau review |
+|---|---|
+| G-1 DATA-39B (PR #8) | Mã đạt. Đúng phạm vi; `main` + #8 + #9: pytest 96/96; nộp đồng thời 3 tình huống PASS; bản sao staging: 4 lần làm cũ bị chặn, lịch sử 307 lần làm không đổi qua 007 → 008 → 007 → 008. **Chờ:** đổi base, review, merge |
+| G-2 seed DEMO (PR #9) | **Phát hiện G2-R1 (P0):** owner ghi đè dấu DB bằng `PGOPTIONS` thì seed lọt. Bản sửa đã thử nghiệm (đọc `pg_db_role_setting`), chờ PO cho thêm vào #9. G2-R2 (P1): chèn SQL tay bằng owner → quy trình/G-5 hoặc trigger DB (cần duyệt). G2-R3 (thuộc G-3): cần compose production không có seed |
+| G-3 môi trường production | Checklist IT A1–A6, B1–B10 (`IT_CHECKLIST_G3_G4.md`). Mở |
+| G-4 backup/restore | Checklist C1–C9; đề xuất RPO ≤ 24 giờ, RTO ≤ 4 giờ (PO/IT chốt). Mở |
+| G-8 UAT | Kế hoạch `UAT_PLAN.md`: 4 vai trò, 22 kịch bản, tiêu chí S1/S2 = 0, mẫu biên bản. Chờ PO duyệt và lên lịch |
+| PR #10 / #11 | Đúng phạm vi; gộp lên `main` không xung đột; chờ quyết định riêng |
+
+Production: **NO-GO**.

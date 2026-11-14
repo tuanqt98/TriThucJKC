@@ -1,0 +1,15 @@
+== bản sao staging, revision 007
+history md5 2f0bd17cb5c23cd201e8c7ddc60b5ae3 · attempts 307
+NOTICE:  submit stale -> JKC_INVALID
+== alembic upgrade head
+revision 008
+history md5 2f0bd17cb5c23cd201e8c7ddc60b5ae3 · attempts 307
+NOTICE:  submit stale -> JKC_ALREADY_PASSED
+== alembic downgrade 007 (rollback)
+revision 007
+history md5 2f0bd17cb5c23cd201e8c7ddc60b5ae3 · attempts 307
+NOTICE:  submit stale -> JKC_INVALID
+== alembic upgrade head (áp lại)
+revision 008
+history md5 2f0bd17cb5c23cd201e8c7ddc60b5ae3 · attempts 307
+NOTICE:  submit stale -> JKC_ALREADY_PASSED

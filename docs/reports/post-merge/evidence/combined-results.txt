@@ -1,0 +1,5 @@
+Tổ hợp main 7ff930f + PR #8 (00833dd) + PR #9 (4c76c88), commit tạm 8d5066b (không đẩy)
+alembic head: 008
+pytest PostgreSQL 16 sạch: 96 passed
+Review đồng thời DATA-39B (3 test, chạy 3 lần): 3 passed ×3
+Gộp tuần tự #8 → #9 → #10 → #11 lên main (git merge-tree): không xung đột

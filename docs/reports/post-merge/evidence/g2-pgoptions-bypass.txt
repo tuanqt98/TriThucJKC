@@ -1,0 +1,9 @@
+== DB đánh dấu production, owner (superuser) kết nối, APP_ENV=staging
+-- 1. Chạy seed bình thường:
+RuntimeError: Refuse DEMO seed: database is marked jkc.environment=production.
+   DEMO users: 0
+-- 2. Ghi đè dấu cho phiên: PGOPTIONS='-c jkc.environment=staging':
+Đã seed DEMO (idempotent; không ghi đè mật khẩu tài khoản đã có).
+   DEMO users: 4
+-- dấu ở mức database (pg_db_role_setting):
+jkc.environment=production
