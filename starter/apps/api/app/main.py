@@ -89,7 +89,7 @@ def create_app():
     @app.get("/api/v1/health/ready", response_model=Health, tags=["System"])
     def ready(conn=DB):
         row = conn.execute("SELECT version_num FROM alembic_version").fetchone()
-        if not row or row["version_num"] != "007":
+        if not row or row["version_num"] != "008":
             raise HTTPException(503, {"code": "NOT_READY", "message": "Database chưa được migration."})
         if settings().require_runtime_role:
             role = conn.execute(

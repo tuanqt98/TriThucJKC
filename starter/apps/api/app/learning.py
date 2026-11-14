@@ -166,6 +166,9 @@ def submit_quiz(id: UUID, data: Submission, request: Request, user=Depends(curre
             fail(404, "RESOURCE_NOT_FOUND", "Không tìm thấy lần làm bài của bạn.")
         if reason == "JKC_INVALID":
             fail(422, "VALIDATION_ERROR", "Cần trả lời đúng mỗi câu một lần bằng lựa chọn thuộc câu hỏi.")
+        if reason == "JKC_ALREADY_PASSED":
+            # DATA-39B (migration 008): a stale attempt opened before the pass cannot be submitted.
+            fail(409, "QUIZ_ALREADY_PASSED", "Bạn đã đạt bài kiểm tra của khóa học này; không nộp thêm lần làm bài.")
         if reason == "JKC_CONFLICT":
             fail(409, "VERSION_CONFLICT", "Lần làm đã nộp hoặc phiên bản/bài học chưa hợp lệ.")
         raise
