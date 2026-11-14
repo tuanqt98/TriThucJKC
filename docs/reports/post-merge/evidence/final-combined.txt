@@ -1,0 +1,9 @@
+Tổ hợp main 7ff930f + #8 00833dd + #9 d751d48 (commit tạm bff160f, không đẩy)
+== alembic: upgrade head → downgrade 003 → upgrade head → downgrade base → upgrade head
+  upgrade head → 008
+  downgrade 003 → 003
+  upgrade head → 008
+  downgrade base → base
+  upgrade head → 008
+== pytest toàn bộ (PG16 sạch)
+103 passed, 3 warnings in 43.22s

@@ -158,3 +158,15 @@ Production: **NO-GO** đến khi đóng G-1…G-4 và nghiệm thu vận hành.
 | PR #10 / #11 | Đúng phạm vi; gộp lên `main` không xung đột; chờ quyết định riêng |
 
 Production: **NO-GO**.
+
+## Xử lý P0 hậu hợp nhất — 14/11/2026 (`docs/reports/post-merge/PR8_PR9_FINAL_REVIEW.md`)
+
+| Gate | Trạng thái |
+|---|---|
+| G-1 DATA-39B · PR #8 | Base `main`, head `00833dd`, Draft, `CLEAN`; CI **chạy lại trên runner hiện tại** xanh 3/3. Mã và review **đạt**. **Chờ PO duyệt merge** |
+| G-2 · PR #9 | **G2-R1 đã sửa** (`d751d48`): dấu đọc từ catalog; `PGOPTIONS` không lách được (7 test, RED 7/7 → GREEN 34/34; pytest 100/100). Base `main`, `CLEAN`, CI xanh 3/3. G2-R2 ghi vào hồ sơ bảo mật, kiểm soát bằng IT/G-5 (không trigger DB). **Chờ PO duyệt merge**; phần IT (B1, B5) vẫn mở |
+| Tổ hợp `main` + #8 + #9 | Không xung đột; migration 008 ↔ 003 ↔ base sạch; pytest 103/103 |
+| G-3 / G-4 | Đã giao IT; RPO ≤ 24 giờ, RTO ≤ 4 giờ, phải kiểm chứng thực tế. Mở |
+| G-8 UAT | Kế hoạch đã duyệt (22 kịch bản, 0 lỗi S1/S2 mở). Chờ HR cung cấp người tham gia, PO chốt ngày và bản build |
+
+Production: **NO-GO**.
